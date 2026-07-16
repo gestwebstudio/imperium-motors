@@ -1,0 +1,48 @@
+// Схема БД. Источник правды — 1С; сайт хранит зеркало каталога.
+// VIN — уникальный ключ синхронизации.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // dev. Для прода поменять на "postgresql" + DATABASE_URL
+  url      = env("DATABASE_URL")
+}
+
+model Car {
+  id           Int      @id @default(autoincrement())
+  vin          String   @unique // ключ синхронизации с 1С
+  brand        String
+  model        String
+  year         Int
+  status       String   @default("in_stock") // in_stock | reserved | sold
+  price        Int // в рублях, целое
+  currency     String   @default("RUB")
+
+  // характеристики
+  fuel         String?
+  drive        String?
+  transmission String?
+  acceleration String?
+  power        String?
+  maxSpeed     String?
+
+  photos       Photo[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  lastSeenAt   DateTime @default(now()) // когда последний раз пришла из 1С
+
+  @@index([status])
+}
+
+model Photo {
+  id    Int    @id @default(autoincrement())
+  url   String
+  sort  Int    @default(0)
+  car   Car    @relation(fields: [carId], references: [id], onDelete: Cascade)
+  carId Int
+
+  @@index([carId])
+}

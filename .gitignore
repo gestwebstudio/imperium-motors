@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude skills (локальные, не коммитим)
+.claude/skills/
+
+# скачанные наборы скиллов (не часть приложения)
+/grill me skills/
+/impeccable skill/
+/taste skills/
+/impeccable-main.zip
+
+# локальная dev-база (SQLite)
+*.db

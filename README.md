@@ -1,36 +1,157 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Imperium Motors — сайт-каталог с синхронизацией из 1С
 
-## Getting Started
+Сайт автосалона на **Next.js 16 (App Router) + TypeScript + Prisma**.
+Каталог автоматически наполняется из **1С**: менеджер заводит машину в 1С —
+она появляется на сайте. Источник правды — 1С, сайт зеркалит каталог.
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+1С  ──POST JSON (по расписанию)──▶  /api/import/cars  ──▶  БД  ──▶  /catalog
+        ключ синхронизации — VIN
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Запуск (локально)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run db:push        # создать/обновить БД (SQLite, dev.db)
+npm run dev            # http://localhost:3000  → /catalog
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# в другом окне — имитация выгрузки из 1С:
+npm run mock
+```
 
-## Learn More
+## Стек
 
-To learn more about Next.js, take a look at the following resources:
+| Слой | Технология |
+|---|---|
+| Фреймворк | Next.js 16, React 19, TypeScript |
+| Стили | Tailwind CSS v4 |
+| БД / ORM | Prisma 6 + SQLite (dev) → PostgreSQL (prod) |
+| Валидация входа | zod |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Для прода: в `prisma/schema.prisma` поменять `provider` на `postgresql`,
+в `.env` — `DATABASE_URL` на строку PostgreSQL.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+# ТЗ для 1С: как отдавать машины на сайт
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1С по расписанию (рекомендация — раз в 5–15 минут) отправляет HTTP-запрос
+на сайт с текущим списком автомобилей.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Запрос
+
+```
+POST https://<домен-сайта>/api/import/cars
+Content-Type: application/json
+Authorization: Bearer <IMPORT_TOKEN>
+```
+
+`IMPORT_TOKEN` — общий секрет, задаётся на сайте в `.env`. Выдаётся 1С один раз.
+
+### Тело запроса
+
+```json
+{
+  "mode": "full",
+  "cars": [
+    {
+      "vin": "WDC1671561A100001",
+      "brand": "Mercedes-Benz",
+      "model": "GLS 450 4MATIC",
+      "year": 2026,
+      "status": "in_stock",
+      "price": 17290000,
+      "currency": "RUB",
+      "specs": {
+        "fuel": "Бензин",
+        "drive": "Полный привод",
+        "transmission": "Автомат",
+        "acceleration": "5,8 с",
+        "power": "375 л.с.",
+        "max_speed": "209 км/ч"
+      },
+      "photos": [
+        "https://<где-лежат-фото>/car-1.jpg"
+      ]
+    }
+  ]
+}
+```
+
+### Поля
+
+| Поле | Тип | Обяз. | Примечание |
+|---|---|:--:|---|
+| `vin` | string | да | **Ключ синхронизации.** По нему сайт обновляет, а не дублирует |
+| `brand` | string | да | Марка |
+| `model` | string | да | Модель / комплектация |
+| `year` | number | да | Год |
+| `status` | string | да | `in_stock` \| `reserved` \| `sold` |
+| `price` | number | да | Целое, в рублях (без копеек и пробелов) |
+| `currency` | string | нет | По умолчанию `RUB` |
+| `specs.*` | string | нет | Характеристики (любое подмножество) |
+| `photos` | string[] | нет | Массив URL фотографий |
+
+### Режимы (`mode`)
+
+- **`full`** (рекомендуется) — полная выгрузка. Машины, которых **нет** в этом
+  списке, автоматически помечаются `sold` и скрываются с сайта. Так каталог
+  всегда соответствует 1С.
+- **`partial`** — частичная. Обрабатываются только присланные VIN, остальные
+  не трогаются.
+
+### Статусы на сайте
+
+- `in_stock` → карточка видна, бейдж «В наличии»
+- `reserved` → карточка видна, бейдж «Забронировано»
+- `sold` → скрыта из каталога
+
+### Ответ сайта
+
+```json
+{ "ok": true, "mode": "full", "received": 3, "created": 1, "updated": 2, "markedSold": 0 }
+```
+
+| Код | Значение |
+|---|---|
+| 200 | Успех |
+| 401 | Неверный/отсутствует `Authorization` токен |
+| 422 | JSON не прошёл валидацию (детали в теле ответа) |
+
+### Пример проверки (curl)
+
+```bash
+curl -X POST http://localhost:3000/api/import/cars \
+  -H "Authorization: Bearer dev-secret-change-me" \
+  -H "Content-Type: application/json" \
+  -d @payload.json
+```
+
+---
+
+## Что делать с фотографиями
+
+Три варианта — выбрать один на этапе внедрения:
+
+1. **Ссылками** — 1С публикует фото где-то (файловый сервер / облако) и передаёт
+   URL в `photos`. Проще всего для сайта. *(реализовано)*
+2. **Файлами** — загрузка изображений на сайт отдельным запросом. Тяжелее.
+3. **Через админку сайта** — данные из 1С, фото менеджеры грузят на сайте.
+   Часто самый практичный вариант.
+
+## Структура проекта
+
+```
+src/
+  app/
+    catalog/page.tsx          # страница каталога
+    api/import/cars/route.ts  # приёмник данных из 1С
+    page.tsx                  # / → редирект на /catalog
+  components/CarCard.tsx      # карточка авто (из макета Figma)
+  lib/
+    prisma.ts                 # клиент БД
+    carSchema.ts              # zod-контракт входящего JSON
+prisma/schema.prisma          # модель Car + Photo
+scripts/mock-1c.mjs           # имитация выгрузки из 1С
+```
