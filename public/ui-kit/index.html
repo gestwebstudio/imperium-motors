@@ -77,6 +77,12 @@
   .state-cell__stage { display: flex; align-items: flex-start; min-height: 56px; }
   .live-row { display: flex; align-items: center; gap: 16px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(27,30,29,.06); min-height: 56px; }
   .live-row__label { font-size: 11px; color: var(--warm-taupe-400); }
+  /* Слайдеры широкие — раскладываем их в столбец, а не в ряд. */
+  .state-grid--stack { flex-direction: column; gap: 24px; }
+  .state-grid--stack .state-cell { min-width: 0; width: 100%; max-width: 460px; gap: 8px; }
+  .slider-demo { display: flex; flex-direction: column; gap: 8px; max-width: 460px; }
+  .slider-demo + .slider-demo { margin-top: 28px; }
+  .slider-demo__name { font-size: 11px; color: var(--warm-taupe-400); }
   .btn-row:last-child { border-bottom: none; padding-bottom: 0; }
   .btn-row:first-child { padding-top: 0; }
   .btn-row__size { width: 56px; flex-shrink: 0; font-size: 12px; color: var(--warm-taupe-400); padding-top: 4px; }
@@ -309,6 +315,67 @@
   </div>
 </section>
 
+<section id="price-block">
+  <h2>Price Block</h2>
+  <p class="section-note">Figma node 412-480. Подпись — Caption/Status в <code>carbon-black-300</code>, сумма — Numeric/Value (Wix Madefor Display ExtraBold 40/46), отступ между строками 4px.</p>
+  <div class="swatch-panel">
+    <div class="price-block">
+      <p class="price-block__label">Стоимость автомобиля</p>
+      <p class="price-block__value">20 390 000 ₽</p>
+    </div>
+  </div>
+</section>
+
+<section id="slider">
+  <h2>Slider</h2>
+  <p class="section-note">Figma node 409-1337. Дорожка 4px — <code>warm-taupe-400</code> под 40%, заливка — <code>heritage-green-500</code>. Степень заполнения задаётся переменной <code>--slider-value</code> (0…1).</p>
+
+  <article class="kit-block">
+    <h3 class="kit-block__title">Состояния из макета</h3>
+    <div class="swatch-panel">
+      <div class="state-grid state-grid--stack">
+        <div class="state-cell">
+          <span class="state-cell__name">Default — 0%</span>
+          <span class="slider"><span class="slider__fill" style="--slider-value:0"></span></span>
+        </div>
+        <div class="state-cell">
+          <span class="state-cell__name">Progress — 76.6% (321 из 419 в макете)</span>
+          <span class="slider"><span class="slider__fill" style="--slider-value:.766"></span></span>
+        </div>
+        <div class="state-cell">
+          <span class="state-cell__name">Final — 100%</span>
+          <span class="slider"><span class="slider__fill" style="--slider-value:1"></span></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="kit-block">
+    <h3 class="kit-block__title">Автозаполнение <span class="kit-block__note">5 секунд, как прогресс сторис</span></h3>
+    <div class="swatch-panel">
+      <div class="slider-demo">
+        <span class="slider-demo__name">Одна полоска — заполняется за 5s и начинает заново</span>
+        <span class="slider slider--auto"><span class="slider__fill"></span></span>
+      </div>
+
+      <div class="slider-demo">
+        <span class="slider-demo__name">Группа сегментов — заполняются по очереди, как сторис (4 × 5s)</span>
+        <div class="slider-group" data-stories style="--slider-duration:5s">
+          <span class="slider"><span class="slider__fill" style="--slider-index:0"></span></span>
+          <span class="slider"><span class="slider__fill" style="--slider-index:1"></span></span>
+          <span class="slider"><span class="slider__fill" style="--slider-index:2"></span></span>
+          <span class="slider"><span class="slider__fill" style="--slider-index:3"></span></span>
+        </div>
+      </div>
+
+      <div class="slider-demo">
+        <span class="slider-demo__name">Другая длительность — та же полоска с <code>--slider-duration:2s</code></span>
+        <span class="slider slider--auto" style="--slider-duration:2s"><span class="slider__fill"></span></span>
+      </div>
+    </div>
+  </article>
+</section>
+
 <section id="buttons">
   <h2>Кнопки</h2>
   <p class="section-note">Style: <b>Surface</b> · <b>Flat</b> · <b>Outlined</b> · <b>CTA</b>. Каждый блок — размеры S/M/L × состояния Default/Hover/Pressed × Content Text / Text+Icon / Only&nbsp;icon.</p>
@@ -496,6 +563,26 @@
       var on = el.getAttribute('aria-pressed') === 'true';
       el.setAttribute('aria-pressed', String(!on));
     });
+  });
+
+  // Группа-сторис: сегменты заполняются по очереди и остаются залитыми
+  // (animation-fill-mode: forwards). Чтобы цикл повторялся, после
+  // прохода всей группы сбрасываем анимацию у всех сегментов сразу.
+  document.querySelectorAll('[data-stories]').forEach(function (group) {
+    var fills = group.querySelectorAll('.slider__fill');
+    if (!fills.length) return;
+
+    var raw = getComputedStyle(group).getPropertyValue('--slider-duration').trim();
+    var seconds = parseFloat(raw) || 5;
+    if (/ms$/.test(raw)) seconds = seconds / 1000;
+
+    setInterval(function () {
+      fills.forEach(function (el) {
+        el.style.animation = 'none';
+        void el.offsetWidth; // форсируем reflow, иначе анимация не стартует заново
+        el.style.animation = '';
+      });
+    }, seconds * fills.length * 1000 + 300);
   });
 </script>
 </body>

@@ -4,9 +4,11 @@
      Tag        — node 201-11054
      Badge      — node 260-11360
      Indicator  — node 333-333
-     Tooltip    — node 409-1270
-     Wishlist   — node 394-1052
-     Comparison — node 397-1089
+     Tooltip     — node 409-1270
+     Wishlist    — node 394-1052
+     Comparison  — node 397-1089
+     Price Block — node 412-480
+     Slider      — node 409-1337
    Состояния Hover работают и через :hover, и через
    класс .is-hover (для статичной demo-сетки).
    ───────────────────────────────────────────── */
@@ -199,3 +201,95 @@
 /* Показываем подпись, соответствующую текущему состоянию. */
 .icon-action[aria-pressed="false"] .icon-action__tooltip[data-when="active"],
 .icon-action[aria-pressed="true"]  .icon-action__tooltip[data-when="idle"] { display: none; }
+
+/* ══════════════ Price Block ══════════════
+   Подпись Caption/Status в carbon-black-300 + сумма
+   Numeric/Value (Wix Madefor Display ExtraBold 40/46). */
+.price-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.price-block__label {
+  margin: 0;
+  font-family: var(--font-onest);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-caption-weight);
+  color: var(--carbon-black-300);
+}
+.price-block__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-numeric-value-size);
+  line-height: var(--text-numeric-value-line-height);
+  font-weight: var(--text-numeric-value-weight);
+  color: var(--carbon-black-500);
+}
+
+/* ══════════════ Slider ══════════════
+   Дорожка 4px, warm-taupe-400 под 40%; заливка heritage-green-500.
+   Заполнение задаётся --slider-value (0…1):
+     Default 0 · Progress .766 (321/419 из макета) · Final 1
+   Модификатор .slider--auto заполняет полоску сам за
+   --slider-duration (по умолчанию 5s) — как прогресс сторис.
+   Анимируется transform, а не width: не дёргает layout. */
+.slider {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 419px;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(143, 133, 121, 0.4);
+  overflow: hidden;
+}
+.slider__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: var(--heritage-green-500);
+  transform: scaleX(var(--slider-value, 0));
+  transform-origin: left center;
+}
+
+@keyframes slider-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Одиночная полоска: заполняется и начинает заново. */
+.slider--auto .slider__fill {
+  animation: slider-fill var(--slider-duration, 5s) linear infinite;
+}
+
+/* Группа как в сторис: сегменты заполняются по очереди.
+   Задержка сегмента = индекс × длительность; заполнившись,
+   он остаётся залитым (forwards), а не сбрасывается. */
+.slider-group {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  max-width: 419px;
+}
+.slider-group .slider {
+  flex: 1;
+  max-width: none;
+}
+.slider-group .slider__fill {
+  animation: slider-fill var(--slider-duration, 5s) linear forwards;
+  animation-delay: calc(var(--slider-index, 0) * var(--slider-duration, 5s));
+}
+
+/* Уважаем системную настройку «меньше движения»:
+   показываем готовое состояние вместо бегущей анимации. */
+@media (prefers-reduced-motion: reduce) {
+  .slider--auto .slider__fill,
+  .slider-group .slider__fill {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
