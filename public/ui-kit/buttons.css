@@ -17,11 +17,16 @@
   --btn-border: transparent;
 
   appearance: none;
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 1px solid var(--btn-border);
+  /* Обводка — inset box-shadow, а не border: в Figma stroke стоит
+     «inside», то есть не увеличивает габариты. Обычный border
+     добавлял бы каждой кнопке +2px к высоте. */
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--btn-border);
   border-radius: 30px;
   background: var(--btn-bg);
   color: var(--btn-fg);
