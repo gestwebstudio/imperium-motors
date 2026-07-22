@@ -1,0 +1,159 @@
+/* ─────────────────────────────────────────────
+   Imperium Motors — UI Kit / Button
+   Источник: Figma (bERRa0eUHmPImiBdiP62UR, node 1-3361)
+   Компонент собран из data-атрибутов, повторяющих
+   варианты Figma: emphasis / style / size / content / inverse.
+   Состояния Hover/Pressed работают и по-настоящему
+   (:hover/:active), и принудительно через классы
+   .is-hover/.is-pressed — это нужно только demo-странице,
+   чтобы показать все состояния рядом в статичной сетке.
+   ───────────────────────────────────────────── */
+
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--carbon-black-500);
+  --btn-border: transparent;
+
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--btn-border);
+  border-radius: 30px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-onest);
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s ease, transform 0.1s ease, background-color 0.15s ease;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--heritage-green-500);
+  outline-offset: 2px;
+}
+
+/* Pressed: лёгкое сжатие — замена анимированному ripple-эффекту из Figma
+   (тот использует одноразовые PNG-ассеты, не годится для продакшена). */
+.btn:active,
+.btn.is-pressed {
+  transform: scale(0.97);
+}
+
+/* Hover в Figma сделан через opacity: 80% на всей кнопке. */
+.btn:hover,
+.btn.is-hover {
+  opacity: 0.8;
+}
+.btn:active,
+.btn.is-pressed {
+  opacity: 1;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ── Размеры (Content=Text / Text+Icon) ── */
+.btn[data-size="s"] {
+  padding: 6px 14px;
+  font-size: var(--text-btn-s-size);
+  line-height: var(--text-btn-s-line-height);
+  gap: 6px;
+}
+.btn[data-size="m"] {
+  padding: 6px 14px;
+  font-size: var(--text-btn-m-size);
+  line-height: var(--text-btn-m-line-height);
+  gap: 8px;
+}
+.btn[data-size="l"] {
+  padding: 10px 18px;
+  font-size: var(--text-btn-l-size);
+  line-height: var(--text-btn-l-line-height);
+  gap: 8px;
+}
+
+/* ── Only icon: квадратная кнопка ── */
+.btn[data-content="icon-only"] {
+  gap: 0;
+}
+.btn[data-content="icon-only"][data-size="s"] { padding: 11px; }
+.btn[data-content="icon-only"][data-size="m"] { padding: 11px; }
+.btn[data-content="icon-only"][data-size="l"] { padding: 15px; }
+
+.btn__icon {
+  flex-shrink: 0;
+  display: block;
+}
+.btn[data-size="s"] .btn__icon { width: 8px; height: 8px; }
+.btn[data-size="m"] .btn__icon { width: 10px; height: 10px; }
+.btn[data-size="l"] .btn__icon { width: 14px; height: 14px; }
+
+/* ── Emphasis=Primary, Style=Surface ── */
+.btn[data-emphasis="primary"][data-style="surface"] {
+  --btn-bg: var(--heritage-green-500);
+  --btn-fg: var(--white);
+}
+.btn[data-emphasis="primary"][data-style="surface"][data-inverse="true"] {
+  --btn-bg: var(--white);
+  --btn-fg: var(--carbon-black-500);
+}
+
+/* ── Emphasis=Secondary, Style=Surface ── */
+.btn[data-emphasis="secondary"][data-style="surface"] {
+  --btn-bg: var(--warm-taupe-400);
+  --btn-fg: var(--white);
+}
+
+/* ── Emphasis=Primary, Style=Outlined ── */
+.btn[data-emphasis="primary"][data-style="outlined"] {
+  --btn-bg: transparent;
+  --btn-fg: var(--carbon-black-500);
+  --btn-border: var(--warm-taupe-300);
+}
+.btn[data-emphasis="primary"][data-style="outlined"][data-inverse="true"] {
+  --btn-fg: var(--white);
+  --btn-border: var(--white);
+}
+
+/* ── Emphasis=Secondary, Style=Outlined ── */
+.btn[data-emphasis="secondary"][data-style="outlined"] {
+  --btn-bg: transparent;
+  --btn-fg: var(--carbon-black-500);
+  --btn-border: var(--warm-taupe-300);
+}
+
+/* ── Style=CTA (только Primary, Size=L, Content=Text) ──
+   Пилюля: текст + отдельный зелёный круг-иконка справа. */
+.btn[data-style="cta"] {
+  --btn-bg: var(--warm-taupe-100);
+  --btn-fg: var(--carbon-black-500);
+  border-radius: 90px;
+  padding: 0 0 0 22px;
+  height: 46px;
+  gap: 12px;
+}
+.btn[data-style="cta"]:hover,
+.btn[data-style="cta"].is-hover {
+  --btn-bg: var(--warm-taupe-200);
+  opacity: 1;
+}
+.btn__cta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--heritage-green-500);
+}
+.btn__cta-icon .btn__icon {
+  width: 16px;
+  height: 16px;
+}
