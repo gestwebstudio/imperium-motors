@@ -43,15 +43,12 @@
   .swatch__value { display: block; font-size: 11px; color: var(--warm-taupe-400); line-height: 1.5; margin-top: 2px; }
 
   /* Typography */
-  .type-row { display: flex; align-items: baseline; gap: 24px; padding: 18px 0; border-bottom: 1px dashed rgba(27,30,29,.1); }
-  .type-row__meta { width: 220px; flex-shrink: 0; }
+  .type-group { margin: 0 0 12px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--warm-taupe-400); }
+  .type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px dashed rgba(27,30,29,.1); }
+  .type-row__meta { width: 240px; flex-shrink: 0; }
   .type-row__name { display: block; font-size: 13px; font-weight: 600; }
   .type-row__spec { display: block; font-size: 11px; color: var(--warm-taupe-400); margin-top: 2px; }
-  .text-body { font-size: var(--text-body-size); line-height: var(--text-body-line-height); margin: 0; }
-  .text-caption { font-size: var(--text-caption-size); line-height: var(--text-caption-line-height); margin: 0; }
-  .text-btn-l { font-size: var(--text-btn-l-size); line-height: var(--text-btn-l-line-height); margin: 0; }
-  .text-btn-m { font-size: var(--text-btn-m-size); line-height: var(--text-btn-m-line-height); margin: 0; }
-  .text-btn-s { font-size: var(--text-btn-s-size); line-height: var(--text-btn-s-line-height); margin: 0; }
+  .type-row__sample { margin: 0; flex: 1; min-width: 0; overflow-wrap: anywhere; }
 
   /* Buttons */
   .kit-block { margin-bottom: 36px; }
@@ -74,95 +71,96 @@
 
 <header class="kit-header">
   <h1>Imperium Motors — UI Kit</h1>
-  <p>Предварительный набор токенов и компонентов, собранный из Figma (макет «Imperium Motors», узел Button). Шрифт, цвета и кнопки — 1:1 с дизайном; остальные компоненты будут добавляться по мере готовности макетов.</p>
+  <p>Предварительный набор токенов и компонентов, собранный из Figma (страница «UI Kit»: Button, Brand Logo Card, Tags, Badge, Icon). Шрифт, цвета, типографика и кнопки — 1:1 с дизайном; остальные компоненты будут добавляться по мере готовности макетов.</p>
 </header>
 
 <main>
 
 <section id="colors">
   <h2>Цвета</h2>
+
+  <p class="type-group">Carbon Black</p>
   <div class="swatch-grid">
-<div class="swatch">
-  <div class="swatch__color swatch--outline" style="background:#ffffff"></div>
-  <div class="swatch__meta">
-    <span class="swatch__name">White</span>
-    <code class="swatch__value">--white<br>#ffffff</code>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#ecebea"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 100</span><code class="swatch__value">--carbon-black-100<br>#ecebea</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#c1bfbd"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 200</span><code class="swatch__value">--carbon-black-200<br>#c1bfbd</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#898785"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 300</span><code class="swatch__value">--carbon-black-300<br>#898785</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#4c4b49"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 400</span><code class="swatch__value">--carbon-black-400<br>#4c4b49</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#1b1e1d"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 500</span><code class="swatch__value">--carbon-black-500<br>#1b1e1d</code></div></div>
   </div>
-</div>
-<div class="swatch">
-  <div class="swatch__color" style="background:#294434"></div>
-  <div class="swatch__meta">
-    <span class="swatch__name">Heritage Green / 500</span>
-    <code class="swatch__value">--heritage-green-500<br>#294434</code>
+
+  <p class="type-group">Heritage Green</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#e1eae5"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 100</span><code class="swatch__value">--heritage-green-100<br>#e1eae5</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#a8bcb1"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 200</span><code class="swatch__value">--heritage-green-200<br>#a8bcb1</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#6f917f"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 300</span><code class="swatch__value">--heritage-green-300<br>#6f917f</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#4e7b60"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 400</span><code class="swatch__value">--heritage-green-400<br>#4e7b60</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#294434"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 500</span><code class="swatch__value">--heritage-green-500<br>#294434</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#213227"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 600</span><code class="swatch__value">--heritage-green-600<br>#213227</code></div></div>
   </div>
-</div>
-<div class="swatch">
-  <div class="swatch__color" style="background:#213227"></div>
-  <div class="swatch__meta">
-    <span class="swatch__name">Heritage Green / 600</span>
-    <code class="swatch__value">--heritage-green-600<br>#213227</code>
+
+  <p class="type-group">Warm Taupe</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#f2eeea"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 100</span><code class="swatch__value">--warm-taupe-100<br>#f2eeea</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#d5ccc4"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 200</span><code class="swatch__value">--warm-taupe-200<br>#d5ccc4</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#b2a79b"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 300</span><code class="swatch__value">--warm-taupe-300<br>#b2a79b</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#8f8579"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 400</span><code class="swatch__value">--warm-taupe-400<br>#8f8579</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#6a6259"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 500</span><code class="swatch__value">--warm-taupe-500<br>#6a6259</code></div></div>
   </div>
-</div>
-<div class="swatch">
-  <div class="swatch__color" style="background:#1b1e1d"></div>
-  <div class="swatch__meta">
-    <span class="swatch__name">Carbon Black / 500</span>
-    <code class="swatch__value">--carbon-black-500<br>#1b1e1d</code>
+
+  <p class="type-group">Stone Beige</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#f3f0ee"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 100</span><code class="swatch__value">--stone-beige-100<br>#f3f0ee</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#e4dfdb"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 200</span><code class="swatch__value">--stone-beige-200<br>#e4dfdb</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#cac2bb"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 300</span><code class="swatch__value">--stone-beige-300<br>#cac2bb</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#a79e97"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 400</span><code class="swatch__value">--stone-beige-400<br>#a79e97</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#908a86"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 500</span><code class="swatch__value">--stone-beige-500<br>#908a86</code></div></div>
   </div>
-</div>
-<div class="swatch">
-  <div class="swatch__color swatch--outline" style="background:#f2eeea"></div>
-  <div class="swatch__meta">
-    <span class="swatch__name">Warm Taupe / 100</span>
-    <code class="swatch__value">--warm-taupe-100<br>#f2eeea</code>
-  </div>
-</div>
-<div class="swatch">
-  <div class="swatch__color" style="background:#d5ccc4"></div>
-  <div class="swatch__meta">
-    <span class="swatch__name">Warm Taupe / 200</span>
-    <code class="swatch__value">--warm-taupe-200<br>#d5ccc4</code>
-  </div>
-</div>
-<div class="swatch">
-  <div class="swatch__color" style="background:#b2a79b"></div>
-  <div class="swatch__meta">
-    <span class="swatch__name">Warm Taupe / 300</span>
-    <code class="swatch__value">--warm-taupe-300<br>#b2a79b</code>
-  </div>
-</div>
-<div class="swatch">
-  <div class="swatch__color" style="background:#8f8579"></div>
-  <div class="swatch__meta">
-    <span class="swatch__name">Warm Taupe / 400</span>
-    <code class="swatch__value">--warm-taupe-400<br>#8f8579</code>
-  </div>
-</div>
+
+  <p class="type-group">Additional / семантические</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch__color" style="background:#5262c0"></div><div class="swatch__meta"><span class="swatch__name">Blue / 500 (Info)</span><code class="swatch__value">--additional-blue-500<br>#5262c0</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#dcdfef"></div><div class="swatch__meta"><span class="swatch__name">Blue / 100</span><code class="swatch__value">--additional-blue-100<br>#dcdfef</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#bb4545"></div><div class="swatch__meta"><span class="swatch__name">Red / 500 (Error)</span><code class="swatch__value">--additional-red-500<br>#bb4545</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#efdcdd"></div><div class="swatch__meta"><span class="swatch__name">Red / 100</span><code class="swatch__value">--additional-red-100<br>#efdcdd</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#ddb103"></div><div class="swatch__meta"><span class="swatch__name">Yellow / 500 (Warning)</span><code class="swatch__value">--additional-yellow-500<br>#ddb103</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#f7f3e2"></div><div class="swatch__meta"><span class="swatch__name">Yellow / 100</span><code class="swatch__value">--additional-yellow-100<br>#f7f3e2</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#55ab4d"></div><div class="swatch__meta"><span class="swatch__name">Green / 500 (Success)</span><code class="swatch__value">--additional-green-500<br>#55ab4d</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#dcefdc"></div><div class="swatch__meta"><span class="swatch__name">Green / 100</span><code class="swatch__value">--additional-green-100<br>#dcefdc</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#ffffff"></div><div class="swatch__meta"><span class="swatch__name">White</span><code class="swatch__value">--white<br>#ffffff</code></div></div>
   </div>
 </section>
 
 <section id="typography">
-  <h2>Типографика (Onest)</h2>
-  <div class="type-row">
-  <div class="type-row__meta"><span class="type-row__name">Body / Paragraph</span><code class="type-row__spec">18px / 400 / lh 24</code></div>
-  <p class="text-body">Imperium Motors — премиальные авто с историей</p>
-</div>
-<div class="type-row">
-  <div class="type-row__meta"><span class="type-row__name">Caption / Status</span><code class="type-row__spec">16px / 400 / lh 20</code></div>
-  <p class="text-caption">Imperium Motors — премиальные авто с историей</p>
-</div>
-<div class="type-row">
-  <div class="type-row__meta"><span class="type-row__name">Button / L</span><code class="type-row__spec">18px / 400 / lh 24</code></div>
-  <p class="text-btn-l">Imperium Motors — премиальные авто с историей</p>
-</div>
-<div class="type-row">
-  <div class="type-row__meta"><span class="type-row__name">Button / M</span><code class="type-row__spec">16px / 400 / lh 20</code></div>
-  <p class="text-btn-m">Imperium Motors — премиальные авто с историей</p>
-</div>
-<div class="type-row">
-  <div class="type-row__meta"><span class="type-row__name">Button / S</span><code class="type-row__spec">13px / 400 / lh 18</code></div>
-  <p class="text-btn-s">Imperium Motors — премиальные авто с историей</p>
-</div>
+  <h2>Типографика</h2>
+
+  <p class="type-group">Display / Heading — Wix Madefor Display</p>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Display / Hero-Line</span><code class="type-row__spec">88px / 400 / lh 100</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-display-hero-line-size);line-height:var(--text-display-hero-line-line-height);font-weight:var(--text-display-hero-line-weight)">Imperium</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Display / Hero-Accent</span><code class="type-row__spec">88px / 800 / lh 100</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-display-hero-accent-size);line-height:var(--text-display-hero-accent-line-height);font-weight:var(--text-display-hero-accent-weight)">Imperium</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Display / Product</span><code class="type-row__spec">88px / 800 / lh auto</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-display-product-size);line-height:var(--text-display-product-line-height);font-weight:var(--text-display-product-weight)">Imperium</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Statement</span><code class="type-row__spec">66px / 700 / lh 70 / ls -1</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-statement-size);line-height:var(--text-heading-statement-line-height);font-weight:var(--text-heading-statement-weight);letter-spacing:var(--text-heading-statement-letter-spacing)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Statement-Light</span><code class="type-row__spec">50px / 400 / lh 70 / ls -1</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-statement-light-size);line-height:var(--text-heading-statement-light-line-height);font-weight:var(--text-heading-statement-light-weight);letter-spacing:var(--text-heading-statement-light-letter-spacing)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Section</span><code class="type-row__spec">48px / 600 / lh auto</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-section-size);line-height:var(--text-heading-section-line-height);font-weight:var(--text-heading-section-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Section-Light</span><code class="type-row__spec">48px / 400 / lh 56</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-section-light-size);line-height:var(--text-heading-section-light-line-height);font-weight:var(--text-heading-section-light-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Section-Accent</span><code class="type-row__spec">48px / 600 / lh 56</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-section-accent-size);line-height:var(--text-heading-section-accent-line-height);font-weight:var(--text-heading-section-accent-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Category</span><code class="type-row__spec">40px / 600 / lh auto</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-category-size);line-height:var(--text-heading-category-line-height);font-weight:var(--text-heading-category-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Card</span><code class="type-row__spec">36px / 600 / lh auto</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-card-size);line-height:var(--text-heading-card-line-height);font-weight:var(--text-heading-card-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Title / Model</span><code class="type-row__spec">30px / 400 / lh 32</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-title-model-size);line-height:var(--text-title-model-line-height);font-weight:var(--text-title-model-weight)">Imperium Motors — авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Numeric / Value</span><code class="type-row__spec">40px / 800 / lh 46</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-numeric-value-size);line-height:var(--text-numeric-value-line-height);font-weight:var(--text-numeric-value-weight)">1 200+</p></div>
+
+  <p class="type-group" style="margin-top:28px">Текст / UI — Onest</p>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Quote / Review</span><code class="type-row__spec">36px / 400 / lh 42</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-quote-review-size);line-height:var(--text-quote-review-line-height);font-weight:var(--text-quote-review-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Banner / Base</span><code class="type-row__spec">32px / 500 / lh 44</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-banner-base-size);line-height:var(--text-banner-base-line-height);font-weight:var(--text-banner-base-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Banner / Accent</span><code class="type-row__spec">32px / 900 / lh 44</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-banner-accent-size);line-height:var(--text-banner-accent-line-height);font-weight:var(--text-banner-accent-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Contact / Primary</span><code class="type-row__spec">30px / 600 / lh 40</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-contact-primary-size);line-height:var(--text-contact-primary-line-height);font-weight:var(--text-contact-primary-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Label / Stat</span><code class="type-row__spec">24px / 400 / lh 30</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-label-stat-size);line-height:var(--text-label-stat-line-height);font-weight:var(--text-label-stat-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Contact / Secondary</span><code class="type-row__spec">24px / 600 / lh 30</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-contact-secondary-size);line-height:var(--text-contact-secondary-line-height);font-weight:var(--text-contact-secondary-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Nav / Item</span><code class="type-row__spec">20px / 500 / lh 28</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-nav-item-size);line-height:var(--text-nav-item-line-height);font-weight:var(--text-nav-item-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Footer / Column</span><code class="type-row__spec">20px / 400 / lh 28</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-footer-column-size);line-height:var(--text-footer-column-line-height);font-weight:var(--text-footer-column-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Body / Paragraph</span><code class="type-row__spec">18px / 400 / lh 24</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-body-size);line-height:var(--text-body-line-height);font-weight:var(--text-body-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Body / Paragraph-Strong</span><code class="type-row__spec">18px / 600 / lh 24</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-body-strong-size);line-height:var(--text-body-strong-line-height);font-weight:var(--text-body-strong-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Body / Action</span><code class="type-row__spec">18px / 400 / lh 22</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-action-size);line-height:var(--text-action-line-height);font-weight:var(--text-action-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Caption / Status</span><code class="type-row__spec">16px / 400 / lh 20</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-caption-size);line-height:var(--text-caption-line-height);font-weight:var(--text-caption-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Caption / Badge</span><code class="type-row__spec">10px / 500 / lh 10</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-caption-badge-size);line-height:var(--text-caption-badge-line-height);font-weight:var(--text-caption-badge-weight)">Imperium Motors — премиальные авто с историей</p></div>
 </section>
 
 <section id="buttons">
