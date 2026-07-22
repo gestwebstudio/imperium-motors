@@ -139,14 +139,32 @@
 }
 
 /* ── Style=CTA (только Primary, Size=L, Content=Text) ──
-   Пилюля: текст + отдельный зелёный круг-иконка справа. */
+   Пилюля: текст + отдельный зелёный круг-иконка справа.
+   У CTA свои состояния — не общая прозрачность:
+     Hover   — фон warm-taupe-200, круг heritage-green-600
+     Pressed — вся пилюля заливается heritage-green-500,
+               текст белый (в Figma это разросшийся круг-иконка). */
 .btn[data-style="cta"] {
   --btn-bg: var(--warm-taupe-100);
   --btn-fg: var(--carbon-black-500);
+  --cta-circle: var(--heritage-green-500);
   border-radius: 90px;
   padding: 0 0 0 22px;
   height: 46px;
   gap: 12px;
+}
+.btn[data-style="cta"]:hover,
+.btn[data-style="cta"].is-hover {
+  --btn-bg: var(--warm-taupe-200);
+  --cta-circle: var(--heritage-green-600);
+  opacity: 1;
+}
+.btn[data-style="cta"]:active,
+.btn[data-style="cta"].is-pressed {
+  --btn-bg: var(--heritage-green-500);
+  --btn-fg: var(--white);
+  --cta-circle: var(--heritage-green-500);
+  opacity: 1;
 }
 .btn__cta-icon {
   display: flex;
@@ -156,8 +174,9 @@
   width: 46px;
   height: 46px;
   border-radius: 72px;
-  background: var(--heritage-green-500);
+  background: var(--cta-circle);
   color: var(--white);
+  transition: background-color 0.15s ease;
 }
 .btn__cta-icon .btn__icon {
   width: 16px;

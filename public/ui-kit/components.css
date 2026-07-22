@@ -8,6 +8,18 @@
    класс .is-hover (для статичной demo-сетки).
    ───────────────────────────────────────────── */
 
+/* ══════════════ Icon ══════════════
+   Экспорт из Figma (node 268-11563): Diagonal arrow, Heart,
+   List_Add, Phone. Базовая сетка 12×12, заливка currentColor —
+   иконка наследует цвет родителя (текста или кнопки). */
+.icon {
+  display: block;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  color: var(--carbon-black-500);
+}
+
 /* ══════════════ Tag ══════════════
    Полупрозрачная заливка warm-taupe-400: 20% → 40% на hover. */
 .tag {
