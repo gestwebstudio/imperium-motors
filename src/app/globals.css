@@ -92,6 +92,12 @@
   /* Мягкие тени с зелёным подтоном — спокойнее, «дороже». */
   --shadow-rest: 0 1px 2px rgba(24, 30, 29, 0.03), 0 14px 34px -18px rgba(31, 53, 40, 0.13);
   --shadow-hover: 0 2px 10px rgba(24, 30, 29, 0.04), 0 34px 64px -30px rgba(31, 53, 40, 0.22);
+
+  /* Текстовый стиль "Heading / Section" из UI Kit (public/ui-kit/tokens.css) —
+     используется для H2 в rich-text редакторе новостей. */
+  --text-heading-section-size: 48px;
+  --text-heading-section-line-height: normal;
+  --text-heading-section-weight: 600;
 }
 
 @theme inline {
@@ -284,10 +290,10 @@ body::before {
 .article-content h2,
 .prose-editor h2 {
   font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin: 1.4em 0 0.5em;
+  font-size: var(--text-heading-section-size);
+  line-height: var(--text-heading-section-line-height);
+  font-weight: var(--text-heading-section-weight);
+  margin: 1.2em 0 0.5em;
   color: var(--carbon);
 }
 .article-content h3,
@@ -349,7 +355,10 @@ body::before {
   align-items: center;
   margin: 0.6em 0 1.2em;
   border-radius: 999px;
-  background: var(--green);
+  /* var(--green) — тот же #294434, что Heritage Green/500 в UI Kit
+     (public/ui-kit/tokens.css); задаём !important, чтобы санитайзер и
+     стили Tiptap внутри редактора точно не могли это перебить. */
+  background: var(--green) !important;
   color: #fff !important;
   padding: 10px 22px;
   font-size: 14px;
@@ -358,7 +367,7 @@ body::before {
   transition: background-color 0.2s ease;
 }
 .news-button:hover {
-  background: var(--green-deep);
+  background: var(--green-deep) !important;
 }
 
 .prose-editor .ProseMirror-selectednode {

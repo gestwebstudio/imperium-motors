@@ -40,6 +40,86 @@ function ToolbarButton({
   );
 }
 
+const HEX_RE = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+
+function normalizeHex(v: string) {
+  const hex = v.trim();
+  if (!HEX_RE.test(hex)) return null;
+  if (hex.length === 4) {
+    // #abc -> #aabbcc, чтобы отдать <input type="color"> валидный 6-значный формат
+    return "#" + [...hex.slice(1)].map((c) => c + c).join("");
+  }
+  return hex;
+}
+
+function ColorControls({ editor }: { editor: Editor }) {
+  const activeColor = (editor.getAttributes("textStyle").color as string) || "";
+  const [hexInput, setHexInput] = useState(activeColor);
+
+  function applyHex(raw: string) {
+    const hex = normalizeHex(raw);
+    if (!hex) {
+      alert("Введите цвет в формате #rrggbb (например, #294434)");
+      return;
+    }
+    editor.chain().focus().setColor(hex).run();
+  }
+
+  return (
+    <div className="flex items-center gap-1.5">
+      {COLORS.map((c) => (
+        <button
+          key={c}
+          type="button"
+          title={c}
+          onClick={() => editor.chain().focus().setColor(c).run()}
+          className={`h-6 w-6 rounded-full border transition-shadow ${
+            activeColor === c ? "border-carbon shadow-[0_0_0_2px_var(--card),0_0_0_3px_var(--carbon)]" : "border-[var(--hairline)]"
+          }`}
+          style={{ backgroundColor: c }}
+        />
+      ))}
+
+      {/* Полноценная палитра — открывает системный color picker со всем спектром. */}
+      <input
+        type="color"
+        title="Любой цвет"
+        value={normalizeHex(activeColor) ?? "#294434"}
+        onChange={(e) => editor.chain().focus().setColor(e.target.value).run()}
+        className="h-7 w-7 cursor-pointer rounded-lg border border-[var(--hairline)] bg-card p-0.5"
+      />
+
+      {/* Ручной ввод номера цвета (hex). */}
+      <input
+        type="text"
+        value={hexInput}
+        onChange={(e) => setHexInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            applyHex(hexInput);
+          }
+        }}
+        onBlur={() => hexInput && applyHex(hexInput)}
+        placeholder="#rrggbb"
+        className="h-7 w-[92px] rounded-lg border border-[var(--hairline)] bg-card px-2 text-[12px] text-carbon outline-none focus:border-green"
+      />
+
+      <button
+        type="button"
+        title="Без цвета"
+        onClick={() => {
+          editor.chain().focus().unsetColor().run();
+          setHexInput("");
+        }}
+        className="h-7 rounded-lg px-2 text-[12px] text-taupe hover:bg-porcelain"
+      >
+        Сброс
+      </button>
+    </div>
+  );
+}
+
 function Toolbar({ editor }: { editor: Editor }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -120,26 +200,7 @@ function Toolbar({ editor }: { editor: Editor }) {
 
       <div className="mx-1 h-5 w-px bg-[var(--hairline)]" />
 
-      <div className="flex items-center gap-1">
-        {COLORS.map((c) => (
-          <button
-            key={c}
-            type="button"
-            title={c}
-            onClick={() => editor.chain().focus().setColor(c).run()}
-            className="h-6 w-6 rounded-full border border-[var(--hairline)]"
-            style={{ backgroundColor: c }}
-          />
-        ))}
-        <button
-          type="button"
-          title="Без цвета"
-          onClick={() => editor.chain().focus().unsetColor().run()}
-          className="h-8 rounded-lg px-2 text-[12px] text-taupe hover:bg-porcelain"
-        >
-          Сброс
-        </button>
-      </div>
+      <ColorControls editor={editor} />
 
       <div className="mx-1 h-5 w-px bg-[var(--hairline)]" />
 
