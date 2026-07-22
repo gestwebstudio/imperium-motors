@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { sanitizeNewsHtml } from "@/lib/sanitizeNewsHtml";
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +41,7 @@ export default async function NewsArticlePage({
   const news = await getNews(slug);
   if (!news) notFound();
 
-  const paragraphs = news.body.split(/\n{2,}/).filter(Boolean);
+  const bodyHtml = sanitizeNewsHtml(news.body);
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12 lg:py-16">
@@ -59,11 +60,10 @@ export default async function NewsArticlePage({
         </div>
       )}
 
-      <div className="mt-8 flex flex-col gap-4 text-[16px] leading-relaxed text-carbon/90">
-        {paragraphs.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
-      </div>
+      <div
+        className="article-content mt-8 text-[16px] leading-relaxed text-carbon/90"
+        dangerouslySetInnerHTML={{ __html: bodyHtml }}
+      />
     </main>
   );
 }

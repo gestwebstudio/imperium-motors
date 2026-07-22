@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/dal";
 import { newsInput } from "@/lib/newsSchema";
 import { slugify } from "@/lib/slug";
+import { sanitizeNewsHtml } from "@/lib/sanitizeNewsHtml";
 
 export type NewsFormState = { error?: string; fieldErrors?: Record<string, string[]> } | undefined;
 
@@ -45,7 +46,7 @@ export async function createNews(_state: NewsFormState, formData: FormData): Pro
   const slug = await uniqueSlug(title);
 
   const news = await prisma.news.create({
-    data: { title, excerpt, body, coverImage: coverImage || null, slug },
+    data: { title, excerpt, body: sanitizeNewsHtml(body), coverImage: coverImage || null, slug },
   });
 
   revalidatePath("/admin/news");
@@ -69,7 +70,7 @@ export async function updateNews(id: number, _state: NewsFormState, formData: Fo
 
   await prisma.news.update({
     where: { id },
-    data: { title, excerpt, body, coverImage: coverImage || null, slug },
+    data: { title, excerpt, body: sanitizeNewsHtml(body), coverImage: coverImage || null, slug },
   });
 
   revalidatePath("/admin/news");

@@ -275,3 +275,94 @@ body::before {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* ─────────────────────────────────────────────
+   Контент новости: общие стили и для админки
+   (rich-text редактор), и для публичной статьи —
+   там один и тот же HTML.
+   ───────────────────────────────────────────── */
+.article-content h2,
+.prose-editor h2 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 1.4em 0 0.5em;
+  color: var(--carbon);
+}
+.article-content h3,
+.prose-editor h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 1.2em 0 0.4em;
+  color: var(--carbon);
+}
+.article-content p,
+.prose-editor p {
+  margin: 0 0 1em;
+}
+.article-content p:last-child,
+.prose-editor p:last-child {
+  margin-bottom: 0;
+}
+.article-content strong,
+.prose-editor strong {
+  font-weight: 700;
+}
+.article-content em,
+.prose-editor em {
+  font-style: italic;
+}
+.article-content u,
+.prose-editor u {
+  text-decoration: underline;
+}
+.article-content img,
+.prose-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  margin: 1.2em 0;
+  display: block;
+}
+
+.news-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 1.4em 0;
+  background: var(--carbon);
+}
+.news-video__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.news-button {
+  display: inline-flex;
+  align-items: center;
+  margin: 0.6em 0 1.2em;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff !important;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease;
+}
+.news-button:hover {
+  background: var(--green-deep);
+}
+
+.prose-editor .ProseMirror-selectednode {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
