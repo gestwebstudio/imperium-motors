@@ -351,26 +351,21 @@
   </article>
 
   <article class="kit-block">
-    <h3 class="kit-block__title">Автозаполнение <span class="kit-block__note">5 секунд, как прогресс сторис</span></h3>
+    <h3 class="kit-block__title">Автозаполнение <span class="kit-block__note">4 секунды, как прогресс сторис</span></h3>
     <div class="swatch-panel">
       <div class="slider-demo">
-        <span class="slider-demo__name">Одна полоска — заполняется за 5s и начинает заново</span>
+        <span class="slider-demo__name">Одна полоска — заполняется за 4s и начинает заново</span>
         <span class="slider slider--auto"><span class="slider__fill"></span></span>
       </div>
 
       <div class="slider-demo">
-        <span class="slider-demo__name">Группа сегментов — заполняются по очереди, как сторис (4 × 5s)</span>
-        <div class="slider-group" data-stories style="--slider-duration:5s">
+        <span class="slider-demo__name">Группа сегментов — заполняются по очереди, как сторис (4 × 4s)</span>
+        <div class="slider-group" data-stories style="--slider-duration:4s">
           <span class="slider"><span class="slider__fill" style="--slider-index:0"></span></span>
           <span class="slider"><span class="slider__fill" style="--slider-index:1"></span></span>
           <span class="slider"><span class="slider__fill" style="--slider-index:2"></span></span>
           <span class="slider"><span class="slider__fill" style="--slider-index:3"></span></span>
         </div>
-      </div>
-
-      <div class="slider-demo">
-        <span class="slider-demo__name">Другая длительность — та же полоска с <code>--slider-duration:2s</code></span>
-        <span class="slider slider--auto" style="--slider-duration:2s"><span class="slider__fill"></span></span>
       </div>
     </div>
   </article>
@@ -573,7 +568,7 @@
     if (!fills.length) return;
 
     var raw = getComputedStyle(group).getPropertyValue('--slider-duration').trim();
-    var seconds = parseFloat(raw) || 5;
+    var seconds = parseFloat(raw) || 4;
     if (/ms$/.test(raw)) seconds = seconds / 1000;
 
     setInterval(function () {

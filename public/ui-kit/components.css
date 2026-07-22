@@ -233,7 +233,7 @@
    Заполнение задаётся --slider-value (0…1):
      Default 0 · Progress .766 (321/419 из макета) · Final 1
    Модификатор .slider--auto заполняет полоску сам за
-   --slider-duration (по умолчанию 5s) — как прогресс сторис.
+   --slider-duration (по умолчанию 4s) — как прогресс сторис.
    Анимируется transform, а не width: не дёргает layout. */
 .slider {
   position: relative;
@@ -263,7 +263,7 @@
 
 /* Одиночная полоска: заполняется и начинает заново. */
 .slider--auto .slider__fill {
-  animation: slider-fill var(--slider-duration, 5s) linear infinite;
+  animation: slider-fill var(--slider-duration, 4s) linear infinite;
 }
 
 /* Группа как в сторис: сегменты заполняются по очереди.
@@ -280,8 +280,8 @@
   max-width: none;
 }
 .slider-group .slider__fill {
-  animation: slider-fill var(--slider-duration, 5s) linear forwards;
-  animation-delay: calc(var(--slider-index, 0) * var(--slider-duration, 5s));
+  animation: slider-fill var(--slider-duration, 4s) linear forwards;
+  animation-delay: calc(var(--slider-index, 0) * var(--slider-duration, 4s));
 }
 
 /* Уважаем системную настройку «меньше движения»:
