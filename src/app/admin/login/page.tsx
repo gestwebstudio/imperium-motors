@@ -19,12 +19,12 @@ export default function AdminLoginPage() {
         <form action={action} className="mt-6 flex flex-col gap-4">
           <div>
             <label htmlFor="email" className="block text-[13px] text-taupe">
-              Email
+              Логин
             </label>
             <input
               id="email"
               name="email"
-              type="email"
+              type="text"
               autoComplete="username"
               required
               className="mt-1.5 w-full rounded-xl border border-[var(--hairline)] bg-page px-3.5 py-2.5 text-[14px] text-carbon outline-none transition-colors focus:border-green"
