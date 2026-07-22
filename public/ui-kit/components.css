@@ -1,0 +1,87 @@
+/* ─────────────────────────────────────────────
+   Imperium Motors — UI Kit / компоненты
+   Источник: Figma (bERRa0eUHmPImiBdiP62UR)
+     Tag       — node 201-11054
+     Badge     — node 260-11360
+     Indicator — node 333-333
+   Состояния Hover работают и через :hover, и через
+   класс .is-hover (для статичной demo-сетки).
+   ───────────────────────────────────────────── */
+
+/* ══════════════ Tag ══════════════
+   Полупрозрачная заливка warm-taupe-400: 20% → 40% на hover. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 26px;
+  background: rgba(143, 133, 121, 0.2);
+  color: var(--heritage-green-500);
+  font-family: var(--font-onest);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-caption-weight);
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+.tag:hover,
+.tag.is-hover {
+  background: rgba(143, 133, 121, 0.4);
+}
+
+/* ══════════════ Badge ══════════════
+   Color = Info | Error | Warning | Success
+   Type  = Surface (заливка -100) | Outlined (рамка -500)
+   Текст всегда цветом -500, типографика Body/Action. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: 21px;
+  background: transparent;
+  font-family: var(--font-onest);
+  font-size: var(--text-action-size);
+  line-height: var(--text-action-line-height);
+  font-weight: var(--text-action-weight);
+  white-space: nowrap;
+}
+
+.badge[data-color="info"]    { color: var(--additional-blue-500); }
+.badge[data-color="error"]   { color: var(--additional-red-500); }
+.badge[data-color="warning"] { color: var(--additional-yellow-500); }
+.badge[data-color="success"] { color: var(--additional-green-500); }
+
+.badge[data-type="surface"][data-color="info"]    { background: var(--additional-blue-100); }
+.badge[data-type="surface"][data-color="error"]   { background: var(--additional-red-100); }
+.badge[data-type="surface"][data-color="warning"] { background: var(--additional-yellow-100); }
+.badge[data-type="surface"][data-color="success"] { background: var(--additional-green-100); }
+
+.badge[data-type="outlined"] { border-color: currentColor; }
+
+/* ══════════════ Indicator ══════════════
+   Точка 7px цветом -500 + подпись Caption/Status в warm-taupe-400. */
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-onest);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-caption-weight);
+  color: var(--warm-taupe-400);
+  white-space: nowrap;
+}
+.indicator__dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.indicator[data-color="success"] .indicator__dot { background: var(--additional-green-500); }
+.indicator[data-color="warning"] .indicator__dot { background: var(--additional-yellow-500); }
+.indicator[data-color="error"]   .indicator__dot { background: var(--additional-red-500); }
+.indicator[data-color="info"]    .indicator__dot { background: var(--additional-blue-500); }

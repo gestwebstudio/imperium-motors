@@ -1,8 +1,10 @@
 /* ─────────────────────────────────────────────
    Imperium Motors — UI Kit / Button
    Источник: Figma (bERRa0eUHmPImiBdiP62UR, node 1-3361)
-   Компонент собран из data-атрибутов, повторяющих
-   варианты Figma: emphasis / style / size / content / inverse.
+   Варианты повторяют Figma: emphasis / style / size /
+   content / inverse.
+     Style = Surface | Flat | Outlined | CTA
+     State = Default | Hover | Pressed
    Состояния Hover/Pressed работают и по-настоящему
    (:hover/:active), и принудительно через классы
    .is-hover/.is-pressed — это нужно только demo-странице,
@@ -36,21 +38,18 @@
   outline-offset: 2px;
 }
 
-/* Pressed: лёгкое сжатие — замена анимированному ripple-эффекту из Figma
+/* Hover в Figma — opacity 60% на всей кнопке. */
+.btn:hover,
+.btn.is-hover {
+  opacity: 0.6;
+}
+
+/* Pressed: лёгкое сжатие — замена ripple-эффекту из Figma
    (тот использует одноразовые PNG-ассеты, не годится для продакшена). */
 .btn:active,
 .btn.is-pressed {
-  transform: scale(0.97);
-}
-
-/* Hover в Figma сделан через opacity: 80% на всей кнопке. */
-.btn:hover,
-.btn.is-hover {
-  opacity: 0.8;
-}
-.btn:active,
-.btn.is-pressed {
   opacity: 1;
+  transform: scale(0.97);
 }
 
 .btn:disabled {
@@ -84,7 +83,7 @@
 }
 .btn[data-content="icon-only"][data-size="s"] { padding: 11px; }
 .btn[data-content="icon-only"][data-size="m"] { padding: 11px; }
-.btn[data-content="icon-only"][data-size="l"] { padding: 15px; }
+.btn[data-content="icon-only"][data-size="l"] { padding: 14px; }
 
 .btn__icon {
   flex-shrink: 0;
@@ -92,11 +91,15 @@
 }
 .btn[data-size="s"] .btn__icon { width: 8px; height: 8px; }
 .btn[data-size="m"] .btn__icon { width: 10px; height: 10px; }
-.btn[data-size="l"] .btn__icon { width: 14px; height: 14px; }
+.btn[data-size="l"] .btn__icon { width: 16px; height: 16px; }
 
-/* ── Emphasis=Primary, Style=Surface ── */
+/* ── Style=Surface ── */
 .btn[data-emphasis="primary"][data-style="surface"] {
   --btn-bg: var(--heritage-green-500);
+  --btn-fg: var(--white);
+}
+.btn[data-emphasis="secondary"][data-style="surface"] {
+  --btn-bg: var(--warm-taupe-400);
   --btn-fg: var(--white);
 }
 .btn[data-emphasis="primary"][data-style="surface"][data-inverse="true"] {
@@ -104,28 +107,35 @@
   --btn-fg: var(--carbon-black-500);
 }
 
-/* ── Emphasis=Secondary, Style=Surface ── */
-.btn[data-emphasis="secondary"][data-style="surface"] {
-  --btn-bg: var(--warm-taupe-400);
+/* ── Style=Flat: мягкая заливка светлым тоном шкалы ── */
+.btn[data-emphasis="primary"][data-style="flat"] {
+  --btn-bg: var(--heritage-green-100);
+  --btn-fg: var(--heritage-green-500);
+}
+.btn[data-emphasis="secondary"][data-style="flat"] {
+  --btn-bg: var(--stone-beige-200);
+  --btn-fg: var(--warm-taupe-500);
+}
+.btn[data-emphasis="primary"][data-style="flat"][data-inverse="true"] {
+  --btn-bg: rgba(255, 255, 255, 0.3);
   --btn-fg: var(--white);
 }
 
-/* ── Emphasis=Primary, Style=Outlined ── */
+/* ── Style=Outlined ── */
 .btn[data-emphasis="primary"][data-style="outlined"] {
+  --btn-bg: transparent;
+  --btn-fg: var(--heritage-green-500);
+  --btn-border: var(--heritage-green-500);
+}
+.btn[data-emphasis="secondary"][data-style="outlined"] {
   --btn-bg: transparent;
   --btn-fg: var(--carbon-black-500);
   --btn-border: var(--warm-taupe-300);
 }
 .btn[data-emphasis="primary"][data-style="outlined"][data-inverse="true"] {
+  --btn-bg: transparent;
   --btn-fg: var(--white);
   --btn-border: var(--white);
-}
-
-/* ── Emphasis=Secondary, Style=Outlined ── */
-.btn[data-emphasis="secondary"][data-style="outlined"] {
-  --btn-bg: transparent;
-  --btn-fg: var(--carbon-black-500);
-  --btn-border: var(--warm-taupe-300);
 }
 
 /* ── Style=CTA (только Primary, Size=L, Content=Text) ──
@@ -138,11 +148,6 @@
   height: 46px;
   gap: 12px;
 }
-.btn[data-style="cta"]:hover,
-.btn[data-style="cta"].is-hover {
-  --btn-bg: var(--warm-taupe-200);
-  opacity: 1;
-}
 .btn__cta-icon {
   display: flex;
   align-items: center;
@@ -150,8 +155,9 @@
   flex-shrink: 0;
   width: 46px;
   height: 46px;
-  border-radius: 999px;
+  border-radius: 72px;
   background: var(--heritage-green-500);
+  color: var(--white);
 }
 .btn__cta-icon .btn__icon {
   width: 16px;
