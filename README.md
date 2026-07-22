@@ -14,7 +14,13 @@
 
 ```bash
 npm install
+
+# .env — минимум для дев-запуска:
+#   DATABASE_URL="file:./dev.db"
+#   SESSION_SECRET=<любая случайная строка, например `openssl rand -base64 32`>
+
 npm run db:push        # создать/обновить БД (SQLite, dev.db)
+npm run admin:create -- "you@example.com" "пароль" "Имя"   # завести вход в /admin
 npm run dev            # http://localhost:3000  → /catalog
 
 # в другом окне — имитация выгрузки из системы учёта:
@@ -32,6 +38,25 @@ npm run mock
 
 Для прода: в `prisma/schema.prisma` поменять `provider` на `postgresql`,
 в `.env` — `DATABASE_URL` на строку PostgreSQL.
+
+## Админка
+
+`/admin` — закрытая часть сайта для сотрудников (пока только раздел
+«Новости», дальше будет расширяться).
+
+- Вход по email + паролю, `/admin/login`. Публичной регистрации нет —
+  аккаунты заводятся вручную:
+  ```bash
+  npm run admin:create -- "email@example.com" "пароль" "Имя"
+  ```
+  Повторный запуск с тем же email обновляет пароль/имя (полезно для сброса
+  пароля).
+- Сессия — httpOnly JWT-cookie (7 дней), проверяется в `proxy.ts` перед
+  рендером `/admin/**` и повторно в каждом Server Action (на случай, если
+  запрос идёт мимо proxy).
+- `SESSION_SECRET` в `.env` обязателен — без него сессии не создать.
+- Новости, отмеченные «Опубликовано», сразу видны на публичной `/news`
+  и `/news/[slug]`; черновики — только в `/admin/news`.
 
 ---
 
@@ -152,14 +177,30 @@ curl -X POST http://localhost:3000/api/import/cars \
 ```
 src/
   app/
-    catalog/page.tsx          # страница каталога
+    (site)/                   # публичный сайт (общий layout с Header/Footer)
+      page.tsx                # главная
+      catalog/page.tsx        # каталог авто
+      news/                   # новости: список + /news/[slug]
+      about/, brands/, buyers/
+    admin/
+      login/                  # /admin/login — вне auth-layout'а
+      (dashboard)/            # всё остальное — под проверкой сессии
+        layout.tsx            # шапка админки + verifySession()
+        news/                 # CRUD новостей (list, new, [id], actions.ts)
+      actions.ts               # logout()
     api/import/cars/route.ts  # приёмник данных из системы учёта
-    page.tsx                  # / → редирект на /catalog
+    layout.tsx                 # корневой layout (html/body, без Header/Footer)
   components/CarCard.tsx      # карточка авто (из макета Figma)
   lib/
     prisma.ts                 # клиент БД
-    carSchema.ts              # zod-контракт входящего JSON
-prisma/schema.prisma          # модель Car + Photo
-scripts/mock-1c.mjs           # имитация выгрузки из системы учёта (название
+    carSchema.ts              # zod-контракт входящего JSON (система учёта)
+    newsSchema.ts             # zod-контракт формы новости
+    session.ts, dal.ts, auth.ts  # JWT-сессия, verifySession(), проверка пароля
+    slug.ts                   # транслитерация заголовка в slug
+  proxy.ts                    # защита /admin/** (редирект на /admin/login)
+prisma/schema.prisma          # модели Car/Photo/User/News
+scripts/
+  mock-1c.mjs                 # имитация выгрузки из системы учёта (название
                                # файла осталось историческим, на контракт не влияет)
+  create-admin.mjs            # завести/обновить аккаунт для входа в /admin
 ```

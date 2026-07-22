@@ -39,7 +39,7 @@ export default async function CatalogPage() {
             "автомобиль",
             "автомобиля",
             "автомобилей"
-          )}${inStock > 0 ? ` · ${inStock} свободно` : ""} · обновляется из 1С`}
+          )}${inStock > 0 ? ` · ${inStock} свободно` : ""} · обновляется из системы учёта`}
         </p>
       </header>
 
@@ -68,7 +68,7 @@ export default async function CatalogPage() {
             Каталог наполняется
           </h2>
           <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-taupe">
-            Автомобили появятся здесь, как только придут из&nbsp;1С.
+            Автомобили появятся здесь, как только придут из&nbsp;системы учёта.
           </p>
         </div>
       )}

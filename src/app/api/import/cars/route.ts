@@ -4,7 +4,7 @@ import { importPayload } from "@/lib/carSchema";
 
 export const runtime = "nodejs";
 
-// Приёмник данных из 1С.
+// Приёмник данных из системы учёта.
 //   POST /api/import/cars
 //   Authorization: Bearer <IMPORT_TOKEN>
 //   Body: { mode: "full" | "partial", cars: [...] }

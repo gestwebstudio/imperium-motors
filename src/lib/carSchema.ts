@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// Контракт данных из 1С. Всё, что приходит на /api/import/cars,
+// Контракт данных из системы учёта. Всё, что приходит на /api/import/cars,
 // валидируется по этой схеме — кривой JSON не попадёт в базу.
 
 export const carStatus = z.enum(["in_stock", "reserved", "sold"]);
