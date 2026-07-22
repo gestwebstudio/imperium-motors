@@ -405,18 +405,31 @@
 }
 .car-card__tags { padding-top: 2px; }
 
+/* Медиа-область: окно 423×218.47 с обрезкой. Фото вписывается
+   НЕ по высоте, а по ширине — в макете оно шире окна и подрезано
+   сверху и снизу. object-fit: contain здесь не годится: он
+   ужимает картинку по высоте, и машина выходит на четверть мельче.
+   Масштаб — на --car-photo-width, потому что у исходников разный
+   запас пустого поля вокруг машины (BMW 111.78%, Lexus 91.97%).
+   По умолчанию 100%: фото занимает окно по ширине. */
 .car-card__media {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-.car-card__photo {
-  display: block;
+  position: relative;
   width: 100%;
   max-width: 423px;
-  height: auto;
+  /* Только по горизонтали: сокращённый margin затёр бы
+     margin-top из .card__media (отступ 10px из макета). */
+  margin-inline: auto;
   aspect-ratio: 423 / 218.47;
-  object-fit: contain;
+  overflow: hidden;
+}
+.car-card__photo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--car-photo-width, 100%);
+  max-width: none;
+  height: auto;
+  transform: translate(-50%, -50%) translateY(var(--car-photo-y, 0));
 }
 
 .car-card__footer {
