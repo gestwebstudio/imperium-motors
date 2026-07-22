@@ -83,6 +83,17 @@
   .slider-demo { display: flex; flex-direction: column; gap: 8px; max-width: 460px; }
   .slider-demo + .slider-demo { margin-top: 28px; }
   .slider-demo__name { font-size: 11px; color: var(--warm-taupe-400); }
+  /* Карточка полупрозрачная — показываем её на тёплой подложке,
+     как в макете, иначе на белой панели её не видно. */
+  .card-stage { background: var(--warm-taupe-100); border-radius: 16px; padding: 24px; }
+  .card-row { display: flex; flex-wrap: wrap; gap: 24px; }
+  /* Не даём карточкам ужиматься: в макете ширина 548px.
+     Не влезли в ряд — переносим, а не сплющиваем. */
+  .card-row .card { flex: 0 0 auto; width: 548px; max-width: 100%; }
+  /* Скелет: подсвечиваем области сетки .card */
+  .card-slot { display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(27,30,29,.25); border-radius: 10px; padding: 12px; font-size: 11px; color: var(--warm-taupe-400); }
+  .card-slot--tall { min-height: 120px; height: 100%; }
+  .card-slot--pill { border-radius: 999px; padding: 6px 12px; }
   .btn-row:last-child { border-bottom: none; padding-bottom: 0; }
   .btn-row:first-child { padding-top: 0; }
   .btn-row__size { width: 56px; flex-shrink: 0; font-size: 12px; color: var(--warm-taupe-400); padding-top: 4px; }
@@ -369,6 +380,130 @@
       </div>
     </div>
   </article>
+</section>
+
+<section id="brand-logo">
+  <h2>Brand logo</h2>
+  <p class="section-note">Логотипы марок будут меняться, поэтому компонент отвечает только за габарит и вписывание: высота фиксирована (<code>--brand-logo-size</code>, по умолчанию 39px), ширина подстраивается под пропорции файла — BMW квадратный, Lexus широкий. На фронте — <code>src/components/ui/BrandLogo.tsx</code>, соответствие «марка → файл» лежит в одном месте.</p>
+  <div class="swatch-panel">
+    <div class="icon-grid">
+      <div class="icon-cell"><span class="brand-logo"><img class="brand-logo__img" src="/brands/bmw.png" alt="BMW"></span><span class="icon-cell__name">BMW</span></div>
+      <div class="icon-cell"><span class="brand-logo"><img class="brand-logo__img" src="/brands/lexus.png" alt="Lexus"></span><span class="icon-cell__name">Lexus</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="card">
+  <h2>Card</h2>
+  <p class="section-note">Базовая оболочка карточек. Сама о содержимом ничего не знает: задаёт поверхность (фон, радиус 30, паддинг 32) и сетку из трёх областей — <code>header</code> · <code>media</code> · <code>footer</code> — плюс плавающий слот <code>actions</code> в правом верхнем углу. Размеры и отступы вынесены в переменные, поэтому карточка другого типа переопределяет их, не переписывая правила.</p>
+  <div class="swatch-panel">
+    <div class="card-stage">
+      <div class="card" style="max-width:420px">
+        <div class="card__actions"><span class="card-slot card-slot--pill">actions</span></div>
+        <div class="card__header"><span class="card-slot">header</span></div>
+        <div class="card__media"><span class="card-slot card-slot--tall">media</span></div>
+        <div class="card__footer"><span class="card-slot">footer</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="car-card">
+  <h2>Car Card</h2>
+  <p class="section-note">Figma node 412-651. Собрана из уже существующих компонентов кита: <b>Card</b> (оболочка и сетка), <b>Brand logo</b>, <b>Tag</b>, <b>Indicator</b>, <b>Wishlist</b>, <b>Comparison</b>, <b>Price Block</b> и <b>Button</b>. Своего в ней только заголовок модели — компонента заголовка в ките нет, поэтому взят токен <code>Title/Model</code> из макета.</p>
+  <div class="swatch-panel">
+    <div class="card-stage">
+      <div class="card-row">
+
+        <article class="card car-card" data-status="in-stock">
+          <div class="card__actions">
+            <button class="icon-action" data-action="wishlist" aria-pressed="false" aria-label="Избранное">
+              <span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-heart-fill"></use></svg></span>
+              <span class="tooltip icon-action__tooltip" data-when="idle">Добавить в избранное</span>
+              <span class="tooltip icon-action__tooltip" data-when="active">Убрать из избранного</span>
+            </button>
+            <button class="icon-action" data-action="comparison" aria-pressed="false" aria-label="Сравнение">
+              <span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-list-add"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-list-check"></use></svg></span>
+              <span class="tooltip icon-action__tooltip" data-when="idle">Добавить в сравнение</span>
+              <span class="tooltip icon-action__tooltip" data-when="active">Убрать из сравнения</span>
+            </button>
+          </div>
+
+          <div class="card__header">
+            <div class="car-card__head">
+              <span class="brand-logo"><img class="brand-logo__img" src="/brands/bmw.png" alt="BMW"></span>
+              <div class="car-card__info">
+                <h3 class="car-card__title">X3 xDrive20i</h3>
+                <span class="indicator" data-color="success"><span class="indicator__dot"></span>В наличии</span>
+                <div class="tag-list car-card__tags">
+                  <span class="tag">2026</span>
+                  <span class="tag">Бензин</span>
+                  <span class="tag">Полный привод</span>
+                  <span class="tag">АКПП-8</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card__media car-card__media">
+            <img class="car-card__photo" src="/ui-kit/img/bmw-x3.png" alt="BMW X3 xDrive20i">
+          </div>
+
+          <div class="card__footer car-card__footer">
+            <div class="price-block">
+              <p class="price-block__label">Стоимость автомобиля</p>
+              <p class="price-block__value">8 990 000 ₽</p>
+            </div>
+            <button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Подробнее</span></button>
+          </div>
+        </article>
+
+        <article class="card car-card" data-status="waiting">
+          <div class="card__actions">
+            <button class="icon-action" data-action="wishlist" aria-pressed="false" aria-label="Избранное">
+              <span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-heart-fill"></use></svg></span>
+              <span class="tooltip icon-action__tooltip" data-when="idle">Добавить в избранное</span>
+              <span class="tooltip icon-action__tooltip" data-when="active">Убрать из избранного</span>
+            </button>
+            <button class="icon-action" data-action="comparison" aria-pressed="false" aria-label="Сравнение">
+              <span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-list-add"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-list-check"></use></svg></span>
+              <span class="tooltip icon-action__tooltip" data-when="idle">Добавить в сравнение</span>
+              <span class="tooltip icon-action__tooltip" data-when="active">Убрать из сравнения</span>
+            </button>
+          </div>
+
+          <div class="card__header">
+            <div class="car-card__head">
+              <span class="brand-logo"><img class="brand-logo__img" src="/brands/lexus.png" alt="Lexus"></span>
+              <div class="car-card__info">
+                <h3 class="car-card__title">GX Executive</h3>
+                <span class="indicator" data-color="warning"><span class="indicator__dot"></span>Ожидаем поступления</span>
+                <div class="tag-list car-card__tags">
+                  <span class="tag">2026</span>
+                  <span class="tag">Бензин</span>
+                  <span class="tag">Полный привод</span>
+                  <span class="tag">АКПП</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card__media car-card__media">
+            <img class="car-card__photo" src="/ui-kit/img/lexus-gx.png" alt="Lexus GX Executive">
+          </div>
+
+          <div class="card__footer car-card__footer">
+            <div class="price-block">
+              <p class="price-block__label">Стоимость автомобиля</p>
+              <p class="price-block__value">15 490 000 ₽</p>
+            </div>
+            <button class="btn" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text" style="min-width:170px"><span class="btn__label">Забронировать</span></button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="buttons">
