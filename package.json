@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "ui-kit:icons": "node scripts/build-ui-kit-icons.mjs",
+    "predev": "npm run ui-kit:icons",
+    "prebuild": "npm run ui-kit:icons",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
