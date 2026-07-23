@@ -55,3 +55,9 @@ next-env.d.ts
 # файлы, загруженные через админку (обложки новостей и т.п.) — рантайм-данные,
 # не часть репозитория
 /public/uploads/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
