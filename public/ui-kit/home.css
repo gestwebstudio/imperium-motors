@@ -245,6 +245,7 @@ button { font-family: inherit; }
   padding: 3.75rem 2.5rem;
 }
 .brands__viewport {
+  --visible: 5;              /* сколько логотипов видно; меняется на брейкпоинтах */
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -256,7 +257,11 @@ button { font-family: inherit; }
   gap: 1.5rem;
   will-change: transform;
 }
-.brands__track .brand-card { flex: 0 0 auto; }
+/* Ширина карточки = ровно 1/visible окна (минус гэпы) → в окне ровно --visible штук */
+.brands__track .brand-card {
+  flex: 0 0 calc((100% - (var(--visible) - 1) * 1.5rem) / var(--visible));
+  width: calc((100% - (var(--visible) - 1) * 1.5rem) / var(--visible));
+}
 .brands__nav {
   --circle-btn-size: 2.75rem;
   flex-shrink: 0;
@@ -300,10 +305,14 @@ button { font-family: inherit; }
 .car-row { display: flex; align-items: center; gap: 0.625rem; }
 .car-row__nav { --circle-btn-size: 2.75rem; flex-shrink: 0; }
 .car-row__nav--next svg { transform: scaleX(-1) translateZ(0); }
-.car-row__viewport { flex: 1; min-width: 0; overflow: hidden; padding: 1rem 0; margin: -1rem 0; }
+.car-row__viewport { --cols: 3; flex: 1; min-width: 0; overflow: hidden; padding: 1rem 0; margin: -1rem 0; }
 .car-row__track { display: flex; gap: 1.5rem; will-change: transform; }
-/* В ряду карточки тянутся на равные доли, а не по 34.25rem */
-.car-row__track .car-card { flex: 1 1 0; max-width: none; }
+/* Ширина карточки = ровно 1/cols окна (минус гэпы); при cols < числа карточек
+   появляется прокрутка стрелками. --cols меняется на брейкпоинтах. */
+.car-row__track .car-card {
+  flex: 0 0 calc((100% - (var(--cols) - 1) * 1.5rem) / var(--cols));
+  max-width: none;
+}
 
 /* ═══════════════ Блок «Найдите свой формат» — бенто категорий ═══════════════ */
 .formats__top {
@@ -638,4 +647,69 @@ button { font-family: inherit; }
   min-width: 0.9375rem; height: 0.9375rem; padding: 0 0.1875rem;
   border-radius: 0.5rem; background: var(--heritage-green-500); color: #fff;
   font-family: var(--font-onest); font-size: 0.625rem; line-height: 0.9375rem; text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Адаптив — перекладка блоков. Масштаб между брейкпоинтами
+   делает резиновый корень; здесь только смена числа колонок
+   и «в столбик». Hero, шапка и футер — отдельным шагом.
+   Брейкпоинты: 1200 · 960 · 768.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── ≤1200: логотипы 5 → 4; «Индивидуальный подход» из абсолютной раскладки
+   в столбик (она рассчитана на десктоп-ширину и иначе выходит за край) ── */
+@media (max-width: 1199.98px) {
+  .brands__viewport { --visible: 4; }
+
+  .craft__canvas { width: 100%; height: auto; }
+  .craft__statement { position: static; width: 100%; margin: 0 0 2.5rem; }
+  .craft__watermark { display: none; }
+  .craft__canvas .feat-card {
+    position: static; left: auto; top: auto; width: 100%;
+    margin-bottom: 2.5rem;
+  }
+  .craft__canvas .feat-card:last-child { margin-bottom: 0; }
+}
+
+/* ── ≤960: планшет ── */
+@media (max-width: 960px) {
+  .brands__viewport { --visible: 3; }          /* логотипы 4 → 3 */
+  .car-row__viewport { --cols: 2; }            /* каталоги 3 → 2 */
+
+  /* Бенто категорий: 3 → 2 колонки (сбрасываем именованные области) */
+  .cat-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+    grid-template-areas: none;
+  }
+  .cat-grid .cat-card { grid-area: auto; min-height: 24.4375rem; }
+
+  /* Отзыв: фото над текстом */
+  .review { grid-template-columns: 1fr; }
+  .review__media { height: 26rem; }
+
+  /* Контакты: две колонки фото, карточка контактов на всю ширину снизу */
+  .visit__grid { grid-template-columns: 1fr 1fr; }
+  .contact-card { grid-column: 1 / -1; }
+}
+
+/* ── ≤768: крупный мобайл — один столбец ── */
+@media (max-width: 768px) {
+  .brands__viewport { --visible: 2; }          /* логотипы 3 → 2 */
+  .car-row__viewport { --cols: 1; }            /* каталоги 2 → 1 */
+
+  .cat-grid { grid-template-columns: 1fr; }    /* категории в столбик */
+  .cat-grid .cat-card { min-height: 20rem; }
+
+  .promo { grid-template-columns: 1fr; }       /* трейд-ин/лизинг в столбик */
+  .visit__grid { grid-template-columns: 1fr; } /* контакты в столбик */
+
+  /* Заголовок бенто: убрать «в разбежку» */
+  .formats__top { flex-direction: column; }
+  .formats__aside { text-align: left; max-width: none; }
+
+  /* Меньше боковых полей, чтобы не жать контент */
+  .section, .craft, .review, .visit { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .promo { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .brands { padding-left: 1rem; padding-right: 1rem; }
 }
