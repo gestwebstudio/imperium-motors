@@ -574,7 +574,8 @@ button { font-family: inherit; }
 .contact-row__note { margin: 4px 0 0; font-family: var(--font-onest); font-size: 16px; color: var(--warm-taupe-400); }
 .contact-card .btn { align-self: flex-start; }
 .contact-card__map { margin-top: auto; border-radius: 18px; overflow: hidden; }
-.contact-card__map img { width: 100%; height: 260px; object-fit: cover; display: block; }
+.contact-card__map img,
+.contact-card__map iframe { width: 100%; height: 260px; border: 0; object-fit: cover; display: block; }
 
 /* ═══════════════ Футер ═══════════════ */
 .site-footer {
