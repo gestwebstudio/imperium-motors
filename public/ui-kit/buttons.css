@@ -93,6 +93,8 @@
 .btn__icon {
   flex-shrink: 0;
   display: block;
+  /* Свой слой — иконка не пере-растеризуется при scale на :active. */
+  transform: translateZ(0);
 }
 .btn[data-size="s"] .btn__icon { width: 8px; height: 8px; }
 .btn[data-size="m"] .btn__icon { width: 10px; height: 10px; }

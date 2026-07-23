@@ -223,8 +223,8 @@ button { font-family: inherit; }
   max-width: none;
   gap: 12px;
 }
-.hero__slider .circle-btn { --circle-btn-size: 32px; }
-.hero__slider .circle-btn--next svg { transform: scaleX(-1); }
+.hero__slider .circle-btn { --circle-btn-size: 32px; --circle-btn-icon: 13px; }
+.hero__slider .circle-btn--next svg { transform: scaleX(-1) translateZ(0); }
 
 /* ═══════════════ Блок 2 — логотипы брендов ═══════════════
    Стрелки — снаружи ленты (flex-соседи), окно занимает остаток.
@@ -254,7 +254,7 @@ button { font-family: inherit; }
   --circle-btn-size: 44px;
   flex-shrink: 0;
 }
-.brands__nav--next svg { transform: scaleX(-1); }
+.brands__nav--next svg { transform: scaleX(-1) translateZ(0); }
 
 /* ═══════════════════════════════════════════════════════════
    Ниже — секции полной главной (макет Figma 141-1958),
@@ -283,7 +283,7 @@ button { font-family: inherit; }
 /* Ряд карточек авто со стрелками (используется дважды) */
 .car-row { display: flex; align-items: center; gap: 10px; }
 .car-row__nav { --circle-btn-size: 44px; flex-shrink: 0; }
-.car-row__nav--next svg { transform: scaleX(-1); }
+.car-row__nav--next svg { transform: scaleX(-1) translateZ(0); }
 .car-row__viewport { flex: 1; min-width: 0; overflow: hidden; padding: 16px 0; margin: -16px 0; }
 .car-row__track { display: flex; gap: 24px; will-change: transform; }
 /* В ряду карточки тянутся на равные доли, а не по 548px */
@@ -385,7 +385,7 @@ button { font-family: inherit; }
   --circle-btn-bg: rgba(255, 255, 255, 0.9);
   --circle-btn-bg-hover: #fff;
 }
-.cat-card__arrow svg { width: 40%; height: 40%; }
+.cat-card__arrow svg { width: 16px; height: 16px; }
 .cat--sedan .cat-card__body { max-width: 520px; }
 .cat--sedan .cat-card__arrow { top: auto; bottom: 28px; left: 34px; right: auto; }
 
@@ -425,7 +425,7 @@ button { font-family: inherit; }
   --circle-btn-bg-hover: rgba(24, 30, 29, 0.06);
   box-shadow: inset 0 0 0 1px var(--warm-taupe-300);
 }
-.promo-card__arrow svg { width: 40%; height: 40%; }
+.promo-card__arrow svg { width: 16px; height: 16px; }
 
 /* ═══════════════ «Индивидуальный подход» — стейтмент + фичи ═══════════════ */
 .craft { position: relative; padding: 80px 60px; }
@@ -487,7 +487,7 @@ button { font-family: inherit; }
   box-shadow: inset 0 0 0 1px var(--warm-taupe-300);
   flex-shrink: 0;
 }
-.feat-card__arrow svg { width: 40%; height: 40%; }
+.feat-card__arrow svg { width: 16px; height: 16px; }
 .feat-card__text {
   margin: 0;
   max-width: 640px;
@@ -524,7 +524,7 @@ button { font-family: inherit; }
 }
 .review__nav { display: flex; gap: 12px; }
 .review__nav .circle-btn { --circle-btn-size: 44px; }
-.review__nav .circle-btn--next svg { transform: scaleX(-1); }
+.review__nav .circle-btn--next svg { transform: scaleX(-1) translateZ(0); }
 
 /* ═══════════════ «Ждём вас в салоне» — галерея + контакты ═══════════════ */
 .visit { padding: 80px 60px; }

@@ -463,6 +463,8 @@
   background: rgba(228, 223, 219, 0.4); /* stone-beige-200 @ 40% */
   transform-origin: center;
   transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  /* Свой слой на время scale-hover — логотип не пере-растеризуется покадрово. */
+  will-change: transform;
 }
 .brand-card__logo {
   display: block;
@@ -523,9 +525,13 @@
   background: var(--heritage-green-500);
   transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
+/* Текст и круг-иконка вынесены в собственные слои (translateZ): зелёный
+   ::before анимирует width и перерисовывается покадрово — без изоляции он
+   тянул бы за собой перерисовку стрелки, и та «дёргалась» бы на hover. */
 .cta-button__label {
   position: relative;
   z-index: 1;
+  transform: translateZ(0);
   transition: color 0.3s ease;
 }
 .cta-button__icon {
@@ -538,6 +544,7 @@
   width: 46px;
   height: 46px;
   color: var(--white);
+  transform: translateZ(0);
 }
 .cta-button__icon svg { width: 16px; height: 16px; }
 .cta-button__icon svg,
@@ -576,7 +583,15 @@
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.12s ease, opacity 0.2s ease;
 }
-.circle-btn svg { width: 45%; height: 45%; display: block; }
+/* Иконка — целочисленный размер (не %: дробные 19.8px «дрожат» и мылятся
+   при :active scale). Свой слой (translateZ) — раст не пересчитывается,
+   когда кнопка масштабируется. Размер задаётся переменной под диаметр. */
+.circle-btn svg {
+  width: var(--circle-btn-icon, 18px);
+  height: var(--circle-btn-icon, 18px);
+  display: block;
+  transform: translateZ(0);
+}
 .circle-btn:hover { background: var(--circle-btn-bg-hover, var(--stone-beige-200)); }
 .circle-btn:active { transform: scale(0.92); }
 .circle-btn:focus-visible { outline: 2px solid var(--heritage-green-500); outline-offset: 2px; }
@@ -594,6 +609,11 @@
    витринной карточки в hero, которая не кликается). */
 .car-card {
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  /* Карточка поднимается на hover (translateY). Без своего слоя браузер
+     пере-растеризует SVG-иконки внутри на каждом кадре — они «дёргаются».
+     will-change держит карточку отдельным слоем: иконки растеризуются один
+     раз и просто сдвигаются вместе с картой. */
+  will-change: transform;
 }
 .car-card:not(.car-card--static):hover {
   transform: translateY(-6px);
