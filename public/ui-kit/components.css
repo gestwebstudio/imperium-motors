@@ -612,12 +612,19 @@
    Модификатор .car-card--static выключает эффект (напр. для
    витринной карточки в hero, которая не кликается). */
 .car-card {
+  container-type: inline-size;  /* карточка — контейнер: цена масштабируется от её ширины */
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
   /* Карточка поднимается на hover (translateY). Без своего слоя браузер
      пере-растеризует SVG-иконки внутри на каждом кадре — они «дёргаются».
      will-change держит карточку отдельным слоем: иконки растеризуются один
      раз и просто сдвигаются вместе с картой. */
   will-change: transform;
+}
+/* Цена в карточке — в одну строку, размер от ширины карточки (cqi):
+   на широкой ≈2.5rem как в макете, на узкой уменьшается, но не мельче ~1.25rem. */
+.car-card .price-block__value {
+  white-space: nowrap;
+  font-size: clamp(1.25rem, 8.4cqi, 2.5rem);
 }
 .car-card:not(.car-card--static):hover {
   transform: translateY(-0.375rem);
