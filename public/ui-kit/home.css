@@ -16,18 +16,23 @@ img { display: block; max-width: 100%; }
 button { font-family: inherit; }
 
 .page {
+  position: relative;
   max-width: 1920px;
   margin: 0 auto;
 }
 
-/* ═══════════════ Шапка ═══════════════ */
+/* ═══════════════ Шапка ═══════════════
+   Плавает поверх hero (как на макете): hero прижат к верху сайта,
+   шапка — absolute с отступом 18px, без зазора сверху. */
 .site-header {
-  position: relative;
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  right: 20px;
   z-index: 20;
   display: flex;
   align-items: center;
   gap: 24px;
-  margin: 18px 20px 0;
   height: 78px;
   padding: 0 16px 0 40px;
   border-radius: 90px;
@@ -60,12 +65,9 @@ button { font-family: inherit; }
 .site-nav__item svg { width: 15px; height: 15px; }
 .site-logo {
   margin: 0 auto;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 26px;
-  letter-spacing: 0.02em;
-  color: var(--carbon-black-500);
-  white-space: nowrap;
+  display: block;
+  height: 32px;          /* натуральный размер логотипа с макета (336×32) */
+  width: auto;
 }
 .site-header__actions {
   display: flex;
@@ -78,11 +80,10 @@ button { font-family: inherit; }
 .hero {
   position: relative;
   overflow: hidden;
-  margin: -78px 0 0;            /* шапка ложится поверх hero */
-  padding: 96px 60px 0;
+  padding: 96px 60px 0;         /* верхний отступ оставляет место под плавающую шапку */
   min-height: 1180px;
-  background:
-    radial-gradient(120% 90% at 72% 8%, #f5f2ef 0%, #ece7e1 45%, #e4ddd6 100%);
+  background: #E4DFDB;          /* сплошной фон hero с макета */
+  border-radius: 0 0 40px 40px; /* скругление нижних углов блока */
 }
 .hero__watermark {
   position: absolute;
