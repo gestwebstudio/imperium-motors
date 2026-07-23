@@ -513,6 +513,10 @@
   cursor: pointer;
   overflow: hidden;
   text-decoration: none;
+  /* Плавное сжатие на клике. Без этого scale(0.98) в :active применялся
+     мгновенно (у .cta-button не было transition для transform) — кнопка
+     «дёргалась» рывком на нажатии и отпускании. Как у обычных .btn. */
+  transition: transform 0.12s ease;
 }
 /* Зелёный слой: в покое — круг 46px справа, на hover — вся пилюля. */
 .cta-button::before {
