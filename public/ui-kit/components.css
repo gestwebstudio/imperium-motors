@@ -16,8 +16,8 @@
 :root {
   /* Effect-стили из Figma. Живут здесь, а не в tokens.css:
      там держим только цвета и шрифты. */
-  --shadow-popover: 4px 4px 10px rgba(106, 98, 89, 0.1);      /* Tooltip */
-  --shadow-card-brand: 6px 4px 50.2px rgba(205, 197, 190, 0.5); /* Brand Logo Card hover */
+  --shadow-popover: 0.25rem 0.25rem 0.625rem rgba(106, 98, 89, 0.1);      /* Tooltip */
+  --shadow-card-brand: 0.375rem 0.25rem 3.1375rem rgba(205, 197, 190, 0.5); /* Brand Logo Card hover */
 }
 
 /* ══════════════ Icon ══════════════
@@ -28,8 +28,8 @@
 .icon {
   display: block;
   flex-shrink: 0;
-  width: 12px;
-  height: 12px;
+  width: 0.75rem;
+  height: 0.75rem;
   color: var(--carbon-black-500);
 }
 
@@ -39,8 +39,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 12px;
-  border-radius: 26px;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1.625rem;
   background: rgba(143, 133, 121, 0.2);
   color: var(--heritage-green-500);
   font-family: var(--font-onest);
@@ -64,11 +64,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 10px;
+  padding: 0.375rem 0.625rem;
   /* Как и у кнопок: stroke в Figma «inside», поэтому inset-тень,
-     а не border — иначе высота была бы 36px вместо 34px. */
+     а не border — иначе высота была бы 2.25rem вместо 2.125rem. */
   border: 0;
-  border-radius: 21px;
+  border-radius: 1.3125rem;
   background: transparent;
   font-family: var(--font-onest);
   font-size: var(--text-action-size);
@@ -87,14 +87,14 @@
 .badge[data-type="surface"][data-color="warning"] { background: var(--additional-yellow-100); }
 .badge[data-type="surface"][data-color="success"] { background: var(--additional-green-100); }
 
-.badge[data-type="outlined"] { box-shadow: inset 0 0 0 1px currentColor; }
+.badge[data-type="outlined"] { box-shadow: inset 0 0 0 0.0625rem currentColor; }
 
 /* ══════════════ Indicator ══════════════
-   Точка 7px цветом -500 + подпись Caption/Status в warm-taupe-400. */
+   Точка 0.4375rem цветом -500 + подпись Caption/Status в warm-taupe-400. */
 .indicator {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.375rem;
   font-family: var(--font-onest);
   font-size: var(--text-caption-size);
   line-height: var(--text-caption-line-height);
@@ -104,9 +104,9 @@
 }
 .indicator__dot {
   flex-shrink: 0;
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 62.4375rem;
   background: currentColor;
 }
 .indicator[data-color="success"] .indicator__dot { background: var(--additional-green-500); }
@@ -123,8 +123,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
   background: var(--white);
   color: var(--carbon-black-300);
   font-family: var(--font-onest);
@@ -135,8 +135,8 @@
   white-space: nowrap;
 }
 .tooltip--s {
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
   font-size: var(--text-caption-badge-size);
   line-height: var(--text-caption-badge-line-height);
   font-weight: var(--text-caption-badge-weight);
@@ -153,8 +153,8 @@
   appearance: none;
   position: relative;
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   padding: 0;
   border: 0;
   background: none;
@@ -163,14 +163,14 @@
 }
 .icon-action__glyph {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   transition: opacity 0.15s ease;
 }
 .icon-action__icon {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 .icon-action__icon--active { display: none; }
 .icon-action[aria-pressed="true"] .icon-action__icon--idle { display: none; }
@@ -189,7 +189,7 @@
 /* Тултип: под иконкой, выровнен по её правому краю (как в Figma). */
 .icon-action__tooltip {
   position: absolute;
-  top: 25px;
+  top: 1.5625rem;
   right: 0;
   z-index: 2;
   opacity: 0;
@@ -210,7 +210,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 0.25rem;
 }
 .price-block__label {
   margin: 0;
@@ -230,7 +230,7 @@
 }
 
 /* ══════════════ Slider ══════════════
-   Дорожка 4px, warm-taupe-400 под 40%; заливка heritage-green-500.
+   Дорожка 0.25rem, warm-taupe-400 под 40%; заливка heritage-green-500.
    Заполнение задаётся --slider-value (0…1):
      Default 0 · Progress .766 (321/419 из макета) · Final 1
    Модификатор .slider--auto заполняет полоску сам за
@@ -240,18 +240,18 @@
   position: relative;
   display: block;
   width: 100%;
-  max-width: 419px;
-  height: 4px;
+  max-width: 26.1875rem;
+  height: 0.25rem;
   padding: 0;
   border: 0;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: rgba(143, 133, 121, 0.4);
   overflow: hidden;
 }
 .slider__fill {
   position: absolute;
   inset: 0;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background: var(--heritage-green-500);
   transform: scaleX(var(--slider-value, 0));
   transform-origin: left center;
@@ -272,9 +272,9 @@
    он остаётся залитым (forwards), а не сбрасывается. */
 .slider-group {
   display: flex;
-  gap: 6px;
+  gap: 0.375rem;
   width: 100%;
-  max-width: 419px;
+  max-width: 26.1875rem;
 }
 .slider-group .slider {
   flex: 1;
@@ -308,7 +308,7 @@
    Размеры и отступы вынесены в переменные, поэтому карточка
    другого типа переопределяет их, не переписывая правила.
    Отступы между областями заданы на самих областях, а не
-   через row-gap: в макете они разные (10px и 24px). */
+   через row-gap: в макете они разные (0.625rem и 1.5rem). */
 .card {
   position: relative;
   box-sizing: border-box;
@@ -319,9 +319,9 @@
     "footer";
   grid-template-rows: auto 1fr auto;
   width: 100%;
-  max-width: var(--card-width, 548px);
-  padding: var(--card-padding, 32px);
-  border-radius: var(--card-radius, 30px);
+  max-width: var(--card-width, 34.25rem);
+  padding: var(--card-padding, 2rem);
+  border-radius: var(--card-radius, 1.875rem);
   background: var(--card-bg, rgba(255, 255, 255, 0.6));
   overflow: hidden;
 }
@@ -329,21 +329,21 @@
 .card__media {
   grid-area: media;
   min-width: 0;
-  margin-top: var(--card-gap-media, 10px);
+  margin-top: var(--card-gap-media, 0.625rem);
 }
 .card__footer {
   grid-area: footer;
   min-width: 0;
-  margin-top: var(--card-gap-footer, 24px);
+  margin-top: var(--card-gap-footer, 1.5rem);
 }
 .card__actions {
   position: absolute;
-  top: var(--card-actions-top, 28px);
-  right: var(--card-actions-right, 28px);
+  top: var(--card-actions-top, 1.75rem);
+  right: var(--card-actions-right, 1.75rem);
   z-index: 1;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
 }
 
 /* ══════════════ Brand logo ══════════════
@@ -354,7 +354,7 @@
 .brand-logo {
   display: inline-flex;
   align-items: center;
-  height: var(--brand-logo-size, 39px);
+  height: var(--brand-logo-size, 2.4375rem);
 }
 .brand-logo__img {
   display: block;
@@ -370,7 +370,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 5px;
+  gap: 0.3125rem;
 }
 
 /* ══════════════ Car Card ══════════════
@@ -378,20 +378,20 @@
    Wishlist, Comparison, Price Block и Button. Своего в ней —
    только заголовок модели и раскладка.
    data-status="waiting" отличается более крупным отступом
-   в шапке (20px против 16px), как в макете. */
+   в шапке (1.25rem против 1rem), как в макете. */
 .car-card__head {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--car-card-head-gap, 16px);
+  gap: var(--car-card-head-gap, 1rem);
 }
-.car-card[data-status="waiting"] { --car-card-head-gap: 20px; }
+.car-card[data-status="waiting"] { --car-card-head-gap: 1.25rem; }
 
 .car-card__info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 0.625rem;
   width: 100%;
 }
 /* Отдельного компонента заголовка в ките нет — берём токен
@@ -404,7 +404,7 @@
   font-weight: var(--text-title-model-weight);
   color: var(--carbon-black-500);
 }
-.car-card__tags { padding-top: 2px; }
+.car-card__tags { padding-top: 0.125rem; }
 
 /* Медиа-область: окно 423×218.47 с обрезкой. Фото вписывается
    НЕ по высоте, а по ширине — в макете оно шире окна и подрезано
@@ -416,9 +416,9 @@
 .car-card__media {
   position: relative;
   width: 100%;
-  max-width: 423px;
+  max-width: 26.4375rem;
   /* Только по горизонтали: сокращённый margin затёр бы
-     margin-top из .card__media (отступ 10px из макета). */
+     margin-top из .card__media (отступ 0.625rem из макета). */
   margin-inline: auto;
   aspect-ratio: 423 / 218.47;
   overflow: hidden;
@@ -436,7 +436,7 @@
 .car-card__footer {
   display: flex;
   align-items: flex-end;
-  gap: 24px;
+  gap: 1.5rem;
 }
 .car-card__footer .price-block { flex: 1 1 0; min-width: 0; }
 .car-card__footer .btn { flex-shrink: 0; }
@@ -456,10 +456,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--brand-card-w, 324.8px);
-  height: var(--brand-card-h, 186.7px);
-  padding: 21px 37px;
-  border-radius: 22px;
+  width: var(--brand-card-w, 20.3rem);
+  height: var(--brand-card-h, 11.6687rem);
+  padding: 1.3125rem 2.3125rem;
+  border-radius: 1.375rem;
   background: rgba(228, 223, 219, 0.4); /* stone-beige-200 @ 40% */
   transform-origin: center;
   transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
@@ -468,8 +468,8 @@
 }
 .brand-card__logo {
   display: block;
-  width: 220px;
-  height: 124px;
+  width: 13.75rem;
+  height: 7.75rem;
   object-fit: contain;
 }
 .brand-card:hover,
@@ -498,16 +498,16 @@
   isolation: isolate;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  height: 46px;
-  padding: 0 0 0 22px;
+  gap: 0.75rem;
+  height: 2.875rem;
+  padding: 0 0 0 1.375rem;
   border: 0;
-  border-radius: 90px;
+  border-radius: 5.625rem;
   background: var(--warm-taupe-100);
   color: var(--carbon-black-500);
   font-family: var(--font-onest);
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
   font-weight: 400;
   white-space: nowrap;
   cursor: pointer;
@@ -518,14 +518,14 @@
      «дёргалась» рывком на нажатии и отпускании. Как у обычных .btn. */
   transition: transform 0.12s ease;
 }
-/* Зелёный слой: в покое — круг 46px справа, на hover — вся пилюля. */
+/* Зелёный слой: в покое — круг 2.875rem справа, на hover — вся пилюля. */
 .cta-button::before {
   content: "";
   position: absolute;
   z-index: 0;
   inset: 0 0 0 auto;
-  width: 46px;
-  border-radius: 90px;
+  width: 2.875rem;
+  border-radius: 5.625rem;
   background: var(--heritage-green-500);
   transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -545,21 +545,21 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 46px;
-  height: 46px;
+  width: 2.875rem;
+  height: 2.875rem;
   color: var(--white);
   transform: translateZ(0);
 }
-.cta-button__icon svg { width: 16px; height: 16px; }
+.cta-button__icon svg { width: 1rem; height: 1rem; }
 .cta-button__icon svg,
 .cta-button__label { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease; }
 
 .cta-button:hover::before,
 .cta-button:focus-visible::before { width: 100%; }
 .cta-button:hover .cta-button__label { color: var(--white); }
-.cta-button:hover .cta-button__icon svg { transform: translate(2px, -2px); }
+.cta-button:hover .cta-button__icon svg { transform: translate(0.125rem, -0.125rem); }
 .cta-button:active { transform: scale(0.98); }
-.cta-button:focus-visible { outline: 2px solid var(--heritage-green-500); outline-offset: 2px; }
+.cta-button:focus-visible { outline: 0.125rem solid var(--heritage-green-500); outline-offset: 0.125rem; }
 
 @media (prefers-reduced-motion: reduce) {
   .cta-button::before { transition: none; }
@@ -577,8 +577,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: var(--circle-btn-size, 44px);
-  height: var(--circle-btn-size, 44px);
+  width: var(--circle-btn-size, 2.75rem);
+  height: var(--circle-btn-size, 2.75rem);
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -587,18 +587,18 @@
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.12s ease, opacity 0.2s ease;
 }
-/* Иконка — целочисленный размер (не %: дробные 19.8px «дрожат» и мылятся
+/* Иконка — целочисленный размер (не %: дробные 1.2375rem «дрожат» и мылятся
    при :active scale). Свой слой (translateZ) — раст не пересчитывается,
    когда кнопка масштабируется. Размер задаётся переменной под диаметр. */
 .circle-btn svg {
-  width: var(--circle-btn-icon, 18px);
-  height: var(--circle-btn-icon, 18px);
+  width: var(--circle-btn-icon, 1.125rem);
+  height: var(--circle-btn-icon, 1.125rem);
   display: block;
   transform: translateZ(0);
 }
 .circle-btn:hover { background: var(--circle-btn-bg-hover, var(--stone-beige-200)); }
 .circle-btn:active { transform: scale(0.92); }
-.circle-btn:focus-visible { outline: 2px solid var(--heritage-green-500); outline-offset: 2px; }
+.circle-btn:focus-visible { outline: 0.125rem solid var(--heritage-green-500); outline-offset: 0.125rem; }
 .circle-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 /* Тёмный вариант (зелёный круг с белой иконкой). */
 .circle-btn--accent {
@@ -620,7 +620,7 @@
   will-change: transform;
 }
 .car-card:not(.car-card--static):hover {
-  transform: translateY(-6px);
+  transform: translateY(-0.375rem);
   box-shadow: var(--shadow-card-brand);
 }
 @media (prefers-reduced-motion: reduce) {

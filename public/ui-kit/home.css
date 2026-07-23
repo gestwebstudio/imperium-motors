@@ -5,6 +5,13 @@
    Иконки — из общего спрайта (см. build-ui-kit-icons.mjs).
    ───────────────────────────────────────────── */
 
+/* Резиновый корень: опора — макет 1920 (1rem = 16px при 1920px окна).
+   Между брейкпоинтами всё, что задано в rem, масштабируется само.
+   0.833vw = 16 ÷ 1920 × 100. Замок снизу 10px — чтобы не ужималось в
+   микроскоп до появления перекладок; сверху 16px — дизайн не разбухает
+   шире макета (.page центрируется max-width:120rem). */
+html { font-size: clamp(10px, 0.8333vw, 16px); }
+
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -17,38 +24,38 @@ button { font-family: inherit; }
 
 .page {
   position: relative;
-  max-width: 1920px;
+  max-width: 120rem;
   margin: 0 auto;
 }
 
 /* ═══════════════ Шапка ═══════════════
    Плавает поверх hero (как на макете): hero прижат к верху сайта,
-   шапка — absolute с отступом 18px, без зазора сверху. */
+   шапка — absolute с отступом 1.125rem, без зазора сверху. */
 .site-header {
   position: absolute;
-  top: 18px;
-  left: 20px;
-  right: 20px;
+  top: 1.125rem;
+  left: 1.25rem;
+  right: 1.25rem;
   z-index: 20;
   display: flex;
   align-items: center;
-  gap: 24px;
-  height: 78px;
-  padding: 0 16px 0 40px;
-  border-radius: 90px;
+  gap: 1.5rem;
+  height: 4.875rem;
+  padding: 0 1rem 0 2.5rem;
+  border-radius: 5.625rem;
   background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(0.75rem);
+  -webkit-backdrop-filter: blur(0.75rem);
 }
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 38px;
+  gap: 2.375rem;
 }
 .site-nav__item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.375rem;
   border: 0;
   background: none;
   padding: 0;
@@ -62,38 +69,38 @@ button { font-family: inherit; }
   transition: color 0.2s ease;
 }
 .site-nav__item:hover { color: var(--warm-taupe-400); }
-.site-nav__item svg { width: 15px; height: 15px; }
+.site-nav__item svg { width: 0.9375rem; height: 0.9375rem; }
 .site-logo {
   margin: 0 auto;
   display: block;
-  height: 32px;          /* натуральный размер логотипа с макета (336×32) */
+  height: 2rem;          /* натуральный размер логотипа с макета (336×32) */
   width: auto;
 }
 .site-header__actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
 }
-.site-header__call { --circle-btn-size: 46px; }
+.site-header__call { --circle-btn-size: 2.875rem; }
 
 /* ═══════════════ Hero ═══════════════ */
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 96px 60px 0;         /* верхний отступ оставляет место под плавающую шапку */
-  min-height: 1180px;
+  padding: 6rem 3.75rem 0;         /* верхний отступ оставляет место под плавающую шапку */
+  min-height: 73.75rem;
   background: #E4DFDB;          /* сплошной фон hero с макета */
-  border-radius: 0 0 40px 40px; /* скругление нижних углов блока */
+  border-radius: 0 0 2.5rem 2.5rem; /* скругление нижних углов блока */
 }
 .hero__watermark {
   position: absolute;
-  top: 300px;
+  top: 18.75rem;
   left: 50%;
   transform: translateX(-38%);
   margin: 0;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 96px;
+  font-size: 6rem;
   letter-spacing: 0.01em;
   white-space: nowrap;
   color: rgba(137, 135, 133, 0.16);
@@ -102,13 +109,13 @@ button { font-family: inherit; }
 }
 .hero__car {
   position: absolute;
-  top: 250px;
-  right: -40px;
-  width: 1360px;
+  top: 15.625rem;
+  right: -2.5rem;
+  width: 85rem;
   max-width: 72%;
   height: auto;
   pointer-events: none;
-  filter: drop-shadow(0 40px 60px rgba(27, 30, 29, 0.18));
+  filter: drop-shadow(0 2.5rem 3.75rem rgba(27, 30, 29, 0.18));
   transition: opacity 0.5s ease;
 }
 .hero__inner {
@@ -116,10 +123,10 @@ button { font-family: inherit; }
   z-index: 2;
 }
 .hero__title {
-  margin: 68px 0 0;
+  margin: 4.25rem 0 0;
   font-family: var(--font-display);
-  font-size: 88px;
-  line-height: 100px;
+  font-size: 5.5rem;
+  line-height: 6.25rem;
   color: var(--carbon-black-500);
   text-transform: uppercase;
 }
@@ -131,14 +138,14 @@ button { font-family: inherit; }
 .hero__title span { font-weight: 400; }
 .hero__tagline {
   position: absolute;
-  top: 26px;
+  top: 1.625rem;
   right: 0;
-  width: 440px;
+  width: 27.5rem;
   text-align: right;
   text-transform: uppercase;
   font-family: var(--font-onest);
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 .hero__tagline b { display: block; font-weight: 900; color: var(--carbon-black-500); }
 .hero__tagline span { color: var(--warm-taupe-400); font-weight: 500; }
@@ -146,24 +153,24 @@ button { font-family: inherit; }
 /* Нижняя зона hero: карточка авто слева + характеристики */
 .hero__bottom {
   position: absolute;
-  left: 60px;
-  right: 60px;
-  bottom: 120px;
+  left: 3.75rem;
+  right: 3.75rem;
+  bottom: 7.5rem;
   z-index: 2;
   display: flex;
   align-items: flex-end;
-  gap: 40px;
+  gap: 2.5rem;
 }
 .hero__card {
-  width: 519px;
+  width: 32.4375rem;
   flex-shrink: 0;
   background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 30px 60px rgba(205, 197, 190, 0.35);
+  backdrop-filter: blur(0.75rem);
+  -webkit-backdrop-filter: blur(0.75rem);
+  box-shadow: 0 1.875rem 3.75rem rgba(205, 197, 190, 0.35);
 }
-/* Логотип марки в карточке hero — крупнее (39px) на прозрачном фоне */
-.hero__card .brand-logo { height: 39px; }
+/* Логотип марки в карточке hero — крупнее (2.4375rem) на прозрачном фоне */
+.hero__card .brand-logo { height: 2.4375rem; }
 /* Фото в карточке hero — чистый вырез, показываем целиком (contain) */
 .hero__card .car-card__media {
   overflow: visible;
@@ -182,12 +189,12 @@ button { font-family: inherit; }
   flex: 1;
   display: flex;
   align-items: center;
-  padding-bottom: 6px;
+  padding-bottom: 0.375rem;
 }
 .hero-stat {
   flex: 1;
-  padding: 0 34px;
-  border-left: 1px solid rgba(27, 30, 29, 0.12);
+  padding: 0 2.125rem;
+  border-left: 0.0625rem solid rgba(27, 30, 29, 0.12);
 }
 .hero-stat:first-child { border-left: 0; padding-left: 0; }
 .hero-stat__value {
@@ -199,7 +206,7 @@ button { font-family: inherit; }
   color: var(--heritage-green-500);
 }
 .hero-stat__label {
-  margin: 6px 0 0;
+  margin: 0.375rem 0 0;
   font-family: var(--font-onest);
   font-size: var(--text-label-stat-size);
   line-height: var(--text-label-stat-line-height);
@@ -210,48 +217,48 @@ button { font-family: inherit; }
 /* Слайдер-прогресс hero (полоски из кита) */
 .hero__slider {
   position: absolute;
-  left: 60px;
-  right: 60px;
-  bottom: 28px;
+  left: 3.75rem;
+  right: 3.75rem;
+  bottom: 1.75rem;
   z-index: 3;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
 }
 .hero__slider .slider-group {
   flex: 1;
   max-width: none;
-  gap: 12px;
+  gap: 0.75rem;
 }
-.hero__slider .circle-btn { --circle-btn-size: 32px; --circle-btn-icon: 13px; }
+.hero__slider .circle-btn { --circle-btn-size: 2rem; --circle-btn-icon: 0.8125rem; }
 .hero__slider .circle-btn--next svg { transform: scaleX(-1) translateZ(0); }
 
 /* ═══════════════ Блок 2 — логотипы брендов ═══════════════
    Стрелки — снаружи ленты (flex-соседи), окно занимает остаток.
-   На 1920 окно = 1720px → ровно 5 карточек, 6-я скрыта и
+   На 1920 окно = 107.5rem → ровно 5 карточек, 6-я скрыта и
    появляется при прокрутке. Вертикальный запас — чтобы hover-
    увеличение карточки не обрезалось overflow:hidden. */
 .brands {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 60px 40px;
+  gap: 0.5rem;
+  padding: 3.75rem 2.5rem;
 }
 .brands__viewport {
   flex: 1;
   min-width: 0;
   overflow: hidden;
-  padding: 16px 0;
-  margin: -16px 0;
+  padding: 1rem 0;
+  margin: -1rem 0;
 }
 .brands__track {
   display: flex;
-  gap: 24px;
+  gap: 1.5rem;
   will-change: transform;
 }
 .brands__track .brand-card { flex: 0 0 auto; }
 .brands__nav {
-  --circle-btn-size: 44px;
+  --circle-btn-size: 2.75rem;
   flex-shrink: 0;
 }
 .brands__nav--next svg { transform: scaleX(-1) translateZ(0); }
@@ -271,12 +278,12 @@ button { font-family: inherit; }
    ═══════════════════════════════════════════════════════════ */
 
 /* Общий контейнер секции и шапка «заголовок + действие» */
-.section { padding: 80px 60px; }
+.section { padding: 5rem 3.75rem; }
 .section__head {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 40px;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
 }
 .section__title {
   margin: 0;
@@ -290,12 +297,12 @@ button { font-family: inherit; }
 .section__head-spacer { flex: 1; }
 
 /* Ряд карточек авто со стрелками (используется дважды) */
-.car-row { display: flex; align-items: center; gap: 10px; }
-.car-row__nav { --circle-btn-size: 44px; flex-shrink: 0; }
+.car-row { display: flex; align-items: center; gap: 0.625rem; }
+.car-row__nav { --circle-btn-size: 2.75rem; flex-shrink: 0; }
 .car-row__nav--next svg { transform: scaleX(-1) translateZ(0); }
-.car-row__viewport { flex: 1; min-width: 0; overflow: hidden; padding: 16px 0; margin: -16px 0; }
-.car-row__track { display: flex; gap: 24px; will-change: transform; }
-/* В ряду карточки тянутся на равные доли, а не по 548px */
+.car-row__viewport { flex: 1; min-width: 0; overflow: hidden; padding: 1rem 0; margin: -1rem 0; }
+.car-row__track { display: flex; gap: 1.5rem; will-change: transform; }
+/* В ряду карточки тянутся на равные доли, а не по 34.25rem */
 .car-row__track .car-card { flex: 1 1 0; max-width: none; }
 
 /* ═══════════════ Блок «Найдите свой формат» — бенто категорий ═══════════════ */
@@ -303,26 +310,26 @@ button { font-family: inherit; }
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 40px;
-  margin-bottom: 40px;
+  gap: 2.5rem;
+  margin-bottom: 2.5rem;
 }
 .formats__heading {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 66px;
-  line-height: 68px;
-  letter-spacing: -1px;
+  font-size: 4.125rem;
+  line-height: 4.25rem;
+  letter-spacing: -0.0625rem;
   text-transform: uppercase;
   color: var(--carbon-black-500);
 }
 .formats__heading span { display: block; font-weight: 400; }
 .formats__heading b { display: block; font-weight: 800; }
-.formats__aside { max-width: 420px; padding-top: 6px; text-align: right; }
+.formats__aside { max-width: 26.25rem; padding-top: 0.375rem; text-align: right; }
 .formats__aside p {
-  margin: 0 0 18px;
+  margin: 0 0 1.125rem;
   font-family: var(--font-onest);
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
   color: var(--warm-taupe-500);
 }
 .formats__aside .btn { }
@@ -330,8 +337,8 @@ button { font-family: inherit; }
 .cat-grid {
   display: grid;
   grid-template-columns: 564fr 624fr 564fr;
-  grid-template-rows: 391px 391px 464px;
-  gap: 24px;
+  grid-template-rows: 24.4375rem 24.4375rem 29rem;
+  gap: 1.5rem;
   grid-template-areas:
     "coupe suv minivan"
     "cabrio suv crossover"
@@ -348,7 +355,7 @@ button { font-family: inherit; }
   position: relative;
   display: block;
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 1.875rem;
   color: var(--white);
   text-decoration: none;
   isolation: isolate;
@@ -370,85 +377,85 @@ button { font-family: inherit; }
   background: linear-gradient(180deg, rgba(24, 30, 29, 0.72) 0%, rgba(24, 30, 29, 0.28) 34%, rgba(24, 30, 29, 0) 60%);
 }
 .cat-card:hover .cat-card__img { transform: scale(1.05); }
-.cat-card__body { padding: 32px 34px; }
+.cat-card__body { padding: 2rem 2.125rem; }
 .cat-card__title {
-  margin: 0 0 10px;
+  margin: 0 0 0.625rem;
   font-family: var(--font-display);
-  font-size: 40px;
+  font-size: 2.5rem;
   line-height: 1;
   font-weight: 600;
 }
 .cat-card__text {
   margin: 0;
-  max-width: 300px;
+  max-width: 18.75rem;
   font-family: var(--font-onest);
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
   color: rgba(255, 255, 255, 0.82);
 }
 .cat-card__arrow {
   position: absolute;
-  top: 28px;
-  right: 28px;
-  --circle-btn-size: 44px;
+  top: 1.75rem;
+  right: 1.75rem;
+  --circle-btn-size: 2.75rem;
   --circle-btn-bg: rgba(255, 255, 255, 0.9);
   --circle-btn-bg-hover: #fff;
 }
-.cat-card__arrow svg { width: 16px; height: 16px; }
-.cat--sedan .cat-card__body { max-width: 520px; }
-.cat--sedan .cat-card__arrow { top: auto; bottom: 28px; left: 34px; right: auto; }
+.cat-card__arrow svg { width: 1rem; height: 1rem; }
+.cat--sedan .cat-card__body { max-width: 32.5rem; }
+.cat--sedan .cat-card__arrow { top: auto; bottom: 1.75rem; left: 2.125rem; right: auto; }
 
 /* ═══════════════ Баннеры Трейд-ин / Лизинг ═══════════════ */
-.promo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 0 60px 40px; }
+.promo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 0 3.75rem 2.5rem; }
 .promo-card {
   position: relative;
   display: flex;
   align-items: flex-start;
-  min-height: 167px;
-  padding: 40px 48px;
-  border-radius: 30px;
+  min-height: 10.4375rem;
+  padding: 2.5rem 3rem;
+  border-radius: 1.875rem;
   background: rgba(255, 255, 255, 0.55);
 }
 .promo-card__title {
-  margin: 0 0 10px;
+  margin: 0 0 0.625rem;
   font-family: var(--font-display);
-  font-size: 40px;
+  font-size: 2.5rem;
   line-height: 1;
   font-weight: 600;
   color: var(--carbon-black-500);
 }
 .promo-card__text {
   margin: 0;
-  max-width: 620px;
+  max-width: 38.75rem;
   font-family: var(--font-onest);
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
   color: var(--warm-taupe-500);
 }
 .promo-card__arrow {
   position: absolute;
-  top: 40px;
-  right: 40px;
-  --circle-btn-size: 44px;
+  top: 2.5rem;
+  right: 2.5rem;
+  --circle-btn-size: 2.75rem;
   --circle-btn-bg: transparent;
   --circle-btn-bg-hover: rgba(24, 30, 29, 0.06);
-  box-shadow: inset 0 0 0 1px var(--warm-taupe-300);
+  box-shadow: inset 0 0 0 0.0625rem var(--warm-taupe-300);
 }
-.promo-card__arrow svg { width: 16px; height: 16px; }
+.promo-card__arrow svg { width: 1rem; height: 1rem; }
 
 /* ═══════════════ «Индивидуальный подход» — стейтмент + фичи ═══════════════ */
-.craft { position: relative; padding: 80px 60px; }
-.craft__canvas { position: relative; width: 1800px; max-width: 100%; height: 1330px; margin: 0 auto; }
+.craft { position: relative; padding: 5rem 3.75rem; }
+.craft__canvas { position: relative; width: 112.5rem; max-width: 100%; height: 83.125rem; margin: 0 auto; }
 .craft__statement {
   position: absolute;
   left: 0;
-  top: 104px;
-  width: 1027px;
+  top: 6.5rem;
+  width: 64.1875rem;
   margin: 0;
   font-family: var(--font-display);
-  font-size: 50px;
-  line-height: 56px;
-  letter-spacing: -1px;
+  font-size: 3.125rem;
+  line-height: 3.5rem;
+  letter-spacing: -0.0625rem;
   color: var(--carbon-black-500);
 }
 .craft__statement span { font-weight: 400; }
@@ -456,179 +463,179 @@ button { font-family: inherit; }
 .craft__watermark {
   position: absolute;
   left: 0;
-  top: 460px;
-  width: 1780px;
+  top: 28.75rem;
+  width: 111.25rem;
   height: auto;
   opacity: 0.06;
   pointer-events: none;
   user-select: none;
 }
 .feat-card { position: absolute; display: flex; flex-direction: column; }
-.feat-card--atelier { left: 1027px; top: 0; width: 773px; }
-.feat-card--podbor { left: 0; top: 535px; width: 660px; }
-.feat-card--design { left: 725px; top: 688px; width: 1075px; }
+.feat-card--atelier { left: 64.1875rem; top: 0; width: 48.3125rem; }
+.feat-card--podbor { left: 0; top: 33.4375rem; width: 41.25rem; }
+.feat-card--design { left: 45.3125rem; top: 43rem; width: 67.1875rem; }
 .feat-card__img {
   width: 100%;
-  height: 438px;
+  height: 27.375rem;
   object-fit: cover;
-  border-radius: 26px;
+  border-radius: 1.625rem;
 }
-.feat-card--design .feat-card__img { height: 470px; }
+.feat-card--design .feat-card__img { height: 29.375rem; }
 .feat-card__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin: 28px 0 12px;
+  gap: 1rem;
+  margin: 1.75rem 0 0.75rem;
 }
 .feat-card__title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 2.25rem;
   line-height: 1;
   font-weight: 600;
   color: var(--carbon-black-500);
 }
 .feat-card__arrow {
-  --circle-btn-size: 44px;
+  --circle-btn-size: 2.75rem;
   --circle-btn-bg: transparent;
   --circle-btn-bg-hover: rgba(24, 30, 29, 0.06);
-  box-shadow: inset 0 0 0 1px var(--warm-taupe-300);
+  box-shadow: inset 0 0 0 0.0625rem var(--warm-taupe-300);
   flex-shrink: 0;
 }
-.feat-card__arrow svg { width: 16px; height: 16px; }
+.feat-card__arrow svg { width: 1rem; height: 1rem; }
 .feat-card__text {
   margin: 0;
-  max-width: 640px;
+  max-width: 40rem;
   font-family: var(--font-onest);
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
   color: var(--warm-taupe-500);
 }
 
 /* ═══════════════ Отзыв «Выбор, которым делятся» ═══════════════ */
-.review { display: grid; grid-template-columns: 875px 1fr; gap: 50px; padding: 80px 60px; align-items: stretch; }
-.review__media { border-radius: 30px; overflow: hidden; }
+.review { display: grid; grid-template-columns: 54.6875rem 1fr; gap: 3.125rem; padding: 5rem 3.75rem; align-items: stretch; }
+.review__media { border-radius: 1.875rem; overflow: hidden; }
 .review__media img { width: 100%; height: 100%; object-fit: cover; }
 .review__body { display: flex; flex-direction: column; }
 .review__title {
   margin: 0 0 auto;
   font-family: var(--font-display);
-  font-size: 56px;
-  line-height: 56px;
+  font-size: 3.5rem;
+  line-height: 3.5rem;
   color: var(--carbon-black-500);
 }
 .review__title span { display: block; font-weight: 400; }
 .review__title b { display: block; font-weight: 800; }
-.review__author { margin: 40px 0 20px; }
-.review__name { margin: 0; font-family: var(--font-onest); font-weight: 600; font-size: 20px; color: var(--carbon-black-500); }
-.review__car { margin: 2px 0 0; font-family: var(--font-onest); font-size: 16px; color: var(--warm-taupe-400); }
+.review__author { margin: 2.5rem 0 1.25rem; }
+.review__name { margin: 0; font-family: var(--font-onest); font-weight: 600; font-size: 1.25rem; color: var(--carbon-black-500); }
+.review__car { margin: 0.125rem 0 0; font-family: var(--font-onest); font-size: 1rem; color: var(--warm-taupe-400); }
 .review__quote {
-  margin: 0 0 32px;
+  margin: 0 0 2rem;
   font-family: var(--font-onest);
-  font-size: 36px;
-  line-height: 42px;
+  font-size: 2.25rem;
+  line-height: 2.625rem;
   color: var(--carbon-black-500);
-  max-width: 875px;
+  max-width: 54.6875rem;
 }
-.review__nav { display: flex; gap: 12px; }
-.review__nav .circle-btn { --circle-btn-size: 44px; }
+.review__nav { display: flex; gap: 0.75rem; }
+.review__nav .circle-btn { --circle-btn-size: 2.75rem; }
 .review__nav .circle-btn--next svg { transform: scaleX(-1) translateZ(0); }
 
 /* ═══════════════ «Ждём вас в салоне» — галерея + контакты ═══════════════ */
-.visit { padding: 80px 60px; }
+.visit { padding: 5rem 3.75rem; }
 .visit__title {
-  margin: 0 0 16px;
+  margin: 0 0 1rem;
   font-family: var(--font-display);
-  font-size: 66px;
-  line-height: 70px;
+  font-size: 4.125rem;
+  line-height: 4.375rem;
   text-transform: uppercase;
   color: var(--carbon-black-500);
 }
 .visit__title span { display: block; font-weight: 600; }
 .visit__title b { display: block; font-weight: 800; }
 .visit__sub {
-  margin: 0 0 40px;
-  max-width: 780px;
+  margin: 0 0 2.5rem;
+  max-width: 48.75rem;
   font-family: var(--font-onest);
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
   color: var(--warm-taupe-500);
 }
-.visit__grid { display: grid; grid-template-columns: 496px 454px 1fr; gap: 24px; }
-.visit__col { display: flex; flex-direction: column; gap: 24px; }
-.visit__photo { border-radius: 24px; overflow: hidden; }
+.visit__grid { display: grid; grid-template-columns: 31rem 28.375rem 1fr; gap: 1.5rem; }
+.visit__col { display: flex; flex-direction: column; gap: 1.5rem; }
+.visit__photo { border-radius: 1.5rem; overflow: hidden; }
 .visit__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.visit__photo--tall { height: 722px; }
-.visit__photo--half { height: 349px; }
+.visit__photo--tall { height: 45.125rem; }
+.visit__photo--half { height: 21.8125rem; }
 .contact-card {
   background: rgba(255, 255, 255, 0.55);
-  border-radius: 24px;
-  padding: 40px;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 1.375rem;
 }
-.contact-row__label { margin: 0 0 6px; font-family: var(--font-onest); font-size: 16px; color: var(--warm-taupe-400); }
-.contact-row__value { margin: 0; font-family: var(--font-display); font-size: 30px; line-height: 1.1; font-weight: 600; color: var(--carbon-black-500); }
-.contact-row__note { margin: 4px 0 0; font-family: var(--font-onest); font-size: 16px; color: var(--warm-taupe-400); }
+.contact-row__label { margin: 0 0 0.375rem; font-family: var(--font-onest); font-size: 1rem; color: var(--warm-taupe-400); }
+.contact-row__value { margin: 0; font-family: var(--font-display); font-size: 1.875rem; line-height: 1.1; font-weight: 600; color: var(--carbon-black-500); }
+.contact-row__note { margin: 0.25rem 0 0; font-family: var(--font-onest); font-size: 1rem; color: var(--warm-taupe-400); }
 .contact-card .btn { align-self: flex-start; }
-.contact-card__map { margin-top: auto; border-radius: 18px; overflow: hidden; }
+.contact-card__map { margin-top: auto; border-radius: 1.125rem; overflow: hidden; }
 .contact-card__map img,
-.contact-card__map iframe { width: 100%; height: 260px; border: 0; object-fit: cover; display: block; }
+.contact-card__map iframe { width: 100%; height: 16.25rem; border: 0; object-fit: cover; display: block; }
 
 /* ═══════════════ Футер ═══════════════ */
 .site-footer {
   background: var(--carbon-black-500);
   color: var(--stone-beige-200);
-  border-radius: 40px 40px 0 0;
-  padding: 60px;
-  margin-top: 40px;
+  border-radius: 2.5rem 2.5rem 0 0;
+  padding: 3.75rem;
+  margin-top: 2.5rem;
   overflow: hidden;
 }
-.site-footer__top { display: grid; grid-template-columns: repeat(4, auto) 1fr auto; gap: 40px; align-items: start; }
-.footer-col__title { margin: 0 0 20px; font-family: var(--font-onest); font-weight: 600; font-size: 20px; color: var(--stone-beige-400); }
-.footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-.footer-col a { font-family: var(--font-onest); font-size: 16px; color: var(--stone-beige-200); text-decoration: none; transition: color 0.2s ease; }
+.site-footer__top { display: grid; grid-template-columns: repeat(4, auto) 1fr auto; gap: 2.5rem; align-items: start; }
+.footer-col__title { margin: 0 0 1.25rem; font-family: var(--font-onest); font-weight: 600; font-size: 1.25rem; color: var(--stone-beige-400); }
+.footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.footer-col a { font-family: var(--font-onest); font-size: 1rem; color: var(--stone-beige-200); text-decoration: none; transition: color 0.2s ease; }
 .footer-col a:hover { color: var(--white); }
-.footer-contact__phone { display: flex; align-items: center; gap: 8px; font-family: var(--font-onest); font-weight: 600; font-size: 20px; color: var(--white); }
-.footer-contact__phone svg { width: 18px; height: 18px; color: var(--stone-beige-400); }
-.footer-social { display: flex; gap: 14px; margin-top: 18px; }
+.footer-contact__phone { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-onest); font-weight: 600; font-size: 1.25rem; color: var(--white); }
+.footer-contact__phone svg { width: 1.125rem; height: 1.125rem; color: var(--stone-beige-400); }
+.footer-social { display: flex; gap: 0.875rem; margin-top: 1.125rem; }
 .footer-social a {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 42px; height: 42px; border-radius: 50%;
+  width: 2.625rem; height: 2.625rem; border-radius: 50%;
   background: rgba(255, 255, 255, 0.08); color: var(--stone-beige-200);
   transition: background 0.2s ease;
 }
 .footer-social a:hover { background: rgba(255, 255, 255, 0.18); }
-.footer-social svg { width: 20px; height: 20px; }
-.footer-legal { text-align: right; font-family: var(--font-onest); font-size: 16px; color: var(--stone-beige-400); line-height: 24px; }
+.footer-social svg { width: 1.25rem; height: 1.25rem; }
+.footer-legal { text-align: right; font-family: var(--font-onest); font-size: 1rem; color: var(--stone-beige-400); line-height: 1.5rem; }
 .footer-legal a { color: var(--stone-beige-400); text-decoration: none; }
 .footer-legal a:hover { color: var(--white); }
-.site-footer__brand { margin-top: 56px; }
-.site-footer__tagline { margin: 0 0 8px; font-family: var(--font-onest); font-size: 16px; color: var(--stone-beige-500); }
+.site-footer__brand { margin-top: 3.5rem; }
+.site-footer__tagline { margin: 0 0 0.5rem; font-family: var(--font-onest); font-size: 1rem; color: var(--stone-beige-500); }
 .site-footer__logo { width: 100%; height: auto; filter: brightness(0) invert(1); opacity: 0.92; }
 
 /* Плавающий виджет избранного/сравнения (правый край hero) */
 .float-actions {
   position: absolute;
-  top: 300px;
+  top: 18.75rem;
   right: 0;
   z-index: 15;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 10px;
-  border-radius: 16px 0 0 16px;
+  gap: 0.5rem;
+  padding: 0.625rem;
+  border-radius: 1rem 0 0 1rem;
   background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(0.625rem);
+  -webkit-backdrop-filter: blur(0.625rem);
 }
-.float-actions__btn { position: relative; display: inline-flex; padding: 8px; border: 0; background: none; cursor: pointer; color: var(--carbon-black-500); }
-.float-actions__btn svg { width: 24px; height: 24px; }
+.float-actions__btn { position: relative; display: inline-flex; padding: 0.5rem; border: 0; background: none; cursor: pointer; color: var(--carbon-black-500); }
+.float-actions__btn svg { width: 1.5rem; height: 1.5rem; }
 .float-actions__count {
-  position: absolute; top: 2px; right: 2px;
-  min-width: 15px; height: 15px; padding: 0 3px;
-  border-radius: 8px; background: var(--heritage-green-500); color: #fff;
-  font-family: var(--font-onest); font-size: 10px; line-height: 15px; text-align: center;
+  position: absolute; top: 0.125rem; right: 0.125rem;
+  min-width: 0.9375rem; height: 0.9375rem; padding: 0 0.1875rem;
+  border-radius: 0.5rem; background: var(--heritage-green-500); color: #fff;
+  font-family: var(--font-onest); font-size: 0.625rem; line-height: 0.9375rem; text-align: center;
 }
