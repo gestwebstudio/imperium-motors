@@ -3,25 +3,43 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "ui-kit:icons": "node scripts/build-ui-kit-icons.mjs",
+    "predev": "npm run ui-kit:icons",
+    "prebuild": "npm run ui-kit:icons",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "db:push": "prisma db push",
-    "mock": "node scripts/mock-1c.mjs"
+    "mock": "node scripts/mock-1c.mjs",
+    "admin:create": "node scripts/create-admin.mjs",
+    "test:ui": "playwright test",
+    "test:ui:headed": "playwright test --headed"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
+    "@tiptap/extension-color": "^3.28.0",
+    "@tiptap/extension-image": "^3.28.0",
+    "@tiptap/extension-text-style": "^3.28.0",
+    "@tiptap/pm": "^3.28.0",
+    "@tiptap/react": "^3.28.0",
+    "@tiptap/starter-kit": "^3.28.0",
+    "bcryptjs": "^3.0.3",
+    "jose": "^6.2.4",
     "next": "16.2.10",
     "prisma": "^6.19.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "sanitize-html": "^2.17.6",
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sanitize-html": "^2.16.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

@@ -15,6 +15,7 @@ export const NAV = [
   { href: "/catalog", label: "Автомобили в наличии" },
   { href: "/brands", label: "Бренды" },
   { href: "/buyers", label: "Покупателям" },
+  { href: "/news", label: "Новости" },
   { href: "/about", label: "О нас" },
 ] as const;
 

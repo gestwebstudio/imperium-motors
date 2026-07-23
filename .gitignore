@@ -51,3 +51,13 @@ next-env.d.ts
 
 # локальная dev-база (SQLite)
 *.db
+
+# файлы, загруженные через админку (обложки новостей и т.п.) — рантайм-данные,
+# не часть репозитория
+/public/uploads/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

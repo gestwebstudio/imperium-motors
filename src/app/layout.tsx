@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/site/Header";
-import Footer from "@/components/site/Footer";
 
 export const metadata: Metadata = {
   title: "Imperium Motors — параллельный импорт автомобилей в Москве",
@@ -43,11 +41,7 @@ export default function RootLayout({
           />
         ))}
       </head>
-      <body className="min-h-full flex flex-col">
-        <Header />
-        <div className="relative z-[1] flex-1">{children}</div>
-        <Footer />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

@@ -92,6 +92,12 @@
   /* Мягкие тени с зелёным подтоном — спокойнее, «дороже». */
   --shadow-rest: 0 1px 2px rgba(24, 30, 29, 0.03), 0 14px 34px -18px rgba(31, 53, 40, 0.13);
   --shadow-hover: 0 2px 10px rgba(24, 30, 29, 0.04), 0 34px 64px -30px rgba(31, 53, 40, 0.22);
+
+  /* Текстовый стиль "Heading / Section" из UI Kit (public/ui-kit/tokens.css) —
+     используется для H2 в rich-text редакторе новостей. */
+  --text-heading-section-size: 48px;
+  --text-heading-section-line-height: normal;
+  --text-heading-section-weight: 600;
 }
 
 @theme inline {
@@ -274,4 +280,98 @@ body::before {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+/* ─────────────────────────────────────────────
+   Контент новости: общие стили и для админки
+   (rich-text редактор), и для публичной статьи —
+   там один и тот же HTML.
+   ───────────────────────────────────────────── */
+.article-content h2,
+.prose-editor h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-heading-section-size);
+  line-height: var(--text-heading-section-line-height);
+  font-weight: var(--text-heading-section-weight);
+  margin: 1.2em 0 0.5em;
+  color: var(--carbon);
+}
+.article-content h3,
+.prose-editor h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  margin: 1.2em 0 0.4em;
+  color: var(--carbon);
+}
+.article-content p,
+.prose-editor p {
+  margin: 0 0 1em;
+}
+.article-content p:last-child,
+.prose-editor p:last-child {
+  margin-bottom: 0;
+}
+.article-content strong,
+.prose-editor strong {
+  font-weight: 700;
+}
+.article-content em,
+.prose-editor em {
+  font-style: italic;
+}
+.article-content u,
+.prose-editor u {
+  text-decoration: underline;
+}
+.article-content img,
+.prose-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  margin: 1.2em 0;
+  display: block;
+}
+
+.news-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 1.4em 0;
+  background: var(--carbon);
+}
+.news-video__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.news-button {
+  display: inline-flex;
+  align-items: center;
+  margin: 0.6em 0 1.2em;
+  border-radius: 999px;
+  /* var(--green) — тот же #294434, что Heritage Green/500 в UI Kit
+     (public/ui-kit/tokens.css); задаём !important, чтобы санитайзер и
+     стили Tiptap внутри редактора точно не могли это перебить. */
+  background: var(--green) !important;
+  color: #fff !important;
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none !important;
+  transition: background-color 0.2s ease;
+}
+.news-button:hover {
+  background: var(--green-deep) !important;
+}
+
+.prose-editor .ProseMirror-selectednode {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+  border-radius: 12px;
 }

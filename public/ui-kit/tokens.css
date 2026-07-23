@@ -1,0 +1,277 @@
+/* ─────────────────────────────────────────────
+   Imperium Motors — UI Kit tokens
+   Источник: Figma (bERRa0eUHmPImiBdiP62UR) —
+   ПОЛНАЯ коллекция Local Variables / Local Styles
+   (не только то, что использовано в узле Button).
+
+   В файле два семейства: заголовки — Wix Madefor
+   Display, текст/UI — Onest. Цвета — 6 шкал
+   (Carbon Black, Heritage Green, Warm Taupe,
+   Stone Beige, Additional, White) + белый.
+   Имена переменных повторяют имена в Figma.
+   ───────────────────────────────────────────── */
+
+/* ── Шрифты (self-hosted, те же файлы, что и на сайте /fonts) ── */
+
+/* Wix Madefor Display */
+@font-face {
+  font-family: "Wix Madefor Display";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/wixmadefor-cyrillic-ext.woff2") format("woff2");
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: "Wix Madefor Display";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/wixmadefor-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Wix Madefor Display";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/wixmadefor-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Wix Madefor Display";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/wixmadefor-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Onest */
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url("/fonts/onest-cyrillic-ext.woff2") format("woff2");
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url("/fonts/onest-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url("/fonts/onest-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url("/fonts/onest-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* ═══════════════════════════════════════════
+     ЦВЕТА — все Local Variables коллекции Figma
+     ═══════════════════════════════════════════ */
+
+  --white: #ffffff;
+
+  /* Carbon Black */
+  --carbon-black-100: #ecebea;
+  --carbon-black-200: #c1bfbd;
+  --carbon-black-300: #898785;
+  --carbon-black-400: #4c4b49;
+  --carbon-black-500: #1b1e1d;
+
+  /* Heritage Green */
+  --heritage-green-100: #e1eae5;
+  --heritage-green-200: #a8bcb1;
+  --heritage-green-300: #6f917f;
+  --heritage-green-400: #4e7b60;
+  --heritage-green-500: #294434;
+  --heritage-green-600: #213227;
+
+  /* Warm Taupe */
+  --warm-taupe-100: #f2eeea;
+  --warm-taupe-200: #d5ccc4;
+  --warm-taupe-300: #b2a79b;
+  --warm-taupe-400: #8f8579;
+  --warm-taupe-500: #6a6259;
+
+  /* Stone Beige */
+  --stone-beige-100: #f3f0ee;
+  --stone-beige-200: #e4dfdb;
+  --stone-beige-300: #cac2bb;
+  --stone-beige-400: #a79e97;
+  --stone-beige-500: #908a86;
+
+  /* Additional (семантические) — используются в Badge */
+  --additional-blue-100: #dcdfef;
+  --additional-blue-500: #5262c0;   /* Info */
+  --additional-red-100: #efdcdd;
+  --additional-red-500: #bb4545;    /* Error */
+  --additional-yellow-100: #f7f3e2;
+  --additional-yellow-500: #ddb103; /* Warning */
+  --additional-green-100: #dcefdc;
+  --additional-green-500: #55ab4d;  /* Success */
+
+  /* ═══════════════════════════════════════════
+     ТИПОГРАФИКА — все Local Text Styles Figma
+     ═══════════════════════════════════════════ */
+
+  /* Семейства */
+  --font-display: "Wix Madefor Display", "Onest", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-onest: "Onest", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* ── Display (Wix Madefor Display) ── */
+  --text-display-hero-line-family: var(--font-display);
+  --text-display-hero-line-size: 88px;
+  --text-display-hero-line-line-height: 100px;
+  --text-display-hero-line-weight: 400;
+
+  --text-display-hero-accent-family: var(--font-display);
+  --text-display-hero-accent-size: 88px;
+  --text-display-hero-accent-line-height: 100px;
+  --text-display-hero-accent-weight: 800;
+
+  --text-display-product-family: var(--font-display);
+  --text-display-product-size: 88px;
+  --text-display-product-line-height: normal;
+  --text-display-product-weight: 800;
+
+  /* ── Heading (Wix Madefor Display) ── */
+  --text-heading-statement-family: var(--font-display);
+  --text-heading-statement-size: 66px;
+  --text-heading-statement-line-height: 70px;
+  --text-heading-statement-weight: 700;
+  --text-heading-statement-letter-spacing: -1px;
+
+  --text-heading-statement-light-family: var(--font-display);
+  --text-heading-statement-light-size: 50px;
+  --text-heading-statement-light-line-height: 70px;
+  --text-heading-statement-light-weight: 400;
+  --text-heading-statement-light-letter-spacing: -1px;
+
+  --text-heading-section-family: var(--font-display);
+  --text-heading-section-size: 48px;
+  --text-heading-section-line-height: normal;
+  --text-heading-section-weight: 600;
+
+  --text-heading-section-light-family: var(--font-display);
+  --text-heading-section-light-size: 48px;
+  --text-heading-section-light-line-height: 56px;
+  --text-heading-section-light-weight: 400;
+
+  --text-heading-section-accent-family: var(--font-display);
+  --text-heading-section-accent-size: 48px;
+  --text-heading-section-accent-line-height: 56px;
+  --text-heading-section-accent-weight: 600;
+
+  --text-heading-category-family: var(--font-display);
+  --text-heading-category-size: 40px;
+  --text-heading-category-line-height: normal;
+  --text-heading-category-weight: 600;
+
+  --text-heading-card-family: var(--font-display);
+  --text-heading-card-size: 36px;
+  --text-heading-card-line-height: normal;
+  --text-heading-card-weight: 600;
+
+  /* ── Title / Numeric (Wix Madefor Display) ── */
+  --text-title-model-family: var(--font-display);
+  --text-title-model-size: 30px;
+  --text-title-model-line-height: 32px;
+  --text-title-model-weight: 400;
+
+  --text-numeric-value-family: var(--font-display);
+  --text-numeric-value-size: 40px;
+  --text-numeric-value-line-height: 46px;
+  --text-numeric-value-weight: 800;
+
+  /* ── Onest ── */
+  --text-quote-review-family: var(--font-onest);
+  --text-quote-review-size: 36px;
+  --text-quote-review-line-height: 42px;
+  --text-quote-review-weight: 400;
+
+  --text-banner-base-family: var(--font-onest);
+  --text-banner-base-size: 32px;
+  --text-banner-base-line-height: 44px;
+  --text-banner-base-weight: 500;
+
+  --text-banner-accent-family: var(--font-onest);
+  --text-banner-accent-size: 32px;
+  --text-banner-accent-line-height: 44px;
+  --text-banner-accent-weight: 900;
+
+  --text-contact-primary-family: var(--font-onest);
+  --text-contact-primary-size: 30px;
+  --text-contact-primary-line-height: 40px;
+  --text-contact-primary-weight: 600;
+
+  --text-label-stat-family: var(--font-onest);
+  --text-label-stat-size: 24px;
+  --text-label-stat-line-height: 30px;
+  --text-label-stat-weight: 400;
+
+  --text-contact-secondary-family: var(--font-onest);
+  --text-contact-secondary-size: 24px;
+  --text-contact-secondary-line-height: 30px;
+  --text-contact-secondary-weight: 600;
+
+  --text-nav-item-family: var(--font-onest);
+  --text-nav-item-size: 20px;
+  --text-nav-item-line-height: 28px;
+  --text-nav-item-weight: 500;
+
+  --text-footer-column-family: var(--font-onest);
+  --text-footer-column-size: 20px;
+  --text-footer-column-line-height: 28px;
+  --text-footer-column-weight: 400;
+
+  --text-body-family: var(--font-onest); /* Body/Paragraph */
+  --text-body-size: 18px;
+  --text-body-line-height: 24px;
+  --text-body-weight: 400;
+
+  --text-body-strong-family: var(--font-onest); /* Body/Paragraph-Strong */
+  --text-body-strong-size: 18px;
+  --text-body-strong-line-height: 24px;
+  --text-body-strong-weight: 600;
+
+  --text-action-family: var(--font-onest); /* Body/Action */
+  --text-action-size: 18px;
+  --text-action-line-height: 22px;
+  --text-action-weight: 400;
+
+  --text-caption-family: var(--font-onest); /* Caption/Status */
+  --text-caption-size: 16px;
+  --text-caption-line-height: 20px;
+  --text-caption-weight: 400;
+
+  --text-caption-badge-family: var(--font-onest); /* Caption/Badge */
+  --text-caption-badge-size: 10px;
+  --text-caption-badge-line-height: 10px;
+  --text-caption-badge-weight: 500;
+
+  /* ── Размеры текста кнопок (из компонента Button; не отдельные
+        Text Styles, но нужны buttons.css — оставлены как есть) ── */
+  --text-btn-s-size: 13px;
+  --text-btn-s-line-height: 18px;
+  --text-btn-m-size: 16px;
+  --text-btn-m-line-height: 20px;
+  --text-btn-l-size: 18px;
+  --text-btn-l-line-height: 24px;
+}

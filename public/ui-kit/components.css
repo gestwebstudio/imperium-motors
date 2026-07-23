@@ -1,0 +1,605 @@
+/* ─────────────────────────────────────────────
+   Imperium Motors — UI Kit / компоненты
+   Источник: Figma (bERRa0eUHmPImiBdiP62UR)
+     Tag        — node 201-11054
+     Badge      — node 260-11360
+     Indicator  — node 333-333
+     Tooltip     — node 409-1270
+     Wishlist    — node 394-1052
+     Comparison  — node 397-1089
+     Price Block — node 412-480
+     Slider      — node 409-1337
+   Состояния Hover работают и через :hover, и через
+   класс .is-hover (для статичной demo-сетки).
+   ───────────────────────────────────────────── */
+
+:root {
+  /* Effect-стили из Figma. Живут здесь, а не в tokens.css:
+     там держим только цвета и шрифты. */
+  --shadow-popover: 4px 4px 10px rgba(106, 98, 89, 0.1);      /* Tooltip */
+  --shadow-card-brand: 6px 4px 50.2px rgba(205, 197, 190, 0.5); /* Brand Logo Card hover */
+}
+
+/* ══════════════ Icon ══════════════
+   Источник — папка /icons в корне проекта. Иконки собраны в
+   SVG-спрайт в начале index.html и подключаются через <use>.
+   Сетка 12×12, заливка currentColor — иконка наследует цвет
+   родителя (текста или кнопки) и масштабируется без потерь. */
+.icon {
+  display: block;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  color: var(--carbon-black-500);
+}
+
+/* ══════════════ Tag ══════════════
+   Полупрозрачная заливка warm-taupe-400: 20% → 40% на hover. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 26px;
+  background: rgba(143, 133, 121, 0.2);
+  color: var(--heritage-green-500);
+  font-family: var(--font-onest);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-caption-weight);
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+.tag:hover,
+.tag.is-hover {
+  background: rgba(143, 133, 121, 0.4);
+}
+
+/* ══════════════ Badge ══════════════
+   Color = Info | Error | Warning | Success
+   Type  = Surface (заливка -100) | Outlined (рамка -500)
+   Текст всегда цветом -500, типографика Body/Action. */
+.badge {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  /* Как и у кнопок: stroke в Figma «inside», поэтому inset-тень,
+     а не border — иначе высота была бы 36px вместо 34px. */
+  border: 0;
+  border-radius: 21px;
+  background: transparent;
+  font-family: var(--font-onest);
+  font-size: var(--text-action-size);
+  line-height: var(--text-action-line-height);
+  font-weight: var(--text-action-weight);
+  white-space: nowrap;
+}
+
+.badge[data-color="info"]    { color: var(--additional-blue-500); }
+.badge[data-color="error"]   { color: var(--additional-red-500); }
+.badge[data-color="warning"] { color: var(--additional-yellow-500); }
+.badge[data-color="success"] { color: var(--additional-green-500); }
+
+.badge[data-type="surface"][data-color="info"]    { background: var(--additional-blue-100); }
+.badge[data-type="surface"][data-color="error"]   { background: var(--additional-red-100); }
+.badge[data-type="surface"][data-color="warning"] { background: var(--additional-yellow-100); }
+.badge[data-type="surface"][data-color="success"] { background: var(--additional-green-100); }
+
+.badge[data-type="outlined"] { box-shadow: inset 0 0 0 1px currentColor; }
+
+/* ══════════════ Indicator ══════════════
+   Точка 7px цветом -500 + подпись Caption/Status в warm-taupe-400. */
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-onest);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-caption-weight);
+  color: var(--warm-taupe-400);
+  white-space: nowrap;
+}
+.indicator__dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.indicator[data-color="success"] .indicator__dot { background: var(--additional-green-500); }
+.indicator[data-color="warning"] .indicator__dot { background: var(--additional-yellow-500); }
+.indicator[data-color="error"]   .indicator__dot { background: var(--additional-red-500); }
+.indicator[data-color="info"]    .indicator__dot { background: var(--additional-blue-500); }
+
+/* ══════════════ Tooltip ══════════════
+   Size=S — Caption/Badge 10/10, padding 4×8, radius 4
+   Size=L — Caption/Status 16/20, padding 4×10, radius 6
+   Фон белый, текст carbon-black-300, тень Shadow popover. */
+.tooltip {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--white);
+  color: var(--carbon-black-300);
+  font-family: var(--font-onest);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-caption-weight);
+  box-shadow: var(--shadow-popover);
+  white-space: nowrap;
+}
+.tooltip--s {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: var(--text-caption-badge-size);
+  line-height: var(--text-caption-badge-line-height);
+  font-weight: var(--text-caption-badge-weight);
+}
+
+/* ══════════════ Icon action (Wishlist / Comparison) ══════════════
+   Кнопка-иконка 24×24 с двумя состояниями содержимого:
+     aria-pressed="false" — контурная иконка (idle)
+     aria-pressed="true"  — залитая иконка (active)
+   Тултип показывается на hover/focus и подписан под состояние.
+   Цвета: idle — warm-taupe-300; active — красный (Wishlist)
+   или heritage-green-400 (Comparison). */
+.icon-action {
+  appearance: none;
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--warm-taupe-300);
+}
+.icon-action__glyph {
+  display: block;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.15s ease;
+}
+.icon-action__icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+.icon-action__icon--active { display: none; }
+.icon-action[aria-pressed="true"] .icon-action__icon--idle { display: none; }
+.icon-action[aria-pressed="true"] .icon-action__icon--active { display: block; }
+
+.icon-action[data-action="wishlist"][aria-pressed="true"]   { color: var(--additional-red-500); }
+.icon-action[data-action="comparison"][aria-pressed="true"] { color: var(--heritage-green-400); }
+
+/* Hover притеняет иконку до 60%. */
+.icon-action:hover .icon-action__glyph,
+.icon-action.is-hover .icon-action__glyph { opacity: 0.6; }
+/* Исключение из макета: Wishlist в активном состоянии не притухает. */
+.icon-action[data-action="wishlist"][aria-pressed="true"]:hover .icon-action__glyph,
+.icon-action[data-action="wishlist"][aria-pressed="true"].is-hover .icon-action__glyph { opacity: 1; }
+
+/* Тултип: под иконкой, выровнен по её правому краю (как в Figma). */
+.icon-action__tooltip {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.icon-action:hover .icon-action__tooltip,
+.icon-action:focus-visible .icon-action__tooltip,
+.icon-action.is-hover .icon-action__tooltip { opacity: 1; }
+/* Показываем подпись, соответствующую текущему состоянию. */
+.icon-action[aria-pressed="false"] .icon-action__tooltip[data-when="active"],
+.icon-action[aria-pressed="true"]  .icon-action__tooltip[data-when="idle"] { display: none; }
+
+/* ══════════════ Price Block ══════════════
+   Подпись Caption/Status в carbon-black-300 + сумма
+   Numeric/Value (Wix Madefor Display ExtraBold 40/46). */
+.price-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.price-block__label {
+  margin: 0;
+  font-family: var(--font-onest);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line-height);
+  font-weight: var(--text-caption-weight);
+  color: var(--carbon-black-300);
+}
+.price-block__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-numeric-value-size);
+  line-height: var(--text-numeric-value-line-height);
+  font-weight: var(--text-numeric-value-weight);
+  color: var(--carbon-black-500);
+}
+
+/* ══════════════ Slider ══════════════
+   Дорожка 4px, warm-taupe-400 под 40%; заливка heritage-green-500.
+   Заполнение задаётся --slider-value (0…1):
+     Default 0 · Progress .766 (321/419 из макета) · Final 1
+   Модификатор .slider--auto заполняет полоску сам за
+   --slider-duration (по умолчанию 4s) — как прогресс сторис.
+   Анимируется transform, а не width: не дёргает layout. */
+.slider {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 419px;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(143, 133, 121, 0.4);
+  overflow: hidden;
+}
+.slider__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: var(--heritage-green-500);
+  transform: scaleX(var(--slider-value, 0));
+  transform-origin: left center;
+}
+
+@keyframes slider-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Одиночная полоска: заполняется и начинает заново. */
+.slider--auto .slider__fill {
+  animation: slider-fill var(--slider-duration, 4s) linear infinite;
+}
+
+/* Группа как в сторис: сегменты заполняются по очереди.
+   Задержка сегмента = индекс × длительность; заполнившись,
+   он остаётся залитым (forwards), а не сбрасывается. */
+.slider-group {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  max-width: 419px;
+}
+.slider-group .slider {
+  flex: 1;
+  max-width: none;
+}
+.slider-group .slider__fill {
+  animation: slider-fill var(--slider-duration, 4s) linear forwards;
+  animation-delay: calc(var(--slider-index, 0) * var(--slider-duration, 4s));
+}
+
+/* Уважаем системную настройку «меньше движения»:
+   показываем готовое состояние вместо бегущей анимации. */
+@media (prefers-reduced-motion: reduce) {
+  .slider--auto .slider__fill,
+  .slider-group .slider__fill {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
+/* ══════════════ Card ══════════════
+   Базовая оболочка для карточек кита. Сама ничего не знает
+   о содержимом: задаёт поверхность (фон, радиус, паддинг) и
+   сетку из трёх областей, в которые складывается наполнение.
+
+     card__header — шапка (логотип, заголовок, статус, теги)
+     card__media  — медиа-область (фото), тянется по остатку
+     card__footer — низ (цена, действия), прижат к нижнему краю
+     card__actions — плавающий слот в правом верхнем углу
+
+   Размеры и отступы вынесены в переменные, поэтому карточка
+   другого типа переопределяет их, не переписывая правила.
+   Отступы между областями заданы на самих областях, а не
+   через row-gap: в макете они разные (10px и 24px). */
+.card {
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-areas:
+    "header"
+    "media"
+    "footer";
+  grid-template-rows: auto 1fr auto;
+  width: 100%;
+  max-width: var(--card-width, 548px);
+  padding: var(--card-padding, 32px);
+  border-radius: var(--card-radius, 30px);
+  background: var(--card-bg, rgba(255, 255, 255, 0.6));
+  overflow: hidden;
+}
+.card__header { grid-area: header; min-width: 0; }
+.card__media {
+  grid-area: media;
+  min-width: 0;
+  margin-top: var(--card-gap-media, 10px);
+}
+.card__footer {
+  grid-area: footer;
+  min-width: 0;
+  margin-top: var(--card-gap-footer, 24px);
+}
+.card__actions {
+  position: absolute;
+  top: var(--card-actions-top, 28px);
+  right: var(--card-actions-right, 28px);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ══════════════ Brand logo ══════════════
+   Логотипы марок меняются от карточки к карточке, поэтому
+   компонент отвечает только за габарит и вписывание картинки.
+   Высота фиксирована (--brand-logo-size), ширина подстраивается:
+   у логотипов разные пропорции (BMW квадратный, Lexus широкий). */
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  height: var(--brand-logo-size, 39px);
+}
+.brand-logo__img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* ══════════════ Tag list ══════════════
+   Ряд тегов-характеристик. Переносится, если не влезает. */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ══════════════ Car Card ══════════════
+   Композиция поверх .card: собрана из Brand logo, Tag, Indicator,
+   Wishlist, Comparison, Price Block и Button. Своего в ней —
+   только заголовок модели и раскладка.
+   data-status="waiting" отличается более крупным отступом
+   в шапке (20px против 16px), как в макете. */
+.car-card__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--car-card-head-gap, 16px);
+}
+.car-card[data-status="waiting"] { --car-card-head-gap: 20px; }
+
+.car-card__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+/* Отдельного компонента заголовка в ките нет — берём токен
+   Title/Model из макета. */
+.car-card__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-title-model-size);
+  line-height: var(--text-title-model-line-height);
+  font-weight: var(--text-title-model-weight);
+  color: var(--carbon-black-500);
+}
+.car-card__tags { padding-top: 2px; }
+
+/* Медиа-область: окно 423×218.47 с обрезкой. Фото вписывается
+   НЕ по высоте, а по ширине — в макете оно шире окна и подрезано
+   сверху и снизу. object-fit: contain здесь не годится: он
+   ужимает картинку по высоте, и машина выходит на четверть мельче.
+   Масштаб — на --car-photo-width, потому что у исходников разный
+   запас пустого поля вокруг машины (BMW 111.78%, Lexus 91.97%).
+   По умолчанию 100%: фото занимает окно по ширине. */
+.car-card__media {
+  position: relative;
+  width: 100%;
+  max-width: 423px;
+  /* Только по горизонтали: сокращённый margin затёр бы
+     margin-top из .card__media (отступ 10px из макета). */
+  margin-inline: auto;
+  aspect-ratio: 423 / 218.47;
+  overflow: hidden;
+}
+.car-card__photo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--car-photo-width, 100%);
+  max-width: none;
+  height: auto;
+  transform: translate(-50%, -50%) translateY(var(--car-photo-y, 0));
+}
+
+.car-card__footer {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+}
+.car-card__footer .price-block { flex: 1 1 0; min-width: 0; }
+.car-card__footer .btn { flex-shrink: 0; }
+
+/* ══════════════ Brand Logo Card ══════════════
+   Плитка с логотипом марки. Два состояния:
+     Default — фон stone-beige-200 под 40%, 324.8×186.7
+     Hover   — фон white 50% + тень Shadow card brand,
+               плитка подрастает (в макете 368×207)
+   Рост на hover делаю через transform: scale, а не через смену
+   размеров: в ряду плиток наведение на одну не должно толкать
+   соседей. Коэффициент 1.12 — усреднение роста из макета
+   (ширина ×1.133, высота ×1.109). Логотипы — из /brand-logos,
+   вписаны object-fit: contain, так что подходит любая марка. */
+.brand-card {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--brand-card-w, 324.8px);
+  height: var(--brand-card-h, 186.7px);
+  padding: 21px 37px;
+  border-radius: 22px;
+  background: rgba(228, 223, 219, 0.4); /* stone-beige-200 @ 40% */
+  transform-origin: center;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.brand-card__logo {
+  display: block;
+  width: 220px;
+  height: 124px;
+  object-fit: contain;
+}
+.brand-card:hover,
+.brand-card.is-hover {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-card-brand);
+  transform: scale(1.12);
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-card { transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+  .brand-card:hover,
+  .brand-card.is-hover { transform: none; }
+}
+
+/* ══════════════ CTA Button (анимированная) ══════════════
+   Отдельный компонент для акцентных кнопок «текст + стрелка»
+   (шапка «Каталог», блоки Трейд-ин и Лизинг).
+   В покое: пилюля warm-taupe-100, тёмный текст, зелёный круг
+   со стрелкой справа. На hover зелёный круг разрастается на всю
+   пилюлю (::before), текст белеет, стрелка уходит вверх-вправо —
+   то же превращение, что у Style=CTA в pressed из макета. */
+.cta-button {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 46px;
+  padding: 0 0 0 22px;
+  border: 0;
+  border-radius: 90px;
+  background: var(--warm-taupe-100);
+  color: var(--carbon-black-500);
+  font-family: var(--font-onest);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  text-decoration: none;
+}
+/* Зелёный слой: в покое — круг 46px справа, на hover — вся пилюля. */
+.cta-button::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 0 auto;
+  width: 46px;
+  border-radius: 90px;
+  background: var(--heritage-green-500);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cta-button__label {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+.cta-button__icon {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  color: var(--white);
+}
+.cta-button__icon svg { width: 16px; height: 16px; }
+.cta-button__icon svg,
+.cta-button__label { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease; }
+
+.cta-button:hover::before,
+.cta-button:focus-visible::before { width: 100%; }
+.cta-button:hover .cta-button__label { color: var(--white); }
+.cta-button:hover .cta-button__icon svg { transform: translate(2px, -2px); }
+.cta-button:active { transform: scale(0.98); }
+.cta-button:focus-visible { outline: 2px solid var(--heritage-green-500); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-button::before { transition: none; }
+  .cta-button__icon svg,
+  .cta-button__label { transition: color 0.3s ease; }
+  .cta-button:hover .cta-button__icon svg { transform: none; }
+}
+
+/* ══════════════ Circle Button ══════════════
+   Круглая иконочная кнопка — переиспользуется по всей странице:
+   звонок в шапке (46), стрелки слайдера/каруселей (44 и 32),
+   действия на карточках. Цвет и размер — через переменные. */
+.circle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--circle-btn-size, 44px);
+  height: var(--circle-btn-size, 44px);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--circle-btn-bg, var(--stone-beige-100));
+  color: var(--circle-btn-fg, var(--carbon-black-500));
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.12s ease, opacity 0.2s ease;
+}
+.circle-btn svg { width: 45%; height: 45%; display: block; }
+.circle-btn:hover { background: var(--circle-btn-bg-hover, var(--stone-beige-200)); }
+.circle-btn:active { transform: scale(0.92); }
+.circle-btn:focus-visible { outline: 2px solid var(--heritage-green-500); outline-offset: 2px; }
+.circle-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+/* Тёмный вариант (зелёный круг с белой иконкой). */
+.circle-btn--accent {
+  --circle-btn-bg: var(--heritage-green-500);
+  --circle-btn-bg-hover: var(--heritage-green-600);
+  --circle-btn-fg: var(--white);
+}
+
+/* ══════════════ Hover карточек ══════════════
+   Как в прототипе: карточка чуть приподнимается и получает тень.
+   Модификатор .car-card--static выключает эффект (напр. для
+   витринной карточки в hero, которая не кликается). */
+.car-card {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+.car-card:not(.car-card--static):hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-brand);
+}
+@media (prefers-reduced-motion: reduce) {
+  .car-card { transition: box-shadow 0.4s ease; }
+  .car-card:not(.car-card--static):hover { transform: none; }
+}

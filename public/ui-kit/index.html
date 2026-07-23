@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imperium Motors — UI Kit</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="buttons.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-onest);
+    background: #faf8f6;
+    color: var(--carbon-black-500);
+    padding-bottom: 80px;
+  }
+  header.kit-header {
+    padding: 48px 32px 32px;
+    border-bottom: 1px solid rgba(27,30,29,.08);
+    background: var(--white);
+  }
+  .kit-header h1 { margin: 0 0 8px; font-size: 28px; }
+  .kit-header p { margin: 0; color: var(--warm-taupe-400); font-size: 15px; max-width: 640px; }
+  main { max-width: 1200px; margin: 0 auto; padding: 40px 32px; }
+  section { margin-bottom: 64px; }
+  section > h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--warm-taupe-400);
+    margin: 0 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(27,30,29,.08);
+  }
+
+  /* Colors */
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+  .swatch__color { height: 72px; border-radius: 12px; }
+  .swatch__color.swatch--outline { border: 1px solid rgba(27,30,29,.12); }
+  .swatch__meta { margin-top: 8px; }
+  .swatch__name { display: block; font-size: 13px; font-weight: 600; }
+  .swatch__value { display: block; font-size: 11px; color: var(--warm-taupe-400); line-height: 1.5; margin-top: 2px; }
+
+  /* Typography */
+  .type-group { margin: 0 0 12px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--warm-taupe-400); }
+  .type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px dashed rgba(27,30,29,.1); }
+  .type-row__meta { width: 240px; flex-shrink: 0; }
+  .type-row__name { display: block; font-size: 13px; font-weight: 600; }
+  .type-row__spec { display: block; font-size: 11px; color: var(--warm-taupe-400); margin-top: 2px; }
+  .type-row__sample { margin: 0; flex: 1; min-width: 0; overflow-wrap: anywhere; }
+
+  /* Buttons */
+  .kit-block { margin-bottom: 36px; }
+  .kit-block__title { font-size: 15px; margin: 0 0 14px; }
+  .swatch-panel { background: var(--white); border: 1px solid rgba(27,30,29,.08); border-radius: 16px; padding: 24px; }
+  /* Inverse-панель в Figma — warm-taupe-400 (#8f8579), не чёрная. */
+  .swatch-panel--inverse { background: var(--warm-taupe-400); border-color: transparent; }
+  .swatch-panel--inverse .btn-row__size,
+  .swatch-panel--inverse .btn-cell__state { color: rgba(255,255,255,.75); }
+  .btn-row { display: flex; gap: 20px; padding: 14px 0; border-bottom: 1px solid rgba(27,30,29,.06); }
+  .swatch-panel--inverse .btn-row { border-bottom-color: rgba(255,255,255,.18); }
+  .section-note { font-size: 13px; color: var(--warm-taupe-400); margin: -8px 0 20px; }
+  .kit-block__note { font-weight: 400; color: var(--warm-taupe-400); }
+  .indicator-grid { display: flex; flex-wrap: wrap; gap: 28px; }
+  .icon-grid { display: flex; flex-wrap: wrap; gap: 32px; }
+  .icon-cell { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 96px; }
+  /* Показываем иконки крупнее сетки 12px, чтобы форма читалась. */
+  .icon-cell .icon { width: 24px; height: 24px; }
+  .icon-cell__name { font-size: 11px; color: var(--warm-taupe-400); }
+  /* Витрина состояний: ячейкам нужен запас по высоте, иначе тултип
+     (он абсолютный, под иконкой) визуально налезает на соседей. */
+  .state-grid { display: flex; flex-wrap: wrap; gap: 40px; }
+  .state-cell { display: flex; flex-direction: column; gap: 10px; min-width: 190px; }
+  .state-cell__name { font-size: 11px; color: var(--warm-taupe-400); }
+  .state-cell__stage { display: flex; align-items: flex-start; min-height: 56px; }
+  .live-row { display: flex; align-items: center; gap: 16px; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(27,30,29,.06); min-height: 56px; }
+  .live-row__label { font-size: 11px; color: var(--warm-taupe-400); }
+  /* Слайдеры широкие — раскладываем их в столбец, а не в ряд. */
+  .state-grid--stack { flex-direction: column; gap: 24px; }
+  .state-grid--stack .state-cell { min-width: 0; width: 100%; max-width: 460px; gap: 8px; }
+  .slider-demo { display: flex; flex-direction: column; gap: 8px; max-width: 460px; }
+  .slider-demo + .slider-demo { margin-top: 28px; }
+  .slider-demo__name { font-size: 11px; color: var(--warm-taupe-400); }
+  /* Карточка полупрозрачная — показываем её на тёплой подложке,
+     как в макете, иначе на белой панели её не видно. */
+  .card-stage { background: var(--warm-taupe-100); border-radius: 16px; padding: 24px; }
+  .card-row { display: flex; flex-wrap: wrap; gap: 24px; }
+  /* Не даём карточкам ужиматься: в макете ширина 548px.
+     Не влезли в ряд — переносим, а не сплющиваем. */
+  .card-row .card { flex: 0 0 auto; width: 548px; max-width: 100%; }
+  /* Скелет: подсвечиваем области сетки .card */
+  .card-slot { display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(27,30,29,.25); border-radius: 10px; padding: 12px; font-size: 11px; color: var(--warm-taupe-400); }
+  .card-slot--tall { min-height: 120px; height: 100%; }
+  .card-slot--pill { border-radius: 999px; padding: 6px 12px; }
+  /* Плитки бренда полупрозрачные и растут на hover — запас вокруг,
+     чтобы увеличенная плитка и её тень не обрезались. */
+  .brand-card-states { display: flex; flex-wrap: wrap; gap: 48px; padding: 12px 20px; }
+  .brand-card-grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 16px 24px; }
+  .btn-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .btn-row:first-child { padding-top: 0; }
+  .btn-row__size { width: 56px; flex-shrink: 0; font-size: 12px; color: var(--warm-taupe-400); padding-top: 4px; }
+  .btn-row__cells { display: flex; gap: 32px; flex-wrap: wrap; flex: 1; }
+  .btn-cell__state { display: block; font-size: 11px; color: var(--warm-taupe-400); margin-bottom: 8px; }
+  .btn-cell__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<!-- SVG-спрайт: иконки из /icons, fill заменён на currentColor.
+     Одно определение на иконку, использование — <svg><use href="#icon-…"></use></svg>. -->
+<svg class="icon-sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+<!-- ui-kit:icons:sprite:start -->
+  <symbol id="icon-arrow-diagonal" viewBox="0 0 12 12"><path d="M3.38672 2.47168H8.48535L1.39941 9.71289L1.39453 9.71777C1.13517 9.96543 1.13518 10.3627 1.39453 10.6104C1.65922 10.863 2.09169 10.8629 2.35644 10.6104L9.44824 3.36328V8.51562C9.44838 8.85811 9.74217 9.15128 10.124 9.15137C10.4581 9.15137 10.7244 8.92706 10.7861 8.6416L10.7998 8.51562V1.97559C10.7998 1.55615 10.4411 1.20034 9.97851 1.2002H3.38672C3.00485 1.20046 2.71096 1.49356 2.71094 1.83594C2.71094 2.17834 3.00484 2.47142 3.38672 2.47168Z" fill="currentColor"/></symbol>
+  <symbol id="icon-arrow" viewBox="0 0 12 12"><path d="M7.703 1.22222C8.03441 0.925928 8.57051 0.925928 8.90192 1.22222C9.23333 1.51851 9.23333 1.99778 8.90192 2.29407L4.61435 6.12725C4.39202 6.32602 4.39202 6.67398 4.61435 6.87275L8.90192 10.7059C9.23333 11.0022 9.23333 11.4815 8.90192 11.7778C8.57051 12.0741 8.03441 12.0741 7.703 11.7778L2.79307 7.23394C2.36536 6.83812 2.36536 6.16188 2.79307 5.76606L7.703 1.22222Z" fill="currentColor"/></symbol>
+  <symbol id="icon-copy" viewBox="0 0 12 12"><path d="M6.4 9.33333C6.93024 9.33267 7.62506 9.30723 8 8.91667C8.37494 8.52611 8.39936 7.80233 8.4 7.25V3.60126C8.40062 3.38224 8.35951 3.16527 8.27903 2.96293C8.19856 2.76059 8.08033 2.5769 7.9312 2.42251L7.0344 1.48834C6.88618 1.333 6.70984 1.20984 6.51559 1.12602C6.32134 1.04219 6.11306 0.999359 5.9028 1.00001H4C3.46977 1.00067 2.77494 1.09778 2.4 1.48834C2.02506 1.8789 2.00064 2.53101 2 3.08334V7.25C2.00064 7.80233 2.02506 8.52611 2.4 8.91667C2.77494 9.30723 3.46977 9.33267 4 9.33333H6.4ZM2.8 7.25V3.08334C2.8 2.75182 2.77496 2.27609 3 2.04167C3.22504 1.80725 3.68174 1.83334 4 1.83334C4 1.83334 5.9676 1.83917 6 1.84334V2.66667C6 2.88769 6.08429 3.09965 6.23431 3.25593C6.38434 3.41221 6.58783 3.50001 6.8 3.50001H7.5904C7.5944 3.53376 7.6 7.25 7.6 7.25C7.6 7.58152 7.62504 8.05724 7.4 8.29166C7.17496 8.52608 6.71826 8.5 6.4 8.5H4C3.68174 8.5 3.22504 8.52608 3 8.29166C2.77496 8.05724 2.8 7.58152 2.8 7.25ZM10 4.33334V8.91667C9.99936 9.469 9.97494 10.1928 9.6 10.5833C9.22506 10.9739 8.53024 10.9993 8 11H4.4C4.29392 11 4.19218 10.9561 4.11716 10.878C4.04215 10.7998 4 10.6938 4 10.5833C4 10.4728 4.04215 10.3668 4.11716 10.2887C4.19218 10.2106 4.29392 10.1667 4.4 10.1667H8C8.31826 10.1667 8.77496 10.1927 9 9.95833C9.22504 9.72391 9.2 9.24819 9.2 8.91667V4.33334C9.2 4.22283 9.24214 4.11685 9.31716 4.03871C9.39217 3.96057 9.49391 3.91667 9.6 3.91667C9.70609 3.91667 9.80783 3.96057 9.88284 4.03871C9.95786 4.11685 10 4.22283 10 4.33334Z" fill="currentColor"/></symbol>
+  <symbol id="icon-heart-fill" viewBox="0 0 12 12"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.6992 4.48027C11.6992 3.51582 11.4258 2.72491 10.9541 2.14531C10.4837 1.5676 9.84262 1.23284 9.16992 1.13261C8.17288 0.984297 7.10026 1.35039 6.34863 2.19511C6.31069 2.23777 6.25631 2.26249 6.19922 2.2625C6.14214 2.2625 6.08776 2.23775 6.0498 2.19511C5.29808 1.35067 4.22625 0.984277 3.22949 1.13261C2.5568 1.23284 1.91568 1.5676 1.44531 2.14531C0.97363 2.72491 0.700233 3.51588 0.700195 4.48027C0.700275 6.44662 2.10713 8.15611 3.36035 9.30743C4.00376 9.8985 4.64402 10.3777 5.12305 10.7078C5.36291 10.8731 5.56449 11.0024 5.70605 11.0906C5.77583 11.1341 5.83146 11.1681 5.87012 11.1912L5.90332 11.2107L5.90625 11.2117L5.91992 11.2205L5.9248 11.2225L5.92773 11.2244L5.93262 11.2273L5.93848 11.2303L5.94531 11.2342C6.10244 11.3204 6.29058 11.3207 6.44824 11.2371L6.45605 11.2322C6.45856 11.2306 6.462 11.2287 6.46582 11.2264L6.46777 11.2254L6.46959 11.2248L6.47166 11.2239L6.47852 11.2195L6.48242 11.2176L6.4834 11.2166C6.48539 11.2155 6.48821 11.2147 6.49023 11.2137C6.50003 11.208 6.51196 11.2014 6.52734 11.1922L6.69434 11.0906C6.83563 11.0025 7.03639 10.8732 7.27637 10.7078C7.75539 10.3777 8.39562 9.89852 9.03906 9.30743C10.2923 8.15611 11.6991 6.44663 11.6992 4.48027Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.47166 11.2239L6.47266 11.2234L6.46959 11.2248L6.47166 11.2239Z" fill="currentColor"/></symbol>
+  <symbol id="icon-heart-stroke" viewBox="0 0 12 12"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.6992 4.48027C11.6992 3.51582 11.4258 2.72491 10.9541 2.14531C10.4837 1.5676 9.84262 1.23284 9.16992 1.13261C8.17288 0.984297 7.10026 1.35039 6.34863 2.19511C6.31069 2.23777 6.25631 2.26249 6.19922 2.2625C6.14214 2.2625 6.08776 2.23775 6.0498 2.19511C5.29808 1.35067 4.22625 0.984277 3.22949 1.13261C2.5568 1.23284 1.91568 1.5676 1.44531 2.14531C0.97363 2.72491 0.700233 3.51588 0.700195 4.48027C0.700275 6.44662 2.10713 8.15611 3.36035 9.30743C4.00376 9.8985 4.64402 10.3777 5.12305 10.7078C5.36291 10.8731 5.56449 11.0024 5.70605 11.0906C5.77583 11.1341 5.83146 11.1681 5.87012 11.1912L5.90332 11.2107L5.90625 11.2117L5.91992 11.2205L5.9248 11.2225L5.92773 11.2244L5.93262 11.2273L5.93848 11.2303L5.94531 11.2342C6.10244 11.3204 6.29058 11.3207 6.44824 11.2371L6.45605 11.2322C6.45856 11.2306 6.462 11.2287 6.46582 11.2264L6.46777 11.2254L6.46959 11.2248L6.47166 11.2239L6.47852 11.2195L6.48242 11.2176L6.4834 11.2166C6.48539 11.2155 6.48821 11.2147 6.49023 11.2137C6.50003 11.208 6.51196 11.2014 6.52734 11.1922L6.69434 11.0906C6.83563 11.0025 7.03639 10.8732 7.27637 10.7078C7.75539 10.3777 8.39562 9.89852 9.03906 9.30743C10.2923 8.15611 11.6991 6.44663 11.6992 4.48027ZM1.78125 4.48027C1.78129 3.73669 1.98976 3.21027 2.27539 2.85918C2.56252 2.50642 2.9555 2.29615 3.38477 2.23222C4.24405 2.10435 5.23923 2.56531 5.69531 3.65605L5.73828 3.74199L5.77832 3.80058C5.87893 3.92858 6.03264 4.00664 6.2002 4.00664C6.41868 4.00648 6.61416 3.87262 6.69824 3.66875L6.70117 3.66191L6.78516 3.47832L6.78809 3.47051C7.27517 2.51195 8.20666 2.11207 9.01465 2.23222C9.44392 2.29615 9.8369 2.50642 10.124 2.85918C10.4097 3.21028 10.6181 3.73664 10.6182 4.48027C10.6181 5.9305 9.54544 7.3528 8.31934 8.4793C7.72319 9.02697 7.12355 9.47443 6.67285 9.78497C6.56864 9.85676 6.46994 9.91965 6.38503 9.97375C6.3577 9.99115 6.33181 10.0077 6.30762 10.0232C6.24163 10.0658 6.1568 10.0658 6.09082 10.0232C6.06876 10.009 6.04539 9.99409 6.02089 9.97842C5.93433 9.9231 5.83366 9.85875 5.72656 9.78497C5.27587 9.47443 4.67622 9.02697 4.08008 8.4793C2.85403 7.35282 1.78133 5.93046 1.78125 4.48027Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.47166 11.2239L6.47266 11.2234L6.46959 11.2248L6.47166 11.2239Z" fill="currentColor"/></symbol>
+  <symbol id="icon-list-add" viewBox="0 0 12 12"><path d="M0.694889 2.34689H7.51301C7.89534 2.34689 8.209 2.04754 8.209 1.67344C8.209 1.29935 7.89534 1 7.51301 1H0.694889C0.312973 1.00025 0 1.29931 0 1.67344C0 2.04758 0.312973 2.34663 0.694889 2.34689Z" fill="currentColor"/>
+<path d="M0.694889 5.85669H7.51301C7.89534 5.85669 8.209 5.55734 8.209 5.18325C8.209 4.80915 7.89534 4.5098 7.51301 4.5098H0.694889C0.312973 4.51006 0 4.80911 0 5.18325C0 5.55738 0.312973 5.85644 0.694889 5.85669Z" fill="currentColor"/>
+<path d="M0.694889 9.36649H4.60156C4.9839 9.36649 5.29756 9.06714 5.29756 8.69305C5.29756 8.31895 4.9839 8.01961 4.60156 8.01961H0.694889C0.312973 8.01986 0 8.31892 0 8.69305C0 9.06718 0.312973 9.36624 0.694889 9.36649Z" fill="currentColor"/>
+<path d="M6.93739 9.39412H8.19861C8.32397 9.39412 8.42581 9.49491 8.42581 9.61897V10.8266C8.42581 11.2009 8.73875 11.4999 9.1207 11.5C9.50303 11.5 9.8167 11.2007 9.8167 10.8266V9.61897C9.8167 9.49491 9.91854 9.39412 10.0439 9.39412H11.3051C11.687 9.39387 12 9.09481 12 8.72067C12 8.39333 11.7605 8.12298 11.4448 8.06039L11.3051 8.04723H10.0439C9.91854 8.04723 9.8167 7.94644 9.8167 7.82238V6.61479C9.8167 6.2407 9.50303 5.94135 9.1207 5.94135C8.73875 5.94146 8.42581 6.24049 8.42581 6.61479V7.82238C8.42581 7.94644 8.32397 8.04723 8.19861 8.04723H6.93739C6.55506 8.04723 6.2414 8.34658 6.2414 8.72067C6.2414 9.09477 6.55506 9.39412 6.93739 9.39412Z" fill="currentColor"/></symbol>
+  <symbol id="icon-list-check" viewBox="0 0 12 12"><path d="M10.3082 6.93729C10.555 6.70152 10.959 6.69864 11.2101 6.93046C11.461 7.16245 11.4641 7.54218 11.2174 7.77821L8.56025 10.3205C8.44035 10.4352 8.27668 10.5 8.10563 10.5C7.93457 10.5 7.7709 10.4352 7.651 10.3205L6.32242 9.04936C6.07573 8.81328 6.0787 8.43358 6.32969 8.2016C6.58095 7.96967 6.98487 7.97328 7.23167 8.20941L8.10459 9.04545L10.3082 6.93729Z" fill="currentColor"/>
+<path d="M0.694889 2.35396H7.51301C7.89534 2.35396 8.209 2.05304 8.209 1.67698C8.209 1.30092 7.89534 1 7.51301 1H0.694889C0.312973 1.00025 0 1.30088 0 1.67698C0 2.05307 0.312973 2.3537 0.694889 2.35396Z" fill="currentColor"/>
+<path d="M0.694889 5.88219H7.51301C7.89534 5.88219 8.209 5.58127 8.209 5.20521C8.209 4.82915 7.89534 4.52823 7.51301 4.52823H0.694889C0.312973 4.52848 0 4.82911 0 5.20521C0 5.5813 0.312973 5.88193 0.694889 5.88219Z" fill="currentColor"/>
+<path d="M0.694889 9.41041H4.60156C4.9839 9.41041 5.29756 9.10949 5.29756 8.73344C5.29756 8.35738 4.9839 8.05646 4.60156 8.05646H0.694889C0.312973 8.05671 0 8.35734 0 8.73344C0 9.10953 0.312973 9.41016 0.694889 9.41041Z" fill="currentColor"/></symbol>
+  <symbol id="icon-phone" viewBox="0 0 12 12"><path d="M1 2.44727C1 1.64787 1.64802 1.00006 2.44727 1H3.82324C4.43628 1.0002 4.988 1.37324 5.21582 1.94238L5.74316 3.26074L5.80566 3.45605C5.90373 3.85042 5.8372 4.268 5.62207 4.6123L5.50195 4.77832L5.21875 5.11816C5.07419 5.29163 5.06556 5.53741 5.18848 5.71875L5.25 5.79199L6.20801 6.75098L6.28125 6.81152C6.46234 6.93403 6.70798 6.92613 6.88184 6.78125L7.22168 6.49805V6.49707C7.64502 6.14434 8.22787 6.0523 8.73926 6.25684L10.0576 6.78418L10.1621 6.83105C10.6721 7.08163 10.9999 7.60197 11 8.17676V9.55273C10.9999 10.3519 10.3521 11 9.55273 11C4.82925 11 1 7.17075 1 2.44727ZM2 2.44727C2 6.61847 5.38153 10 9.55273 10C9.79967 10 9.99992 9.79984 10 9.55273V8.17676C9.99991 7.97237 9.87529 7.78879 9.68555 7.71289L8.36816 7.18555C8.21881 7.1258 8.05095 7.14185 7.91699 7.22559L7.8623 7.26562L7.52246 7.5498H7.52148C6.92572 8.04593 6.04957 8.00635 5.50098 7.45801H5.5L4.54199 6.49902V6.49805C3.9946 5.94984 3.95367 5.07459 4.4502 4.47852L4.73438 4.1377C4.85187 3.99643 4.88221 3.80266 4.81445 3.63281L4.28711 2.31445C4.21124 2.12478 4.0275 2.0002 3.82324 2H2.44727C2.20017 2.00006 2 2.2003 2 2.44727Z" fill="currentColor"/></symbol>
+<!-- ui-kit:icons:sprite:end -->
+</svg>
+
+
+<header class="kit-header">
+  <h1>Imperium Motors — UI Kit</h1>
+  <p>Набор токенов и компонентов, собранный из Figma (страница «UI Kit»). Цвета, типографика, кнопки, Tag, Badge и Indicator — 1:1 с дизайном; остальные компоненты будут добавляться по мере готовности макетов.</p>
+</header>
+
+<main>
+
+<section id="colors">
+  <h2>Цвета</h2>
+
+  <p class="type-group">Carbon Black</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#ecebea"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 100</span><code class="swatch__value">--carbon-black-100<br>#ecebea</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#c1bfbd"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 200</span><code class="swatch__value">--carbon-black-200<br>#c1bfbd</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#898785"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 300</span><code class="swatch__value">--carbon-black-300<br>#898785</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#4c4b49"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 400</span><code class="swatch__value">--carbon-black-400<br>#4c4b49</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#1b1e1d"></div><div class="swatch__meta"><span class="swatch__name">Carbon Black / 500</span><code class="swatch__value">--carbon-black-500<br>#1b1e1d</code></div></div>
+  </div>
+
+  <p class="type-group">Heritage Green</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#e1eae5"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 100</span><code class="swatch__value">--heritage-green-100<br>#e1eae5</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#a8bcb1"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 200</span><code class="swatch__value">--heritage-green-200<br>#a8bcb1</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#6f917f"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 300</span><code class="swatch__value">--heritage-green-300<br>#6f917f</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#4e7b60"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 400</span><code class="swatch__value">--heritage-green-400<br>#4e7b60</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#294434"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 500</span><code class="swatch__value">--heritage-green-500<br>#294434</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#213227"></div><div class="swatch__meta"><span class="swatch__name">Heritage Green / 600</span><code class="swatch__value">--heritage-green-600<br>#213227</code></div></div>
+  </div>
+
+  <p class="type-group">Warm Taupe</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#f2eeea"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 100</span><code class="swatch__value">--warm-taupe-100<br>#f2eeea</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#d5ccc4"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 200</span><code class="swatch__value">--warm-taupe-200<br>#d5ccc4</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#b2a79b"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 300</span><code class="swatch__value">--warm-taupe-300<br>#b2a79b</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#8f8579"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 400</span><code class="swatch__value">--warm-taupe-400<br>#8f8579</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#6a6259"></div><div class="swatch__meta"><span class="swatch__name">Warm Taupe / 500</span><code class="swatch__value">--warm-taupe-500<br>#6a6259</code></div></div>
+  </div>
+
+  <p class="type-group">Stone Beige</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#f3f0ee"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 100</span><code class="swatch__value">--stone-beige-100<br>#f3f0ee</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#e4dfdb"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 200</span><code class="swatch__value">--stone-beige-200<br>#e4dfdb</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#cac2bb"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 300</span><code class="swatch__value">--stone-beige-300<br>#cac2bb</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#a79e97"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 400</span><code class="swatch__value">--stone-beige-400<br>#a79e97</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#908a86"></div><div class="swatch__meta"><span class="swatch__name">Stone Beige / 500</span><code class="swatch__value">--stone-beige-500<br>#908a86</code></div></div>
+  </div>
+
+  <p class="type-group">Additional / семантические</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch__color" style="background:#5262c0"></div><div class="swatch__meta"><span class="swatch__name">Blue / 500 (Info)</span><code class="swatch__value">--additional-blue-500<br>#5262c0</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#dcdfef"></div><div class="swatch__meta"><span class="swatch__name">Blue / 100</span><code class="swatch__value">--additional-blue-100<br>#dcdfef</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#bb4545"></div><div class="swatch__meta"><span class="swatch__name">Red / 500 (Error)</span><code class="swatch__value">--additional-red-500<br>#bb4545</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#efdcdd"></div><div class="swatch__meta"><span class="swatch__name">Red / 100</span><code class="swatch__value">--additional-red-100<br>#efdcdd</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#ddb103"></div><div class="swatch__meta"><span class="swatch__name">Yellow / 500 (Warning)</span><code class="swatch__value">--additional-yellow-500<br>#ddb103</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#f7f3e2"></div><div class="swatch__meta"><span class="swatch__name">Yellow / 100</span><code class="swatch__value">--additional-yellow-100<br>#f7f3e2</code></div></div>
+    <div class="swatch"><div class="swatch__color" style="background:#55ab4d"></div><div class="swatch__meta"><span class="swatch__name">Green / 500 (Success)</span><code class="swatch__value">--additional-green-500<br>#55ab4d</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#dcefdc"></div><div class="swatch__meta"><span class="swatch__name">Green / 100</span><code class="swatch__value">--additional-green-100<br>#dcefdc</code></div></div>
+    <div class="swatch"><div class="swatch__color swatch--outline" style="background:#ffffff"></div><div class="swatch__meta"><span class="swatch__name">White</span><code class="swatch__value">--white<br>#ffffff</code></div></div>
+  </div>
+</section>
+
+<section id="typography">
+  <h2>Типографика</h2>
+
+  <p class="type-group">Display / Heading — Wix Madefor Display</p>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Display / Hero-Line</span><code class="type-row__spec">88px / 400 / lh 100</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-display-hero-line-size);line-height:var(--text-display-hero-line-line-height);font-weight:var(--text-display-hero-line-weight)">Imperium</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Display / Hero-Accent</span><code class="type-row__spec">88px / 800 / lh 100</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-display-hero-accent-size);line-height:var(--text-display-hero-accent-line-height);font-weight:var(--text-display-hero-accent-weight)">Imperium</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Display / Product</span><code class="type-row__spec">88px / 800 / lh auto</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-display-product-size);line-height:var(--text-display-product-line-height);font-weight:var(--text-display-product-weight)">Imperium</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Statement</span><code class="type-row__spec">66px / 700 / lh 70 / ls -1</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-statement-size);line-height:var(--text-heading-statement-line-height);font-weight:var(--text-heading-statement-weight);letter-spacing:var(--text-heading-statement-letter-spacing)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Statement-Light</span><code class="type-row__spec">50px / 400 / lh 70 / ls -1</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-statement-light-size);line-height:var(--text-heading-statement-light-line-height);font-weight:var(--text-heading-statement-light-weight);letter-spacing:var(--text-heading-statement-light-letter-spacing)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Section</span><code class="type-row__spec">48px / 600 / lh auto</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-section-size);line-height:var(--text-heading-section-line-height);font-weight:var(--text-heading-section-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Section-Light</span><code class="type-row__spec">48px / 400 / lh 56</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-section-light-size);line-height:var(--text-heading-section-light-line-height);font-weight:var(--text-heading-section-light-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Section-Accent</span><code class="type-row__spec">48px / 600 / lh 56</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-section-accent-size);line-height:var(--text-heading-section-accent-line-height);font-weight:var(--text-heading-section-accent-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Category</span><code class="type-row__spec">40px / 600 / lh auto</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-category-size);line-height:var(--text-heading-category-line-height);font-weight:var(--text-heading-category-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Heading / Card</span><code class="type-row__spec">36px / 600 / lh auto</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-heading-card-size);line-height:var(--text-heading-card-line-height);font-weight:var(--text-heading-card-weight)">Imperium Motors</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Title / Model</span><code class="type-row__spec">30px / 400 / lh 32</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-title-model-size);line-height:var(--text-title-model-line-height);font-weight:var(--text-title-model-weight)">Imperium Motors — авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Numeric / Value</span><code class="type-row__spec">40px / 800 / lh 46</code></div><p class="type-row__sample" style="font-family:var(--font-display);font-size:var(--text-numeric-value-size);line-height:var(--text-numeric-value-line-height);font-weight:var(--text-numeric-value-weight)">1 200+</p></div>
+
+  <p class="type-group" style="margin-top:28px">Текст / UI — Onest</p>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Quote / Review</span><code class="type-row__spec">36px / 400 / lh 42</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-quote-review-size);line-height:var(--text-quote-review-line-height);font-weight:var(--text-quote-review-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Banner / Base</span><code class="type-row__spec">32px / 500 / lh 44</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-banner-base-size);line-height:var(--text-banner-base-line-height);font-weight:var(--text-banner-base-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Banner / Accent</span><code class="type-row__spec">32px / 900 / lh 44</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-banner-accent-size);line-height:var(--text-banner-accent-line-height);font-weight:var(--text-banner-accent-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Contact / Primary</span><code class="type-row__spec">30px / 600 / lh 40</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-contact-primary-size);line-height:var(--text-contact-primary-line-height);font-weight:var(--text-contact-primary-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Label / Stat</span><code class="type-row__spec">24px / 400 / lh 30</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-label-stat-size);line-height:var(--text-label-stat-line-height);font-weight:var(--text-label-stat-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Contact / Secondary</span><code class="type-row__spec">24px / 600 / lh 30</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-contact-secondary-size);line-height:var(--text-contact-secondary-line-height);font-weight:var(--text-contact-secondary-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Nav / Item</span><code class="type-row__spec">20px / 500 / lh 28</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-nav-item-size);line-height:var(--text-nav-item-line-height);font-weight:var(--text-nav-item-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Footer / Column</span><code class="type-row__spec">20px / 400 / lh 28</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-footer-column-size);line-height:var(--text-footer-column-line-height);font-weight:var(--text-footer-column-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Body / Paragraph</span><code class="type-row__spec">18px / 400 / lh 24</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-body-size);line-height:var(--text-body-line-height);font-weight:var(--text-body-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Body / Paragraph-Strong</span><code class="type-row__spec">18px / 600 / lh 24</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-body-strong-size);line-height:var(--text-body-strong-line-height);font-weight:var(--text-body-strong-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Body / Action</span><code class="type-row__spec">18px / 400 / lh 22</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-action-size);line-height:var(--text-action-line-height);font-weight:var(--text-action-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Caption / Status</span><code class="type-row__spec">16px / 400 / lh 20</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-caption-size);line-height:var(--text-caption-line-height);font-weight:var(--text-caption-weight)">Imperium Motors — премиальные авто с историей</p></div>
+  <div class="type-row"><div class="type-row__meta"><span class="type-row__name">Caption / Badge</span><code class="type-row__spec">10px / 500 / lh 10</code></div><p class="type-row__sample" style="font-family:var(--font-onest);font-size:var(--text-caption-badge-size);line-height:var(--text-caption-badge-line-height);font-weight:var(--text-caption-badge-weight)">Imperium Motors — премиальные авто с историей</p></div>
+</section>
+
+<section id="icons">
+  <h2>Иконки</h2>
+  <p class="section-note">Источник — папка <code>/icons</code> в проекте. Сетка 12×12, заливка <code>currentColor</code>: иконка наследует цвет текста или кнопки. Подключены через SVG-спрайт, поэтому каждая описана в разметке один раз.</p>
+  <div class="swatch-panel">
+    <div class="icon-grid">
+      <!-- ui-kit:icons:gallery:start -->
+      <div class="icon-cell"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg><span class="icon-cell__name">Arrow-Diagonal</span></div>
+      <div class="icon-cell"><svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg><span class="icon-cell__name">Arrow</span></div>
+      <div class="icon-cell"><svg class="icon" aria-hidden="true"><use href="#icon-copy"></use></svg><span class="icon-cell__name">Copy</span></div>
+      <div class="icon-cell"><svg class="icon" aria-hidden="true"><use href="#icon-heart-fill"></use></svg><span class="icon-cell__name">Heart-fill</span></div>
+      <div class="icon-cell"><svg class="icon" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><span class="icon-cell__name">Heart-stroke</span></div>
+      <div class="icon-cell"><svg class="icon" aria-hidden="true"><use href="#icon-list-add"></use></svg><span class="icon-cell__name">List-Add</span></div>
+      <div class="icon-cell"><svg class="icon" aria-hidden="true"><use href="#icon-list-check"></use></svg><span class="icon-cell__name">List-Check</span></div>
+      <div class="icon-cell"><svg class="icon" aria-hidden="true"><use href="#icon-phone"></use></svg><span class="icon-cell__name">Phone</span></div>
+<!-- ui-kit:icons:gallery:end -->
+    </div>
+  </div>
+</section>
+
+<section id="tags">
+  <h2>Tag</h2>
+  <div class="swatch-panel">
+    <div class="btn-row"><span class="btn-row__size">&nbsp;</span><div class="btn-row__cells">
+      <div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><span class="tag">2026</span></div></div>
+      <div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><span class="tag is-hover">2026</span></div></div>
+    </div></div>
+  </div>
+</section>
+
+<section id="badges">
+  <h2>Badge</h2>
+  <div class="swatch-panel">
+    <div class="btn-row"><span class="btn-row__size">Surface</span><div class="btn-row__cells"><div class="btn-cell"><div class="btn-cell__row">
+        <span class="badge" data-color="info" data-type="surface">Badge</span>
+        <span class="badge" data-color="error" data-type="surface">Badge</span>
+        <span class="badge" data-color="warning" data-type="surface">Badge</span>
+        <span class="badge" data-color="success" data-type="surface">Badge</span>
+    </div></div></div></div>
+    <div class="btn-row"><span class="btn-row__size">Outlined</span><div class="btn-row__cells"><div class="btn-cell"><div class="btn-cell__row">
+        <span class="badge" data-color="info" data-type="outlined">Badge</span>
+        <span class="badge" data-color="error" data-type="outlined">Badge</span>
+        <span class="badge" data-color="warning" data-type="outlined">Badge</span>
+        <span class="badge" data-color="success" data-type="outlined">Badge</span>
+    </div></div></div></div>
+  </div>
+</section>
+
+<section id="indicators">
+  <h2>Indicator</h2>
+  <div class="swatch-panel">
+    <div class="indicator-grid">
+      <span class="indicator" data-color="success"><span class="indicator__dot"></span>Success</span>
+      <span class="indicator" data-color="warning"><span class="indicator__dot"></span>Warning</span>
+      <span class="indicator" data-color="error"><span class="indicator__dot"></span>Error</span>
+      <span class="indicator" data-color="info"><span class="indicator__dot"></span>Info</span>
+    </div>
+  </div>
+</section>
+
+<section id="tooltip">
+  <h2>Tooltip</h2>
+  <p class="section-note">Figma node 409-1270. Size S — Caption/Badge 10/10, радиус 4. Size L — Caption/Status 16/20, радиус 6. Тень — Shadow popover.</p>
+  <div class="swatch-panel">
+    <div class="state-grid">
+      <div class="state-cell"><span class="state-cell__name">Size S</span><div class="state-cell__stage"><span class="tooltip tooltip--s">This is a tooltip.</span></div></div>
+      <div class="state-cell"><span class="state-cell__name">Size L</span><div class="state-cell__stage"><span class="tooltip">This is a tooltip.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="wishlist">
+  <h2>Wishlist</h2>
+  <p class="section-note">Figma node 394-1052. Четыре состояния: контурная иконка → hover с подсказкой → активная (залитая) → активная с подсказкой. Ниже — живой пример: наведи и кликни.</p>
+  <div class="swatch-panel">
+    <div class="state-grid">
+      <div class="state-cell"><span class="state-cell__name">Default</span><div class="state-cell__stage"><button class="icon-action" data-action="wishlist" aria-pressed="false" aria-label="Избранное"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-heart-fill"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в избранное</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из избранного</span></button></div></div>
+      <div class="state-cell"><span class="state-cell__name">Hover + tooltip</span><div class="state-cell__stage"><button class="icon-action is-hover" data-action="wishlist" aria-pressed="false" aria-label="Избранное"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-heart-fill"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в избранное</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из избранного</span></button></div></div>
+      <div class="state-cell"><span class="state-cell__name">Active</span><div class="state-cell__stage"><button class="icon-action" data-action="wishlist" aria-pressed="true" aria-label="Избранное"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-heart-fill"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в избранное</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из избранного</span></button></div></div>
+      <div class="state-cell"><span class="state-cell__name">Active + tooltip</span><div class="state-cell__stage"><button class="icon-action is-hover" data-action="wishlist" aria-pressed="true" aria-label="Избранное"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-heart-fill"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в избранное</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из избранного</span></button></div></div>
+    </div>
+    <div class="live-row">
+      <span class="live-row__label">Интерактивно</span>
+      <button class="icon-action" data-action="wishlist" aria-pressed="false" aria-label="Избранное"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-heart-fill"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в избранное</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из избранного</span></button>
+    </div>
+  </div>
+</section>
+
+<section id="comparison">
+  <h2>Comparison</h2>
+  <p class="section-note">Figma node 397-1089. Четыре состояния: контурная иконка → hover с подсказкой → активная (залитая) → активная с подсказкой. Ниже — живой пример: наведи и кликни.</p>
+  <div class="swatch-panel">
+    <div class="state-grid">
+      <div class="state-cell"><span class="state-cell__name">Default</span><div class="state-cell__stage"><button class="icon-action" data-action="comparison" aria-pressed="false" aria-label="Сравнение"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-list-add"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-list-check"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в сравнение</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из сравнения</span></button></div></div>
+      <div class="state-cell"><span class="state-cell__name">Hover + tooltip</span><div class="state-cell__stage"><button class="icon-action is-hover" data-action="comparison" aria-pressed="false" aria-label="Сравнение"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-list-add"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-list-check"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в сравнение</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из сравнения</span></button></div></div>
+      <div class="state-cell"><span class="state-cell__name">Active</span><div class="state-cell__stage"><button class="icon-action" data-action="comparison" aria-pressed="true" aria-label="Сравнение"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-list-add"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-list-check"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в сравнение</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из сравнения</span></button></div></div>
+      <div class="state-cell"><span class="state-cell__name">Active + tooltip</span><div class="state-cell__stage"><button class="icon-action is-hover" data-action="comparison" aria-pressed="true" aria-label="Сравнение"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-list-add"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-list-check"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в сравнение</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из сравнения</span></button></div></div>
+    </div>
+    <div class="live-row">
+      <span class="live-row__label">Интерактивно</span>
+      <button class="icon-action" data-action="comparison" aria-pressed="false" aria-label="Сравнение"><span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-list-add"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-list-check"></use></svg></span><span class="tooltip icon-action__tooltip" data-when="idle">Добавить в сравнение</span><span class="tooltip icon-action__tooltip" data-when="active">Убрать из сравнения</span></button>
+    </div>
+  </div>
+</section>
+
+<section id="price-block">
+  <h2>Price Block</h2>
+  <p class="section-note">Figma node 412-480. Подпись — Caption/Status в <code>carbon-black-300</code>, сумма — Numeric/Value (Wix Madefor Display ExtraBold 40/46), отступ между строками 4px.</p>
+  <div class="swatch-panel">
+    <div class="price-block">
+      <p class="price-block__label">Стоимость автомобиля</p>
+      <p class="price-block__value">20 390 000 ₽</p>
+    </div>
+  </div>
+</section>
+
+<section id="slider">
+  <h2>Slider</h2>
+  <p class="section-note">Figma node 409-1337. Дорожка 4px — <code>warm-taupe-400</code> под 40%, заливка — <code>heritage-green-500</code>. Степень заполнения задаётся переменной <code>--slider-value</code> (0…1).</p>
+
+  <article class="kit-block">
+    <h3 class="kit-block__title">Состояния из макета</h3>
+    <div class="swatch-panel">
+      <div class="state-grid state-grid--stack">
+        <div class="state-cell">
+          <span class="state-cell__name">Default — 0%</span>
+          <span class="slider"><span class="slider__fill" style="--slider-value:0"></span></span>
+        </div>
+        <div class="state-cell">
+          <span class="state-cell__name">Progress — 76.6% (321 из 419 в макете)</span>
+          <span class="slider"><span class="slider__fill" style="--slider-value:.766"></span></span>
+        </div>
+        <div class="state-cell">
+          <span class="state-cell__name">Final — 100%</span>
+          <span class="slider"><span class="slider__fill" style="--slider-value:1"></span></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="kit-block">
+    <h3 class="kit-block__title">Автозаполнение <span class="kit-block__note">4 секунды, как прогресс сторис</span></h3>
+    <div class="swatch-panel">
+      <div class="slider-demo">
+        <span class="slider-demo__name">Одна полоска — заполняется за 4s и начинает заново</span>
+        <span class="slider slider--auto"><span class="slider__fill"></span></span>
+      </div>
+
+      <div class="slider-demo">
+        <span class="slider-demo__name">Группа сегментов — заполняются по очереди, как сторис (4 × 4s)</span>
+        <div class="slider-group" data-stories style="--slider-duration:4s">
+          <span class="slider"><span class="slider__fill" style="--slider-index:0"></span></span>
+          <span class="slider"><span class="slider__fill" style="--slider-index:1"></span></span>
+          <span class="slider"><span class="slider__fill" style="--slider-index:2"></span></span>
+          <span class="slider"><span class="slider__fill" style="--slider-index:3"></span></span>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section id="brand-logo">
+  <h2>Brand logo</h2>
+  <p class="section-note">Логотипы марок будут меняться, поэтому компонент отвечает только за габарит и вписывание: высота фиксирована (<code>--brand-logo-size</code>, по умолчанию 39px), ширина подстраивается под пропорции файла — BMW квадратный, Lexus широкий. На фронте — <code>src/components/ui/BrandLogo.tsx</code>, соответствие «марка → файл» лежит в одном месте.</p>
+  <div class="swatch-panel">
+    <div class="icon-grid">
+      <div class="icon-cell"><span class="brand-logo"><img class="brand-logo__img" src="/brands/bmw.png" alt="BMW"></span><span class="icon-cell__name">BMW</span></div>
+      <div class="icon-cell"><span class="brand-logo"><img class="brand-logo__img" src="/brands/lexus.png" alt="Lexus"></span><span class="icon-cell__name">Lexus</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="brand-logo-card">
+  <h2>Brand Logo Card</h2>
+  <p class="section-note">Figma node 201-11228. Плитка с логотипом марки, два состояния: <b>Default</b> — фон <code>stone-beige-200</code> под 40%; <b>Hover</b> — фон <code>white</code> 50%, тень Shadow card brand, плитка подрастает. Логотипы — из <code>images/logo_brands</code> (<code>/brand-logos</code>), вписаны <code>object-fit: contain</code>, поэтому подходит любая марка. Наведи на плитки внизу.</p>
+
+  <article class="kit-block">
+    <h3 class="kit-block__title">Состояния из макета</h3>
+    <div class="swatch-panel">
+      <div class="card-stage">
+        <div class="brand-card-states">
+          <div class="state-cell">
+            <span class="state-cell__name">Default</span>
+            <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/bmw.webp" alt="BMW"></div>
+          </div>
+          <div class="state-cell">
+            <span class="state-cell__name">Hover</span>
+            <div class="brand-card is-hover"><img class="brand-card__logo" src="/brand-logos/bmw.webp" alt="BMW"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="kit-block">
+    <h3 class="kit-block__title">Все марки <span class="kit-block__note">(живой hover)</span></h3>
+    <div class="swatch-panel">
+      <div class="card-stage">
+        <div class="brand-card-grid">
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/bmw.webp" alt="BMW"></div>
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/mercedes.webp" alt="Mercedes-Benz"></div>
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/lexus.webp" alt="Lexus"></div>
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/ferrari.webp" alt="Ferrari"></div>
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/rollsroyce.webp" alt="Rolls-Royce"></div>
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/audi.webp" alt="Audi"></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section id="card">
+  <h2>Card</h2>
+  <p class="section-note">Базовая оболочка карточек. Сама о содержимом ничего не знает: задаёт поверхность (фон, радиус 30, паддинг 32) и сетку из трёх областей — <code>header</code> · <code>media</code> · <code>footer</code> — плюс плавающий слот <code>actions</code> в правом верхнем углу. Размеры и отступы вынесены в переменные, поэтому карточка другого типа переопределяет их, не переписывая правила.</p>
+  <div class="swatch-panel">
+    <div class="card-stage">
+      <div class="card" style="max-width:420px">
+        <div class="card__actions"><span class="card-slot card-slot--pill">actions</span></div>
+        <div class="card__header"><span class="card-slot">header</span></div>
+        <div class="card__media"><span class="card-slot card-slot--tall">media</span></div>
+        <div class="card__footer"><span class="card-slot">footer</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="car-card">
+  <h2>Car Card</h2>
+  <p class="section-note">Figma node 412-651. Собрана из уже существующих компонентов кита: <b>Card</b> (оболочка и сетка), <b>Brand logo</b>, <b>Tag</b>, <b>Indicator</b>, <b>Wishlist</b>, <b>Comparison</b>, <b>Price Block</b> и <b>Button</b>. Своего в ней только заголовок модели — компонента заголовка в ките нет, поэтому взят токен <code>Title/Model</code> из макета.</p>
+  <div class="swatch-panel">
+    <div class="card-stage">
+      <div class="card-row">
+
+        <article class="card car-card" data-status="in-stock">
+          <div class="card__actions">
+            <button class="icon-action" data-action="wishlist" aria-pressed="false" aria-label="Избранное">
+              <span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-heart-fill"></use></svg></span>
+              <span class="tooltip icon-action__tooltip" data-when="idle">Добавить в избранное</span>
+              <span class="tooltip icon-action__tooltip" data-when="active">Убрать из избранного</span>
+            </button>
+            <button class="icon-action" data-action="comparison" aria-pressed="false" aria-label="Сравнение">
+              <span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-list-add"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-list-check"></use></svg></span>
+              <span class="tooltip icon-action__tooltip" data-when="idle">Добавить в сравнение</span>
+              <span class="tooltip icon-action__tooltip" data-when="active">Убрать из сравнения</span>
+            </button>
+          </div>
+
+          <div class="card__header">
+            <div class="car-card__head">
+              <span class="brand-logo"><img class="brand-logo__img" src="/brands/bmw.png" alt="BMW"></span>
+              <div class="car-card__info">
+                <h3 class="car-card__title">X3 xDrive20i</h3>
+                <span class="indicator" data-color="success"><span class="indicator__dot"></span>В наличии</span>
+                <div class="tag-list car-card__tags">
+                  <span class="tag">2026</span>
+                  <span class="tag">Бензин</span>
+                  <span class="tag">Полный привод</span>
+                  <span class="tag">АКПП-8</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card__media car-card__media" style="--car-photo-width:111.78%; --car-photo-y:6.8px">
+            <img class="car-card__photo" src="/ui-kit/img/bmw-x3.png" alt="BMW X3 xDrive20i">
+          </div>
+
+          <div class="card__footer car-card__footer">
+            <div class="price-block">
+              <p class="price-block__label">Стоимость автомобиля</p>
+              <p class="price-block__value">8 990 000 ₽</p>
+            </div>
+            <button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Подробнее</span></button>
+          </div>
+        </article>
+
+        <article class="card car-card" data-status="waiting">
+          <div class="card__actions">
+            <button class="icon-action" data-action="wishlist" aria-pressed="false" aria-label="Избранное">
+              <span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-heart-fill"></use></svg></span>
+              <span class="tooltip icon-action__tooltip" data-when="idle">Добавить в избранное</span>
+              <span class="tooltip icon-action__tooltip" data-when="active">Убрать из избранного</span>
+            </button>
+            <button class="icon-action" data-action="comparison" aria-pressed="false" aria-label="Сравнение">
+              <span class="icon-action__glyph"><svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#icon-list-add"></use></svg><svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#icon-list-check"></use></svg></span>
+              <span class="tooltip icon-action__tooltip" data-when="idle">Добавить в сравнение</span>
+              <span class="tooltip icon-action__tooltip" data-when="active">Убрать из сравнения</span>
+            </button>
+          </div>
+
+          <div class="card__header">
+            <div class="car-card__head">
+              <span class="brand-logo"><img class="brand-logo__img" src="/brands/lexus.png" alt="Lexus"></span>
+              <div class="car-card__info">
+                <h3 class="car-card__title">GX Executive</h3>
+                <span class="indicator" data-color="warning"><span class="indicator__dot"></span>Ожидаем поступления</span>
+                <div class="tag-list car-card__tags">
+                  <span class="tag">2026</span>
+                  <span class="tag">Бензин</span>
+                  <span class="tag">Полный привод</span>
+                  <span class="tag">АКПП</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card__media car-card__media" style="--car-photo-width:91.97%">
+            <img class="car-card__photo" src="/ui-kit/img/lexus-gx.png" alt="Lexus GX Executive">
+          </div>
+
+          <div class="card__footer car-card__footer">
+            <div class="price-block">
+              <p class="price-block__label">Стоимость автомобиля</p>
+              <p class="price-block__value">15 490 000 ₽</p>
+            </div>
+            <button class="btn" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text" style="min-width:170px"><span class="btn__label">Забронировать</span></button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta-button">
+  <h2>CTA Button <span class="kit-block__note" style="font-size:13px">(анимированная)</span></h2>
+  <p class="section-note">Акцентная кнопка «текст + стрелка» для шапки («Каталог») и блоков Трейд-ин / Лизинг. На hover зелёный круг разрастается на всю пилюлю, текст белеет, стрелка уходит вверх-вправо — то же превращение, что у CTA в pressed. Наведи, чтобы увидеть.</p>
+  <div class="swatch-panel">
+    <div class="btn-cell__row" style="gap:24px">
+      <button class="cta-button"><span class="cta-button__label">Каталог</span><span class="cta-button__icon"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span></button>
+      <button class="cta-button"><span class="cta-button__label">Оставить заявку</span><span class="cta-button__icon"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span></button>
+    </div>
+  </div>
+</section>
+
+<section id="buttons">
+  <h2>Кнопки</h2>
+  <p class="section-note">Style: <b>Surface</b> · <b>Flat</b> · <b>Outlined</b> · <b>CTA</b>. Каждый блок — размеры S/M/L × состояния Default/Hover/Pressed × Content Text / Text+Icon / Only&nbsp;icon.</p>
+<article class="kit-block"><h3 class="kit-block__title">Primary / Surface</h3><div class="swatch-panel"><div class="btn-row"><span class="btn-row__size">Size S</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="surface" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size M</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="surface" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div></div></article>
+<article class="kit-block"><h3 class="kit-block__title">Secondary / Surface</h3><div class="swatch-panel"><div class="btn-row"><span class="btn-row__size">Size S</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="secondary" data-style="surface" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="secondary" data-style="surface" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="secondary" data-style="surface" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="secondary" data-style="surface" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="surface" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="surface" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="secondary" data-style="surface" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="surface" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="surface" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size M</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="secondary" data-style="surface" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="secondary" data-style="surface" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="secondary" data-style="surface" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="secondary" data-style="surface" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="surface" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="surface" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="secondary" data-style="surface" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="surface" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="surface" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="secondary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="secondary" data-style="surface" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="secondary" data-style="surface" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="secondary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="surface" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="surface" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="secondary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="surface" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="surface" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div></div></article>
+<article class="kit-block"><h3 class="kit-block__title">Primary / Surface / Inverse</h3><div class="swatch-panel swatch-panel--inverse"><div class="btn-row"><span class="btn-row__size">Size S</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="surface" data-size="s" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="s" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="s" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="s" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="s" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="s" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="s" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="s" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="s" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size M</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="surface" data-size="m" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="m" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="m" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="m" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="m" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="m" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="m" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="m" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="m" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="l" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="l" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="surface" data-size="l" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="l" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="l" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="surface" data-size="l" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div></div></article>
+<article class="kit-block"><h3 class="kit-block__title">Primary / Flat</h3><div class="swatch-panel"><div class="btn-row"><span class="btn-row__size">Size S</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="flat" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size M</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="flat" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="flat" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div></div></article>
+<article class="kit-block"><h3 class="kit-block__title">Secondary / Flat</h3><div class="swatch-panel"><div class="btn-row"><span class="btn-row__size">Size S</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="secondary" data-style="flat" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="secondary" data-style="flat" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="secondary" data-style="flat" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="secondary" data-style="flat" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="flat" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="flat" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="secondary" data-style="flat" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="flat" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="flat" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size M</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="secondary" data-style="flat" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="secondary" data-style="flat" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="secondary" data-style="flat" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="secondary" data-style="flat" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="flat" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="flat" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="secondary" data-style="flat" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="flat" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="flat" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="secondary" data-style="flat" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="secondary" data-style="flat" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="secondary" data-style="flat" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="secondary" data-style="flat" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="flat" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="flat" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="secondary" data-style="flat" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="flat" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="flat" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div></div></article>
+<article class="kit-block"><h3 class="kit-block__title">Primary / Flat / Inverse</h3><div class="swatch-panel swatch-panel--inverse"><div class="btn-row"><span class="btn-row__size">Size S</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="flat" data-size="s" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="s" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="s" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="s" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="s" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="s" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="s" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="s" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="s" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size M</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="flat" data-size="m" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="m" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="m" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="m" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="m" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="m" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="m" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="m" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="m" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="flat" data-size="l" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="l" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="flat" data-size="l" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="l" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="l" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="flat" data-size="l" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="l" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="l" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="flat" data-size="l" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div></div></article>
+<article class="kit-block"><h3 class="kit-block__title">Primary / Outlined</h3><div class="swatch-panel"><div class="btn-row"><span class="btn-row__size">Size S</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size M</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div></div></article>
+<article class="kit-block"><h3 class="kit-block__title">Secondary / Outlined</h3><div class="swatch-panel"><div class="btn-row"><span class="btn-row__size">Size S</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="secondary" data-style="outlined" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="secondary" data-style="outlined" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="secondary" data-style="outlined" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="secondary" data-style="outlined" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="outlined" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="outlined" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="secondary" data-style="outlined" data-size="s" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="outlined" data-size="s" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="outlined" data-size="s" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size M</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text-icon"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="icon-only" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div></div></article>
+<article class="kit-block"><h3 class="kit-block__title">Primary / Outlined / Inverse</h3><div class="swatch-panel swatch-panel--inverse"><div class="btn-row"><span class="btn-row__size">Size S</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="s" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="s" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="s" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="s" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size M</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="m" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="m" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="m" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="m" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn" data-emphasis="primary" data-style="outlined" data-size="l" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-hover" data-emphasis="primary" data-style="outlined" data-size="l" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text" data-inverse="true"><span class="btn__label">Button</span></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="l" data-content="text-icon" data-inverse="true"><span class="btn__label">Button</span><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button>
+<button class="btn is-pressed" data-emphasis="primary" data-style="outlined" data-size="l" data-content="icon-only" data-inverse="true" aria-label="Действие"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></button></div></div></div></div></div></article>
+<article class="kit-block"><h3 class="kit-block__title">Primary / CTA <span class="kit-block__note">(только L, Content=Text)</span></h3><div class="swatch-panel"><div class="btn-row"><span class="btn-row__size">Size L</span><div class="btn-row__cells"><div class="btn-cell"><span class="btn-cell__state">Default</span><div class="btn-cell__row"><button class="btn" data-style="cta" data-emphasis="primary" data-size="l" data-content="text"><span class="btn__label">Button</span><span class="btn__cta-icon"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span></button></div></div><div class="btn-cell"><span class="btn-cell__state">Hover</span><div class="btn-cell__row"><button class="btn is-hover" data-style="cta" data-emphasis="primary" data-size="l" data-content="text"><span class="btn__label">Button</span><span class="btn__cta-icon"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span></button></div></div><div class="btn-cell"><span class="btn-cell__state">Pressed</span><div class="btn-cell__row"><button class="btn is-pressed" data-style="cta" data-emphasis="primary" data-size="l" data-content="text"><span class="btn__label">Button</span><span class="btn__cta-icon"><svg class="btn__icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span></button></div></div></div></div></div></article>
+</section>
+
+</main>
+
+<script>
+  // Живое переключение состояния у иконок-действий (Wishlist / Comparison).
+  // Статичные ячейки с классом .is-hover — витрина состояний, их не трогаем.
+  document.querySelectorAll('.icon-action:not(.is-hover)').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var on = el.getAttribute('aria-pressed') === 'true';
+      el.setAttribute('aria-pressed', String(!on));
+    });
+  });
+
+  // Группа-сторис: сегменты заполняются по очереди и остаются залитыми
+  // (animation-fill-mode: forwards). Чтобы цикл повторялся, после
+  // прохода всей группы сбрасываем анимацию у всех сегментов сразу.
+  document.querySelectorAll('[data-stories]').forEach(function (group) {
+    var fills = group.querySelectorAll('.slider__fill');
+    if (!fills.length) return;
+
+    var raw = getComputedStyle(group).getPropertyValue('--slider-duration').trim();
+    var seconds = parseFloat(raw) || 4;
+    if (/ms$/.test(raw)) seconds = seconds / 1000;
+
+    setInterval(function () {
+      fills.forEach(function (el) {
+        el.style.animation = 'none';
+        void el.offsetWidth; // форсируем reflow, иначе анимация не стартует заново
+        el.style.animation = '';
+      });
+    }, seconds * fills.length * 1000 + 300);
+  });
+</script>
+</body>
+</html>

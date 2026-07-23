@@ -46,3 +46,34 @@ model Photo {
 
   @@index([carId])
 }
+
+// Аккаунты сотрудников для входа в админку. Заводятся скриптом
+// scripts/create-admin.mjs — публичной регистрации нет.
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+
+  news         News[]
+}
+
+model News {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  title       String
+  excerpt     String
+  body        String
+  coverImage  String?
+  status      String    @default("draft") // draft | published
+  publishedAt DateTime?
+
+  author      User?     @relation(fields: [authorId], references: [id])
+  authorId    Int?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([status])
+}
