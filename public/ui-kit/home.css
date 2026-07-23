@@ -728,6 +728,9 @@ button { font-family: inherit; }
   .formats__top { flex-direction: column; }
   .formats__aside { text-align: left; max-width: none; }
 
+  /* Шапка секции: кнопка переносится под заголовок, а не жмётся за край */
+  .section__head { flex-wrap: wrap; row-gap: 1rem; }
+
   /* Меньше боковых полей, чтобы не жать контент */
   .section, .craft, .review, .visit { padding-left: 1.5rem; padding-right: 1.5rem; }
   .promo { padding-left: 1.5rem; padding-right: 1.5rem; }
@@ -767,11 +770,8 @@ button { font-family: inherit; }
     margin: 0 0 1.25rem; font-size: 1.125rem; line-height: 1.4;
   }
 
-  .hero__car {
-    position: static; order: 2;
-    width: 100%; max-width: 32rem; height: auto;
-    margin: 1.5rem auto 0; right: auto; top: auto;
-  }
+  /* Большая машина скрыта на планшете/мобиле (360–960) — во всех слайдах */
+  .hero__car { display: none; }
 
   .hero__bottom {
     position: static; order: 3;
