@@ -10,7 +10,7 @@ body {
   margin: 0;
   font-family: var(--font-onest);
   color: var(--carbon-black-500);
-  background: #eae4de;
+  background: var(--stone-beige-100); /* #f3f0ee — тёплый бежевый фон страницы */
 }
 img { display: block; max-width: 100%; }
 button { font-family: inherit; }
@@ -122,8 +122,12 @@ button { font-family: inherit; }
   color: var(--carbon-black-500);
   text-transform: uppercase;
 }
+/* Заголовок — три строки: 1-я обычная, 2-я и 3-я жирные.
+   Каждая строка block, иначе <b> встают в одну строку. */
+.hero__title span,
+.hero__title b { display: block; }
 .hero__title b { font-weight: 800; }
-.hero__title span { font-weight: 400; display: block; }
+.hero__title span { font-weight: 400; }
 .hero__tagline {
   position: absolute;
   top: 26px;
@@ -221,14 +225,23 @@ button { font-family: inherit; }
 .hero__slider .circle-btn { --circle-btn-size: 32px; }
 .hero__slider .circle-btn--next svg { transform: scaleX(-1); }
 
-/* ═══════════════ Блок 2 — логотипы брендов ═══════════════ */
+/* ═══════════════ Блок 2 — логотипы брендов ═══════════════
+   Стрелки — снаружи ленты (flex-соседи), окно занимает остаток.
+   На 1920 окно = 1720px → ровно 5 карточек, 6-я скрыта и
+   появляется при прокрутке. Вертикальный запас — чтобы hover-
+   увеличение карточки не обрезалось overflow:hidden. */
 .brands {
-  position: relative;
-  padding: 60px 46px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 60px 40px;
 }
 .brands__viewport {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
-  margin: 0 12px;
+  padding: 16px 0;
+  margin: -16px 0;
 }
 .brands__track {
   display: flex;
@@ -237,12 +250,7 @@ button { font-family: inherit; }
 }
 .brands__track .brand-card { flex: 0 0 auto; }
 .brands__nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
   --circle-btn-size: 44px;
+  flex-shrink: 0;
 }
-.brands__nav--prev { left: 46px; }
-.brands__nav--next { right: 46px; }
 .brands__nav--next svg { transform: scaleX(-1); }

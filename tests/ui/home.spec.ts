@@ -13,6 +13,11 @@ test.describe("Главная — Hero (блок 1)", () => {
     await expect(spans.nth(0)).toHaveCSS("font-weight", "400");
     await expect(spans.nth(1)).toHaveCSS("font-weight", "800");
     await expect(spans.nth(2)).toHaveCSS("font-weight", "800");
+    // каждая строка на своей строке (три разных top)
+    const tops = await page.$$eval(".hero__title > *", (els) =>
+      els.map((e) => Math.round(e.getBoundingClientRect().top))
+    );
+    expect(new Set(tops).size).toBe(3);
   });
 
   test("карточка авто показывает модель, статус, цену и 4 тега", async ({ page }) => {
@@ -55,6 +60,32 @@ test.describe("Главная — Hero (блок 1)", () => {
   });
 });
 
+test.describe("Главная — слайдер hero (эффект заполнения)", () => {
+  // с обычным motion (без reduce), чтобы полоска реально анимировалась
+  test.use({ reducedMotion: "no-preference" });
+
+  test("полоска не залита сразу и заполняется со временем", async ({ page }) => {
+    await page.goto(HOME, { waitUntil: "domcontentloaded" });
+    const scaleOf = () =>
+      page
+        .locator(".hero__slider .slider__fill")
+        .first()
+        .evaluate((el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).a);
+
+    const start = await scaleOf();
+    // не «сразу зелёная» (была бы 1); заполнение идёт от неполного
+    expect(start, "полоска не должна быть залита сразу").toBeLessThan(0.9);
+    await page.waitForTimeout(1200);
+    const later = await scaleOf();
+    expect(later, "полоска должна заполняться").toBeGreaterThan(start + 0.1);
+  });
+
+  test("в слайдере ровно 2 полоски (две машины)", async ({ page }) => {
+    await page.goto(HOME);
+    await expect(page.locator(".hero__slider .slider")).toHaveCount(2);
+  });
+});
+
 test.describe("Главная — логотипы (блок 2)", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(HOME);
@@ -68,6 +99,22 @@ test.describe("Главная — логотипы (блок 2)", () => {
   test("шесть марок, включая Audi", async ({ page }) => {
     const brands = await page.evaluate(order);
     expect(brands).toEqual(["BMW", "Mercedes-Benz", "Lexus", "Porsche", "Rolls-Royce", "Audi"]);
+  });
+
+  test("видно ровно 5 логотипов, шестой скрыт, первый не под стрелкой", async ({ page }) => {
+    const m = await page.evaluate(() => {
+      const vp = document.querySelector(".brands__viewport")!.getBoundingClientRect();
+      const cards = Array.from(document.querySelectorAll(".brands__track .brand-card"));
+      const prev = document.querySelector(".brands__nav--prev")!.getBoundingClientRect();
+      return {
+        fullyVisible: cards.filter((c) => c.getBoundingClientRect().right <= vp.right + 1).length,
+        sixthHidden: cards[5].getBoundingClientRect().left >= vp.right - 2,
+        firstNotUnderArrow: cards[0].getBoundingClientRect().left >= prev.right - 1,
+      };
+    });
+    expect(m.fullyVisible).toBe(5);
+    expect(m.sixthHidden).toBe(true);
+    expect(m.firstNotUnderArrow).toBe(true);
   });
 
   test("кнопки листают вперёд и назад", async ({ page }) => {

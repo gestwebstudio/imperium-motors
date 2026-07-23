@@ -199,18 +199,22 @@
 
     function paintFills(active) {
       fills.forEach(function (f, i) {
-        f.style.transition = "none";
+        f.getAnimations().forEach(function (a) { a.cancel(); });
+        // пройденные полоски — залиты, будущие — пусты
         f.style.transform = "scaleX(" + (i < active ? 1 : 0) + ")";
       });
-      if (reduce) { // без бегущей анимации — просто отмечаем текущий
+      if (reduce) { // без бегущей анимации — просто отмечаем текущую
         fills[active].style.transform = "scaleX(1)";
         return;
       }
-      // запускаем заполнение активной полоски
+      // активная полоска заполняется 0 → 100% за DURATION (Web Animations API
+      // надёжнее связки transition:none + reflow — не «прыгает» сразу в 100%)
       var f = fills[active];
-      void f.offsetWidth; // reflow, чтобы transition сработал
-      f.style.transition = "transform " + DURATION + "ms linear";
-      f.style.transform = "scaleX(1)";
+      f.style.transform = "scaleX(0)";
+      f.animate(
+        [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }],
+        { duration: DURATION, easing: "linear", fill: "forwards" }
+      );
     }
 
     function go(i, restart) {
