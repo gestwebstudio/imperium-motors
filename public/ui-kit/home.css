@@ -196,7 +196,7 @@ button { font-family: inherit; }
   font-size: var(--text-numeric-value-size);
   line-height: var(--text-numeric-value-line-height);
   font-weight: var(--text-numeric-value-weight);
-  color: var(--carbon-black-500);
+  color: var(--heritage-green-500);
 }
 .hero-stat__label {
   margin: 6px 0 0;
@@ -255,6 +255,15 @@ button { font-family: inherit; }
   flex-shrink: 0;
 }
 .brands__nav--next svg { transform: scaleX(-1) translateZ(0); }
+
+/* Фон стрелок-навигации каруселей (блоки 2, 3, 5, 8) — Stone Beige 200,
+   на hover чуть темнее (300), чтобы сохранить отклик наведения. */
+.brands__nav,
+.car-row__nav,
+.review__nav .circle-btn {
+  --circle-btn-bg: var(--stone-beige-200);
+  --circle-btn-bg-hover: var(--stone-beige-300);
+}
 
 /* ═══════════════════════════════════════════════════════════
    Ниже — секции полной главной (макет Figma 141-1958),
