@@ -223,8 +223,8 @@ button { font-family: inherit; }
   max-width: none;
   gap: 12px;
 }
-.hero__slider .circle-btn { --circle-btn-size: 32px; }
-.hero__slider .circle-btn--next svg { transform: scaleX(-1); }
+.hero__slider .circle-btn { --circle-btn-size: 32px; --circle-btn-icon: 13px; }
+.hero__slider .circle-btn--next svg { transform: scaleX(-1) translateZ(0); }
 
 /* ═══════════════ Блок 2 — логотипы брендов ═══════════════
    Стрелки — снаружи ленты (flex-соседи), окно занимает остаток.
@@ -254,4 +254,371 @@ button { font-family: inherit; }
   --circle-btn-size: 44px;
   flex-shrink: 0;
 }
-.brands__nav--next svg { transform: scaleX(-1); }
+.brands__nav--next svg { transform: scaleX(-1) translateZ(0); }
+
+/* ═══════════════════════════════════════════════════════════
+   Ниже — секции полной главной (макет Figma 141-1958),
+   собранные из тех же токенов и компонентов кита.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Общий контейнер секции и шапка «заголовок + действие» */
+.section { padding: 80px 60px; }
+.section__head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.section__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-heading-section-size);
+  line-height: 1.05;
+  font-weight: var(--text-heading-section-weight);
+  color: var(--carbon-black-500);
+}
+.section__head .badge { align-self: flex-start; }
+.section__head-spacer { flex: 1; }
+
+/* Ряд карточек авто со стрелками (используется дважды) */
+.car-row { display: flex; align-items: center; gap: 10px; }
+.car-row__nav { --circle-btn-size: 44px; flex-shrink: 0; }
+.car-row__nav--next svg { transform: scaleX(-1) translateZ(0); }
+.car-row__viewport { flex: 1; min-width: 0; overflow: hidden; padding: 16px 0; margin: -16px 0; }
+.car-row__track { display: flex; gap: 24px; will-change: transform; }
+/* В ряду карточки тянутся на равные доли, а не по 548px */
+.car-row__track .car-card { flex: 1 1 0; max-width: none; }
+
+/* ═══════════════ Блок «Найдите свой формат» — бенто категорий ═══════════════ */
+.formats__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+.formats__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 66px;
+  line-height: 68px;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  color: var(--carbon-black-500);
+}
+.formats__heading span { display: block; font-weight: 400; }
+.formats__heading b { display: block; font-weight: 800; }
+.formats__aside { max-width: 420px; padding-top: 6px; text-align: right; }
+.formats__aside p {
+  margin: 0 0 18px;
+  font-family: var(--font-onest);
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--warm-taupe-500);
+}
+.formats__aside .btn { }
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: 564fr 624fr 564fr;
+  grid-template-rows: 391px 391px 464px;
+  gap: 24px;
+  grid-template-areas:
+    "coupe suv minivan"
+    "cabrio suv crossover"
+    "sedan sedan sedan";
+}
+.cat--coupe { grid-area: coupe; }
+.cat--suv { grid-area: suv; }
+.cat--minivan { grid-area: minivan; }
+.cat--cabrio { grid-area: cabrio; }
+.cat--crossover { grid-area: crossover; }
+.cat--sedan { grid-area: sedan; }
+
+.cat-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 30px;
+  color: var(--white);
+  text-decoration: none;
+  isolation: isolate;
+}
+.cat-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(24, 30, 29, 0.72) 0%, rgba(24, 30, 29, 0.28) 34%, rgba(24, 30, 29, 0) 60%);
+}
+.cat-card:hover .cat-card__img { transform: scale(1.05); }
+.cat-card__body { padding: 32px 34px; }
+.cat-card__title {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 600;
+}
+.cat-card__text {
+  margin: 0;
+  max-width: 300px;
+  font-family: var(--font-onest);
+  font-size: 18px;
+  line-height: 24px;
+  color: rgba(255, 255, 255, 0.82);
+}
+.cat-card__arrow {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  --circle-btn-size: 44px;
+  --circle-btn-bg: rgba(255, 255, 255, 0.9);
+  --circle-btn-bg-hover: #fff;
+}
+.cat-card__arrow svg { width: 16px; height: 16px; }
+.cat--sedan .cat-card__body { max-width: 520px; }
+.cat--sedan .cat-card__arrow { top: auto; bottom: 28px; left: 34px; right: auto; }
+
+/* ═══════════════ Баннеры Трейд-ин / Лизинг ═══════════════ */
+.promo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 0 60px 40px; }
+.promo-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-height: 167px;
+  padding: 40px 48px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.promo-card__title {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--carbon-black-500);
+}
+.promo-card__text {
+  margin: 0;
+  max-width: 620px;
+  font-family: var(--font-onest);
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--warm-taupe-500);
+}
+.promo-card__arrow {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  --circle-btn-size: 44px;
+  --circle-btn-bg: transparent;
+  --circle-btn-bg-hover: rgba(24, 30, 29, 0.06);
+  box-shadow: inset 0 0 0 1px var(--warm-taupe-300);
+}
+.promo-card__arrow svg { width: 16px; height: 16px; }
+
+/* ═══════════════ «Индивидуальный подход» — стейтмент + фичи ═══════════════ */
+.craft { position: relative; padding: 80px 60px; }
+.craft__canvas { position: relative; width: 1800px; max-width: 100%; height: 1330px; margin: 0 auto; }
+.craft__statement {
+  position: absolute;
+  left: 0;
+  top: 104px;
+  width: 1027px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 50px;
+  line-height: 56px;
+  letter-spacing: -1px;
+  color: var(--carbon-black-500);
+}
+.craft__statement span { font-weight: 400; }
+.craft__statement b { font-weight: 800; }
+.craft__watermark {
+  position: absolute;
+  left: 0;
+  top: 460px;
+  width: 1780px;
+  height: auto;
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}
+.feat-card { position: absolute; display: flex; flex-direction: column; }
+.feat-card--atelier { left: 1027px; top: 0; width: 773px; }
+.feat-card--podbor { left: 0; top: 535px; width: 660px; }
+.feat-card--design { left: 725px; top: 688px; width: 1075px; }
+.feat-card__img {
+  width: 100%;
+  height: 438px;
+  object-fit: cover;
+  border-radius: 26px;
+}
+.feat-card--design .feat-card__img { height: 470px; }
+.feat-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 28px 0 12px;
+}
+.feat-card__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--carbon-black-500);
+}
+.feat-card__arrow {
+  --circle-btn-size: 44px;
+  --circle-btn-bg: transparent;
+  --circle-btn-bg-hover: rgba(24, 30, 29, 0.06);
+  box-shadow: inset 0 0 0 1px var(--warm-taupe-300);
+  flex-shrink: 0;
+}
+.feat-card__arrow svg { width: 16px; height: 16px; }
+.feat-card__text {
+  margin: 0;
+  max-width: 640px;
+  font-family: var(--font-onest);
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--warm-taupe-500);
+}
+
+/* ═══════════════ Отзыв «Выбор, которым делятся» ═══════════════ */
+.review { display: grid; grid-template-columns: 875px 1fr; gap: 50px; padding: 80px 60px; align-items: stretch; }
+.review__media { border-radius: 30px; overflow: hidden; }
+.review__media img { width: 100%; height: 100%; object-fit: cover; }
+.review__body { display: flex; flex-direction: column; }
+.review__title {
+  margin: 0 0 auto;
+  font-family: var(--font-display);
+  font-size: 56px;
+  line-height: 56px;
+  color: var(--carbon-black-500);
+}
+.review__title span { display: block; font-weight: 400; }
+.review__title b { display: block; font-weight: 800; }
+.review__author { margin: 40px 0 20px; }
+.review__name { margin: 0; font-family: var(--font-onest); font-weight: 600; font-size: 20px; color: var(--carbon-black-500); }
+.review__car { margin: 2px 0 0; font-family: var(--font-onest); font-size: 16px; color: var(--warm-taupe-400); }
+.review__quote {
+  margin: 0 0 32px;
+  font-family: var(--font-onest);
+  font-size: 36px;
+  line-height: 42px;
+  color: var(--carbon-black-500);
+  max-width: 875px;
+}
+.review__nav { display: flex; gap: 12px; }
+.review__nav .circle-btn { --circle-btn-size: 44px; }
+.review__nav .circle-btn--next svg { transform: scaleX(-1) translateZ(0); }
+
+/* ═══════════════ «Ждём вас в салоне» — галерея + контакты ═══════════════ */
+.visit { padding: 80px 60px; }
+.visit__title {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: 66px;
+  line-height: 70px;
+  text-transform: uppercase;
+  color: var(--carbon-black-500);
+}
+.visit__title span { display: block; font-weight: 600; }
+.visit__title b { display: block; font-weight: 800; }
+.visit__sub {
+  margin: 0 0 40px;
+  max-width: 780px;
+  font-family: var(--font-onest);
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--warm-taupe-500);
+}
+.visit__grid { display: grid; grid-template-columns: 496px 454px 1fr; gap: 24px; }
+.visit__col { display: flex; flex-direction: column; gap: 24px; }
+.visit__photo { border-radius: 24px; overflow: hidden; }
+.visit__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.visit__photo--tall { height: 722px; }
+.visit__photo--half { height: 349px; }
+.contact-card {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 24px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.contact-row__label { margin: 0 0 6px; font-family: var(--font-onest); font-size: 16px; color: var(--warm-taupe-400); }
+.contact-row__value { margin: 0; font-family: var(--font-display); font-size: 30px; line-height: 1.1; font-weight: 600; color: var(--carbon-black-500); }
+.contact-row__note { margin: 4px 0 0; font-family: var(--font-onest); font-size: 16px; color: var(--warm-taupe-400); }
+.contact-card .btn { align-self: flex-start; }
+.contact-card__map { margin-top: auto; border-radius: 18px; overflow: hidden; }
+.contact-card__map img { width: 100%; height: 260px; object-fit: cover; display: block; }
+
+/* ═══════════════ Футер ═══════════════ */
+.site-footer {
+  background: var(--carbon-black-500);
+  color: var(--stone-beige-200);
+  border-radius: 40px 40px 0 0;
+  padding: 60px;
+  margin-top: 40px;
+  overflow: hidden;
+}
+.site-footer__top { display: grid; grid-template-columns: repeat(4, auto) 1fr auto; gap: 40px; align-items: start; }
+.footer-col__title { margin: 0 0 20px; font-family: var(--font-onest); font-weight: 600; font-size: 20px; color: var(--stone-beige-400); }
+.footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.footer-col a { font-family: var(--font-onest); font-size: 16px; color: var(--stone-beige-200); text-decoration: none; transition: color 0.2s ease; }
+.footer-col a:hover { color: var(--white); }
+.footer-contact__phone { display: flex; align-items: center; gap: 8px; font-family: var(--font-onest); font-weight: 600; font-size: 20px; color: var(--white); }
+.footer-contact__phone svg { width: 18px; height: 18px; color: var(--stone-beige-400); }
+.footer-social { display: flex; gap: 14px; margin-top: 18px; }
+.footer-social a {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08); color: var(--stone-beige-200);
+  transition: background 0.2s ease;
+}
+.footer-social a:hover { background: rgba(255, 255, 255, 0.18); }
+.footer-social svg { width: 20px; height: 20px; }
+.footer-legal { text-align: right; font-family: var(--font-onest); font-size: 16px; color: var(--stone-beige-400); line-height: 24px; }
+.footer-legal a { color: var(--stone-beige-400); text-decoration: none; }
+.footer-legal a:hover { color: var(--white); }
+.site-footer__brand { margin-top: 56px; }
+.site-footer__tagline { margin: 0 0 8px; font-family: var(--font-onest); font-size: 16px; color: var(--stone-beige-500); }
+.site-footer__logo { width: 100%; height: auto; filter: brightness(0) invert(1); opacity: 0.92; }
+
+/* Плавающий виджет избранного/сравнения (правый край hero) */
+.float-actions {
+  position: absolute;
+  top: 300px;
+  right: 0;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 16px 0 0 16px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.float-actions__btn { position: relative; display: inline-flex; padding: 8px; border: 0; background: none; cursor: pointer; color: var(--carbon-black-500); }
+.float-actions__btn svg { width: 24px; height: 24px; }
+.float-actions__count {
+  position: absolute; top: 2px; right: 2px;
+  min-width: 15px; height: 15px; padding: 0 3px;
+  border-radius: 8px; background: var(--heritage-green-500); color: #fff;
+  font-family: var(--font-onest); font-size: 10px; line-height: 15px; text-align: center;
+}

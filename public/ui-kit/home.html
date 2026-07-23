@@ -132,6 +132,235 @@
     <button class="circle-btn brands__nav brands__nav--next" data-brands-next aria-label="Следующие"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
   </section>
 
+  <!-- ═══════════ Блок 3 — Автомобили в наличии ═══════════ -->
+  <section class="section" aria-label="Автомобили в наличии">
+    <div class="section__head">
+      <h2 class="section__title">Автомобили в наличии</h2>
+      <span class="badge" data-type="surface" data-color="info">138</span>
+      <span class="section__head-spacer"></span>
+      <a class="btn" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text" href="#"><span class="btn__label">Все автомобили</span></a>
+    </div>
+    <div class="car-row">
+      <button class="circle-btn car-row__nav" data-carrow-prev aria-label="Предыдущие"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+      <div class="car-row__viewport"><div class="car-row__track" id="cars-instock"></div></div>
+      <button class="circle-btn car-row__nav car-row__nav--next" data-carrow-next aria-label="Следующие"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+    </div>
+  </section>
+
+  <!-- ═══════════ Блок 4 — Найдите свой формат (бенто категорий) ═══════════ -->
+  <section class="section" aria-label="Категории">
+    <div class="formats__top">
+      <h2 class="formats__heading"><span>Найдите</span><b>Свой формат</b></h2>
+      <div class="formats__aside">
+        <p>Поможем подобрать автомобиль, который соответствует вашим задачам, образу жизни и ожиданиям от комфорта</p>
+        <a class="btn" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text" href="#"><span class="btn__label">Консультация</span></a>
+      </div>
+    </div>
+    <div class="cat-grid">
+      <a class="cat-card cat--coupe" href="#">
+        <img class="cat-card__img" src="/home/categories/coupe.png" alt="Купе">
+        <span class="circle-btn cat-card__arrow" aria-hidden="true"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span>
+        <div class="cat-card__body"><h3 class="cat-card__title">Купе</h3><p class="cat-card__text">Динамичный дизайн и яркие эмоции от каждой поездки</p></div>
+      </a>
+      <a class="cat-card cat--suv" href="#">
+        <img class="cat-card__img" src="/home/categories/suv.png" alt="Внедорожники">
+        <span class="circle-btn cat-card__arrow" aria-hidden="true"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span>
+        <div class="cat-card__body"><h3 class="cat-card__title">Внедорожники</h3><p class="cat-card__text">Уверенность, комфорт и свобода на любых маршрутах</p></div>
+      </a>
+      <a class="cat-card cat--minivan" href="#">
+        <img class="cat-card__img" src="/home/categories/minivan.png" alt="Минивэны">
+        <span class="circle-btn cat-card__arrow" aria-hidden="true"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span>
+        <div class="cat-card__body"><h3 class="cat-card__title">Минивэны</h3><p class="cat-card__text">Простор для семьи, бизнеса и дальних путешествий</p></div>
+      </a>
+      <a class="cat-card cat--cabrio" href="#">
+        <img class="cat-card__img" src="/home/categories/cabrio.png" alt="Кабриолеты">
+        <span class="circle-btn cat-card__arrow" aria-hidden="true"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span>
+        <div class="cat-card__body"><h3 class="cat-card__title">Кабриолеты</h3><p class="cat-card__text">Открытая дорога, лёгкость и максимум впечатлений</p></div>
+      </a>
+      <a class="cat-card cat--crossover" href="#">
+        <img class="cat-card__img" src="/home/categories/crossover.png" alt="Кроссоверы">
+        <span class="circle-btn cat-card__arrow" aria-hidden="true"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span>
+        <div class="cat-card__body"><h3 class="cat-card__title">Кроссоверы</h3><p class="cat-card__text">Универсальность для города и активного образа жизни</p></div>
+      </a>
+      <a class="cat-card cat--sedan" href="#">
+        <img class="cat-card__img" src="/home/categories/sedan.png" alt="Седаны">
+        <span class="circle-btn cat-card__arrow" aria-hidden="true"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span>
+        <div class="cat-card__body"><h3 class="cat-card__title">Седаны</h3><p class="cat-card__text">Элегантность, комфорт и безупречный стиль на каждый день</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════ Блок 5 — Ближайшие поступления ═══════════ -->
+  <section class="section" aria-label="Ближайшие поступления">
+    <div class="section__head"><h2 class="section__title">Ближайшие поступления</h2></div>
+    <div class="car-row">
+      <button class="circle-btn car-row__nav" data-carrow-prev aria-label="Предыдущие"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+      <div class="car-row__viewport"><div class="car-row__track" id="cars-waiting"></div></div>
+      <button class="circle-btn car-row__nav car-row__nav--next" data-carrow-next aria-label="Следующие"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+    </div>
+  </section>
+
+  <!-- ═══════════ Блок 6 — Трейд-ин / Лизинг ═══════════ -->
+  <div class="promo">
+    <div class="promo-card">
+      <div>
+        <h3 class="promo-card__title">Трейд-ин</h3>
+        <p class="promo-card__text">Сдайте свой автомобиль в хорошие руки. Честная оценка, быстрое оформление, зачёт в счёт нового авто</p>
+      </div>
+      <a class="circle-btn promo-card__arrow" href="#" aria-label="Подробнее"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></a>
+    </div>
+    <div class="promo-card">
+      <div>
+        <h3 class="promo-card__title">Лизинг</h3>
+        <p class="promo-card__text">Программы для бизнеса с оптимизацией налогов и комфортным графиком платежей — без заморозки капитала и с выкупом автомобиля на ваших условиях</p>
+      </div>
+      <a class="circle-btn promo-card__arrow" href="#" aria-label="Подробнее"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></a>
+    </div>
+  </div>
+
+  <!-- ═══════════ Блок 7 — Индивидуальный подход (стейтмент + фичи) ═══════════ -->
+  <section class="craft" aria-label="Индивидуальный подход">
+    <div class="craft__canvas">
+      <h2 class="craft__statement"><span>От доработки серийных моделей до поиска редких экземпляров —</span> <b>воплощаем индивидуальный подход в каждой детали</b></h2>
+      <img class="craft__watermark" src="/home/imperium-logo.svg" alt="" aria-hidden="true">
+
+      <article class="feat-card feat-card--atelier">
+        <img class="feat-card__img" src="/home/features/atelier.png" alt="Ателье персонализации">
+        <div class="feat-card__head">
+          <h3 class="feat-card__title">Ателье персонализации</h3>
+          <a class="circle-btn feat-card__arrow" href="#" aria-label="Подробнее"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></a>
+        </div>
+        <p class="feat-card__text">Защита бронеплёнкой, смена цвета автомобиля, апгрейд мультимедиа, подбор дисков — всё в одном месте.</p>
+      </article>
+
+      <article class="feat-card feat-card--podbor">
+        <img class="feat-card__img" src="/home/features/podbor.png" alt="Индивидуальный подбор">
+        <div class="feat-card__head">
+          <h3 class="feat-card__title">Индивидуальный подбор</h3>
+          <a class="circle-btn feat-card__arrow" href="#" aria-label="Подробнее"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></a>
+        </div>
+        <p class="feat-card__text">Мы находим редкие комплектации и привозим автомобили под заказ со всего мира.</p>
+      </article>
+
+      <article class="feat-card feat-card--design">
+        <img class="feat-card__img" src="/home/features/design.png" alt="Дизайн с Александром Велесом">
+        <div class="feat-card__head">
+          <h3 class="feat-card__title">Дизайн с Александром Велесом</h3>
+          <a class="circle-btn feat-card__arrow" href="#" aria-label="Подробнее"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></a>
+        </div>
+        <p class="feat-card__text">Авторская концепция экстерьера вашего автомобиля: уникальный дизайн, который делает автомобиль продолжением вас.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══════════ Блок 8 — Отзыв ═══════════ -->
+  <section class="review" aria-label="Отзыв">
+    <div class="review__media"><img src="/home/misc/testimonial.png" alt="Клиент Imperium Motors"></div>
+    <div class="review__body">
+      <h2 class="review__title"><span>Выбор,</span><b>которым делятся</b></h2>
+      <div class="review__author">
+        <p class="review__name">Михаил</p>
+        <p class="review__car">BMW 7 Series</p>
+      </div>
+      <p class="review__quote">«Искал автомобиль без компромиссов по комплектации и состоянию. Команда быстро поняла задачу, предложила несколько точных вариантов и полностью взяла на себя сопровождение сделки. В результате я получил именно тот автомобиль, который хотел.»</p>
+      <div class="review__nav">
+        <button class="circle-btn" aria-label="Предыдущий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+        <button class="circle-btn circle-btn--next" aria-label="Следующий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ Блок 9 — Ждём вас в салоне (галерея + контакты) ═══════════ -->
+  <section class="visit" aria-label="Контакты">
+    <h2 class="visit__title"><span>Ждём вас в салоне</span><b>Imperium Motors</b></h2>
+    <p class="visit__sub">Выберите удобное время, и мы подготовим автомобили к вашему приезду. Ответим на вопросы, проведём тест-драйв и обсудим детали сделки в комфортной обстановке.</p>
+    <div class="visit__grid">
+      <div class="visit__col">
+        <div class="visit__photo visit__photo--tall"><img src="/home/gallery/g1.png" alt="Салон Imperium Motors"></div>
+      </div>
+      <div class="visit__col">
+        <div class="visit__photo visit__photo--half"><img src="/home/gallery/g2.png" alt="Экспозиция салона"></div>
+        <div class="visit__photo visit__photo--half"><img src="/home/gallery/g3.png" alt="Автомобиль в салоне"></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-row"><p class="contact-row__label">Телефон</p><p class="contact-row__value">+7 499 704-14-44</p></div>
+        <div class="contact-row"><p class="contact-row__label">Адрес</p><p class="contact-row__value">Москва, Кутузовский проспект 48</p><p class="contact-row__note">(Паркинг P1 ТЦ «Времена года»)</p></div>
+        <div class="contact-row"><p class="contact-row__label">Часы работы</p><p class="contact-row__value">11:00 – 21:00</p><p class="contact-row__note">(ежедневно)</p></div>
+        <a class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text" href="#"><span class="btn__label">Построить маршрут</span></a>
+        <div class="contact-card__map"><img src="/home/misc/map.png" alt="Карта проезда"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ Футер ═══════════ -->
+  <footer class="site-footer">
+    <div class="site-footer__top">
+      <div class="footer-col">
+        <p class="footer-col__title">Автомобили</p>
+        <ul>
+          <li><a href="#">Полный каталог</a></li>
+          <li><a href="#">Седаны</a></li>
+          <li><a href="#">Кроссоверы</a></li>
+          <li><a href="#">Внедорожники</a></li>
+          <li><a href="#">Купе</a></li>
+          <li><a href="#">Минивэны</a></li>
+          <li><a href="#">Кабриолеты</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col__title">Подборки брендов</p>
+        <ul>
+          <li><a href="#">BMW</a></li>
+          <li><a href="#">Mercedes</a></li>
+          <li><a href="#">Porsche</a></li>
+          <li><a href="#">Lexus</a></li>
+          <li><a href="#">Ferrari</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col__title">Услуги</p>
+        <ul>
+          <li><a href="#">Трейд-ин</a></li>
+          <li><a href="#">Лизинг</a></li>
+          <li><a href="#">Авто под заказ</a></li>
+          <li><a href="#">Автоателье</a></li>
+          <li><a href="#">Индивидуальный дизайн авто</a></li>
+          <li><a href="#">Помощь на дороге</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col__title">Imperium Motors</p>
+        <ul>
+          <li><a href="#">О салоне</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <p class="footer-col__title">Телефон</p>
+        <a class="footer-contact__phone" href="tel:+74997041444"><svg aria-hidden="true"><use href="#icon-phone"></use></svg>+7 499 704-14-44</a>
+        <div class="footer-social">
+          <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3l-3.3 15.6c-.2 1.1-.9 1.4-1.9.9l-5.2-3.8-2.5 2.4c-.3.3-.5.5-1 .5l.4-5.3L18.9 6c.4-.4-.1-.6-.6-.2L7.4 12.9l-5.1-1.6c-1.1-.3-1.1-1.1.2-1.6L20.6 2.7c.9-.3 1.7.2 1.3 1.6z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.1-4.6-.2-.2-1.3-1.7-1.3-3.2s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5.2.6.8 2 .9 2.1.1.1.1.3 0 .5-.1.2-.2.4-.3.5l-.5.5c-.2.2-.3.3-.1.6.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.7-.1.3.1 1.8.8 2.1 1 .3.1.5.2.6.3.1.2.1.7-.1 1.4z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-legal">
+        Copyright © 2026 Imperium Motors<br>All Rights Reserved
+        <br><br><a href="#">Правовые документы</a>
+      </div>
+    </div>
+    <div class="site-footer__brand">
+      <p class="site-footer__tagline">Салон премиальных автомобилей со всего мира</p>
+      <img class="site-footer__logo" src="/home/imperium-logo.svg" alt="Imperium Motors">
+    </div>
+  </footer>
+
+  <!-- Плавающий виджет избранного / сравнения -->
+  <div class="float-actions" aria-label="Избранное и сравнение">
+    <button class="float-actions__btn" aria-label="Избранное"><svg aria-hidden="true"><use href="#icon-heart-stroke"></use></svg><span class="float-actions__count">2</span></button>
+    <button class="float-actions__btn" aria-label="Сравнение"><svg aria-hidden="true"><use href="#icon-list-add"></use></svg><span class="float-actions__count">10</span></button>
+  </div>
+
 </div>
 
 <script>
@@ -289,5 +518,100 @@
   }
 })();
 </script>
+
+<script>
+(function () {
+  "use strict";
+
+  var INSTOCK = [
+    { logo:"/home/logos/bmw.png", brand:"BMW", model:"X3 xDrive20i", status:"В наличии", color:"success",
+      tags:["2026","Бензин","Полный привод","АКПП-8"], photo:"/home/catalog/x3.png", price:"8 990 000 ₽", cta:"more" },
+    { logo:"/home/logos/mercedes.png", brand:"Mercedes-Benz", model:"CLE AMG 53 4matic+", status:"В наличии", color:"success",
+      tags:["2026","Бензин","Полный привод","АКПП-9"], photo:"/home/catalog/cle.png", price:"13 990 000 ₽", cta:"more" },
+    { logo:"/home/logos/landrover.png", brand:"Land Rover", model:"Range Rover SV", status:"В наличии", color:"success",
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/rangerover.png", price:"35 690 000 ₽", cta:"more" }
+  ];
+  var WAITING = [
+    { logo:"/home/logos/lexus.png", brand:"Lexus", model:"GX Executive", status:"Ожидаем поступления", color:"warning",
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/gx.png", price:"15 490 000 ₽", cta:"book" },
+    { logo:"/home/logos/bmw.png", brand:"BMW", model:"X5 M60i Sport Pro", status:"Ожидаем поступления", color:"warning",
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/x5.png", price:"20 390 000 ₽", cta:"book" },
+    { logo:"/home/logos/mercedes.png", brand:"Mercedes-Benz", model:"V-Класс Exclusive", status:"Ожидаем поступления", color:"warning",
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/vclass.png", price:"14 490 000 ₽", cta:"book" }
+  ];
+
+  function iconAction(kind) {
+    var idle = kind === "wishlist" ? "icon-heart-stroke" : "icon-list-add";
+    var active = kind === "wishlist" ? "icon-heart-fill" : "icon-list-check";
+    var idleLabel = kind === "wishlist" ? "В избранное" : "К сравнению";
+    var activeLabel = kind === "wishlist" ? "В избранном" : "В сравнении";
+    return '<button class="icon-action" data-action="' + kind + '" type="button" aria-pressed="false" aria-label="' + idleLabel + '">' +
+      '<span class="icon-action__glyph">' +
+        '<svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#' + idle + '"></use></svg>' +
+        '<svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#' + active + '"></use></svg>' +
+      '</span>' +
+      '<span class="icon-action__tooltip tooltip tooltip--s" data-when="idle">' + idleLabel + '</span>' +
+      '<span class="icon-action__tooltip tooltip tooltip--s" data-when="active">' + activeLabel + '</span>' +
+    '</button>';
+  }
+
+  function carCard(c) {
+    var btn = c.cta === "book"
+      ? '<button class="btn" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text"><span class="btn__label">Забронировать</span></button>'
+      : '<button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Подробнее</span></button>';
+    return '<article class="card car-card">' +
+      '<div class="card__actions">' + iconAction("wishlist") + iconAction("comparison") + '</div>' +
+      '<div class="card__header"><div class="car-card__head">' +
+        '<span class="brand-logo"><img class="brand-logo__img" src="' + c.logo + '" alt="' + c.brand + '"></span>' +
+        '<div class="car-card__info">' +
+          '<h3 class="car-card__title">' + c.model + '</h3>' +
+          '<span class="indicator" data-color="' + c.color + '"><span class="indicator__dot"></span>' + c.status + '</span>' +
+          '<div class="tag-list car-card__tags">' + c.tags.map(function (t) { return '<span class="tag">' + t + '</span>'; }).join("") + '</div>' +
+        '</div>' +
+      '</div></div>' +
+      '<div class="card__media car-card__media"><img class="car-card__photo" src="' + c.photo + '" alt="' + c.model + '"></div>' +
+      '<div class="card__footer car-card__footer">' +
+        '<div class="price-block"><p class="price-block__label">Стоимость автомобиля</p><p class="price-block__value">' + c.price + '</p></div>' +
+        btn +
+      '</div>' +
+    '</article>';
+  }
+
+  function fill(id, list) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = list.map(carCard).join("");
+  }
+  fill("cars-instock", INSTOCK);
+  fill("cars-waiting", WAITING);
+
+  /* Переключение избранного / сравнения на всех карточках */
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest(".icon-action");
+    if (!b) return;
+    var on = b.getAttribute("aria-pressed") === "true";
+    b.setAttribute("aria-pressed", on ? "false" : "true");
+  });
+
+  /* Прокрутка рядов карточек стрелками (сдвиг на ширину карточки) */
+  document.querySelectorAll(".car-row").forEach(function (row) {
+    var track = row.querySelector(".car-row__track");
+    var vp = row.querySelector(".car-row__viewport");
+    if (!track) return;
+    function step() {
+      var first = track.firstElementChild;
+      if (!first) return 0;
+      var gap = parseFloat(getComputedStyle(track).gap) || 24;
+      return first.getBoundingClientRect().width + gap;
+    }
+    row.querySelector("[data-carrow-next]").addEventListener("click", function () {
+      vp.scrollBy({ left: step(), behavior: "smooth" });
+    });
+    row.querySelector("[data-carrow-prev]").addEventListener("click", function () {
+      vp.scrollBy({ left: -step(), behavior: "smooth" });
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
