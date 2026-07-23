@@ -94,6 +94,10 @@
   .card-slot { display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(27,30,29,.25); border-radius: 10px; padding: 12px; font-size: 11px; color: var(--warm-taupe-400); }
   .card-slot--tall { min-height: 120px; height: 100%; }
   .card-slot--pill { border-radius: 999px; padding: 6px 12px; }
+  /* Плитки бренда полупрозрачные и растут на hover — запас вокруг,
+     чтобы увеличенная плитка и её тень не обрезались. */
+  .brand-card-states { display: flex; flex-wrap: wrap; gap: 48px; padding: 12px 20px; }
+  .brand-card-grid { display: flex; flex-wrap: wrap; gap: 28px; padding: 16px 24px; }
   .btn-row:last-child { border-bottom: none; padding-bottom: 0; }
   .btn-row:first-child { padding-top: 0; }
   .btn-row__size { width: 56px; flex-shrink: 0; font-size: 12px; color: var(--warm-taupe-400); padding-top: 4px; }
@@ -391,6 +395,44 @@
       <div class="icon-cell"><span class="brand-logo"><img class="brand-logo__img" src="/brands/lexus.png" alt="Lexus"></span><span class="icon-cell__name">Lexus</span></div>
     </div>
   </div>
+</section>
+
+<section id="brand-logo-card">
+  <h2>Brand Logo Card</h2>
+  <p class="section-note">Figma node 201-11228. Плитка с логотипом марки, два состояния: <b>Default</b> — фон <code>stone-beige-200</code> под 40%; <b>Hover</b> — фон <code>white</code> 50%, тень Shadow card brand, плитка подрастает. Логотипы — из <code>images/logo_brands</code> (<code>/brand-logos</code>), вписаны <code>object-fit: contain</code>, поэтому подходит любая марка. Наведи на плитки внизу.</p>
+
+  <article class="kit-block">
+    <h3 class="kit-block__title">Состояния из макета</h3>
+    <div class="swatch-panel">
+      <div class="card-stage">
+        <div class="brand-card-states">
+          <div class="state-cell">
+            <span class="state-cell__name">Default</span>
+            <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/bmw.png" alt="BMW"></div>
+          </div>
+          <div class="state-cell">
+            <span class="state-cell__name">Hover</span>
+            <div class="brand-card is-hover"><img class="brand-card__logo" src="/brand-logos/bmw.png" alt="BMW"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="kit-block">
+    <h3 class="kit-block__title">Все марки <span class="kit-block__note">(живой hover)</span></h3>
+    <div class="swatch-panel">
+      <div class="card-stage">
+        <div class="brand-card-grid">
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/bmw.png" alt="BMW"></div>
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/mercedes.png" alt="Mercedes-Benz"></div>
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/lexus.png" alt="Lexus"></div>
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/porsche.png" alt="Porsche"></div>
+          <div class="brand-card"><img class="brand-card__logo" src="/brand-logos/rollsroyce.png" alt="Rolls-Royce"></div>
+        </div>
+      </div>
+    </div>
+  </article>
 </section>
 
 <section id="card">

@@ -14,9 +14,10 @@
    ───────────────────────────────────────────── */
 
 :root {
-  /* Effect style «Shadow popover» из Figma — нужен Tooltip.
-     Живёт здесь, а не в tokens.css: там держим только цвета и шрифты. */
-  --shadow-popover: 4px 4px 10px rgba(106, 98, 89, 0.1);
+  /* Effect-стили из Figma. Живут здесь, а не в tokens.css:
+     там держим только цвета и шрифты. */
+  --shadow-popover: 4px 4px 10px rgba(106, 98, 89, 0.1);      /* Tooltip */
+  --shadow-card-brand: 6px 4px 50.2px rgba(205, 197, 190, 0.5); /* Brand Logo Card hover */
 }
 
 /* ══════════════ Icon ══════════════
@@ -439,3 +440,46 @@
 }
 .car-card__footer .price-block { flex: 1 1 0; min-width: 0; }
 .car-card__footer .btn { flex-shrink: 0; }
+
+/* ══════════════ Brand Logo Card ══════════════
+   Плитка с логотипом марки. Два состояния:
+     Default — фон stone-beige-200 под 40%, 324.8×186.7
+     Hover   — фон white 50% + тень Shadow card brand,
+               плитка подрастает (в макете 368×207)
+   Рост на hover делаю через transform: scale, а не через смену
+   размеров: в ряду плиток наведение на одну не должно толкать
+   соседей. Коэффициент 1.12 — усреднение роста из макета
+   (ширина ×1.133, высота ×1.109). Логотипы — из /brand-logos,
+   вписаны object-fit: contain, так что подходит любая марка. */
+.brand-card {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--brand-card-w, 324.8px);
+  height: var(--brand-card-h, 186.7px);
+  padding: 21px 37px;
+  border-radius: 22px;
+  background: rgba(228, 223, 219, 0.4); /* stone-beige-200 @ 40% */
+  transform-origin: center;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.brand-card__logo {
+  display: block;
+  width: 220px;
+  height: 124px;
+  object-fit: contain;
+}
+.brand-card:hover,
+.brand-card.is-hover {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-card-brand);
+  transform: scale(1.12);
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-card { transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+  .brand-card:hover,
+  .brand-card.is-hover { transform: none; }
+}
