@@ -11,8 +11,12 @@ import Image from "next/image";
  */
 
 export const BRAND_LOGOS: Record<string, string> = {
-  bmw: "/brands/bmw.png",
-  lexus: "/brands/lexus.png",
+  bmw: "/brand-logos/bmw.webp",
+  mercedes: "/brand-logos/mercedes.webp",
+  lexus: "/brand-logos/lexus.webp",
+  porsche: "/brand-logos/porsche.webp",
+  rollsroyce: "/brand-logos/rollsroyce.webp",
+  audi: "/brand-logos/audi.webp",
 };
 
 /** Приводим «BMW», «bmw », «Lexus» к ключу словаря. */

@@ -1,0 +1,248 @@
+/* ─────────────────────────────────────────────
+   Imperium Motors — главная страница
+   Собрана из компонентов кита (tokens.css, buttons.css,
+   components.css). Здесь только раскладка блоков.
+   Иконки — из общего спрайта (см. build-ui-kit-icons.mjs).
+   ───────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font-onest);
+  color: var(--carbon-black-500);
+  background: #eae4de;
+}
+img { display: block; max-width: 100%; }
+button { font-family: inherit; }
+
+.page {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+/* ═══════════════ Шапка ═══════════════ */
+.site-header {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 18px 20px 0;
+  height: 78px;
+  padding: 0 16px 0 40px;
+  border-radius: 90px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 38px;
+}
+.site-nav__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--carbon-black-500);
+  font-family: var(--font-onest);
+  font-size: var(--text-nav-item-size);
+  line-height: var(--text-nav-item-line-height);
+  font-weight: var(--text-nav-item-weight);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.site-nav__item:hover { color: var(--warm-taupe-400); }
+.site-nav__item svg { width: 15px; height: 15px; }
+.site-logo {
+  margin: 0 auto;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 0.02em;
+  color: var(--carbon-black-500);
+  white-space: nowrap;
+}
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.site-header__call { --circle-btn-size: 46px; }
+
+/* ═══════════════ Hero ═══════════════ */
+.hero {
+  position: relative;
+  overflow: hidden;
+  margin: -78px 0 0;            /* шапка ложится поверх hero */
+  padding: 96px 60px 0;
+  min-height: 1180px;
+  background:
+    radial-gradient(120% 90% at 72% 8%, #f5f2ef 0%, #ece7e1 45%, #e4ddd6 100%);
+}
+.hero__watermark {
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  transform: translateX(-38%);
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 96px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: rgba(137, 135, 133, 0.16);
+  pointer-events: none;
+  user-select: none;
+}
+.hero__car {
+  position: absolute;
+  top: 250px;
+  right: -40px;
+  width: 1360px;
+  max-width: 72%;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 40px 60px rgba(27, 30, 29, 0.18));
+  transition: opacity 0.5s ease;
+}
+.hero__inner {
+  position: relative;
+  z-index: 2;
+}
+.hero__title {
+  margin: 68px 0 0;
+  font-family: var(--font-display);
+  font-size: 88px;
+  line-height: 100px;
+  color: var(--carbon-black-500);
+  text-transform: uppercase;
+}
+.hero__title b { font-weight: 800; }
+.hero__title span { font-weight: 400; display: block; }
+.hero__tagline {
+  position: absolute;
+  top: 26px;
+  right: 0;
+  width: 440px;
+  text-align: left;
+  text-transform: uppercase;
+  font-family: var(--font-onest);
+  font-size: 24px;
+  line-height: 32px;
+}
+.hero__tagline b { display: block; font-weight: 900; color: var(--carbon-black-500); }
+.hero__tagline span { color: var(--warm-taupe-400); font-weight: 500; }
+
+/* Нижняя зона hero: карточка авто слева + характеристики */
+.hero__bottom {
+  position: absolute;
+  left: 60px;
+  right: 60px;
+  bottom: 120px;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 40px;
+}
+.hero__card {
+  width: 519px;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 30px 60px rgba(205, 197, 190, 0.35);
+}
+/* Логотип марки в карточке hero — крупнее (39px) на прозрачном фоне */
+.hero__card .brand-logo { height: 39px; }
+/* Фото в карточке hero — чистый вырез, показываем целиком (contain) */
+.hero__card .car-card__media {
+  overflow: visible;
+  aspect-ratio: 423 / 205;
+}
+.hero__card .car-card__photo {
+  position: static;
+  transform: none;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Характеристики (4 колонки с разделителями) */
+.hero__stats {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-bottom: 6px;
+}
+.hero-stat {
+  flex: 1;
+  padding: 0 34px;
+  border-left: 1px solid rgba(27, 30, 29, 0.12);
+}
+.hero-stat:first-child { border-left: 0; padding-left: 0; }
+.hero-stat__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-numeric-value-size);
+  line-height: var(--text-numeric-value-line-height);
+  font-weight: var(--text-numeric-value-weight);
+  color: var(--carbon-black-500);
+}
+.hero-stat__label {
+  margin: 6px 0 0;
+  font-family: var(--font-onest);
+  font-size: var(--text-label-stat-size);
+  line-height: var(--text-label-stat-line-height);
+  font-weight: var(--text-label-stat-weight);
+  color: var(--warm-taupe-400);
+}
+
+/* Слайдер-прогресс hero (полоски из кита) */
+.hero__slider {
+  position: absolute;
+  left: 60px;
+  right: 60px;
+  bottom: 28px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hero__slider .slider-group {
+  flex: 1;
+  max-width: none;
+  gap: 12px;
+}
+.hero__slider .circle-btn { --circle-btn-size: 32px; }
+.hero__slider .circle-btn--next svg { transform: scaleX(-1); }
+
+/* ═══════════════ Блок 2 — логотипы брендов ═══════════════ */
+.brands {
+  position: relative;
+  padding: 60px 46px;
+}
+.brands__viewport {
+  overflow: hidden;
+  margin: 0 12px;
+}
+.brands__track {
+  display: flex;
+  gap: 24px;
+  will-change: transform;
+}
+.brands__track .brand-card { flex: 0 0 auto; }
+.brands__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  --circle-btn-size: 44px;
+}
+.brands__nav--prev { left: 46px; }
+.brands__nav--next { right: 46px; }
+.brands__nav--next svg { transform: scaleX(-1); }

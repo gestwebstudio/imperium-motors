@@ -2,9 +2,9 @@
  * Собирает SVG-спрайт для UI Kit из папки /icons.
  *
  * Читает все *.svg, заменяет жёсткий fill на currentColor и вписывает
- * результат в public/ui-kit/index.html между маркерами:
- *   ui-kit:icons:sprite  — сами <symbol>
- *   ui-kit:icons:gallery — карточки в секции «Иконки»
+ * результат между маркерами:
+ *   ui-kit:icons:sprite  — сами <symbol> (index.html и home.html)
+ *   ui-kit:icons:gallery — карточки в секции «Иконки» (только index.html)
  *
  * Запускается автоматически перед `npm run dev` и `npm run build`
  * (см. predev / prebuild в package.json), так что достаточно
@@ -19,21 +19,23 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ICON_DIR = join(ROOT, 'icons');
-const TARGET = join(ROOT, 'public', 'ui-kit', 'index.html');
+const UI_KIT = join(ROOT, 'public', 'ui-kit');
 
 const marker = (name) => ({
   start: `<!-- ui-kit:icons:${name}:start -->`,
   end: `<!-- ui-kit:icons:${name}:end -->`,
 });
 
-/** Меняет содержимое между маркерами, сами маркеры сохраняет. */
-function replaceBetween(html, name, body) {
+/** Меняет содержимое между маркерами (если они есть), сами маркеры сохраняет.
+    optional=true — молча пропустить файл, где маркера нет. */
+function replaceBetween(html, name, body, optional) {
   const { start, end } = marker(name);
   const from = html.indexOf(start);
   const to = html.indexOf(end);
   if (from === -1 || to === -1) {
+    if (optional) return html;
     throw new Error(
-      `Не найдены маркеры ${start} … ${end} в ${TARGET}.\n` +
+      `Не найдены маркеры ${start} … ${end}.\n` +
       `Добавьте их в разметку — скрипт вписывает содержимое только между ними.`
     );
   }
@@ -79,9 +81,17 @@ const gallery = icons
   )
   .join('\n');
 
-let html = await readFile(TARGET, 'utf8');
-html = replaceBetween(html, 'sprite', sprite);
-html = replaceBetween(html, 'gallery', gallery);
-await writeFile(TARGET, html);
+// Страницы, куда вставляем спрайт. Галерея иконок — только в index.html.
+const PAGES = [
+  { file: join(UI_KIT, 'index.html'), gallery: true },
+  { file: join(UI_KIT, 'home.html'), gallery: false },
+];
+
+for (const page of PAGES) {
+  let html = await readFile(page.file, 'utf8');
+  html = replaceBetween(html, 'sprite', sprite);
+  if (page.gallery) html = replaceBetween(html, 'gallery', gallery, true);
+  await writeFile(page.file, html);
+}
 
 console.log(`ui-kit: спрайт собран из ${icons.length} иконок — ${icons.map((i) => i.name).join(', ')}`);

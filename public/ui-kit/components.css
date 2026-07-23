@@ -483,3 +483,123 @@
   .brand-card:hover,
   .brand-card.is-hover { transform: none; }
 }
+
+/* ══════════════ CTA Button (анимированная) ══════════════
+   Отдельный компонент для акцентных кнопок «текст + стрелка»
+   (шапка «Каталог», блоки Трейд-ин и Лизинг).
+   В покое: пилюля warm-taupe-100, тёмный текст, зелёный круг
+   со стрелкой справа. На hover зелёный круг разрастается на всю
+   пилюлю (::before), текст белеет, стрелка уходит вверх-вправо —
+   то же превращение, что у Style=CTA в pressed из макета. */
+.cta-button {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 46px;
+  padding: 0 0 0 22px;
+  border: 0;
+  border-radius: 90px;
+  background: var(--warm-taupe-100);
+  color: var(--carbon-black-500);
+  font-family: var(--font-onest);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  text-decoration: none;
+}
+/* Зелёный слой: в покое — круг 46px справа, на hover — вся пилюля. */
+.cta-button::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 0 auto;
+  width: 46px;
+  border-radius: 90px;
+  background: var(--heritage-green-500);
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cta-button__label {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+.cta-button__icon {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  color: var(--white);
+}
+.cta-button__icon svg { width: 16px; height: 16px; }
+.cta-button__icon svg,
+.cta-button__label { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease; }
+
+.cta-button:hover::before,
+.cta-button:focus-visible::before { width: 100%; }
+.cta-button:hover .cta-button__label { color: var(--white); }
+.cta-button:hover .cta-button__icon svg { transform: translate(2px, -2px); }
+.cta-button:active { transform: scale(0.98); }
+.cta-button:focus-visible { outline: 2px solid var(--heritage-green-500); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-button::before { transition: none; }
+  .cta-button__icon svg,
+  .cta-button__label { transition: color 0.3s ease; }
+  .cta-button:hover .cta-button__icon svg { transform: none; }
+}
+
+/* ══════════════ Circle Button ══════════════
+   Круглая иконочная кнопка — переиспользуется по всей странице:
+   звонок в шапке (46), стрелки слайдера/каруселей (44 и 32),
+   действия на карточках. Цвет и размер — через переменные. */
+.circle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--circle-btn-size, 44px);
+  height: var(--circle-btn-size, 44px);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--circle-btn-bg, var(--stone-beige-100));
+  color: var(--circle-btn-fg, var(--carbon-black-500));
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.12s ease, opacity 0.2s ease;
+}
+.circle-btn svg { width: 45%; height: 45%; display: block; }
+.circle-btn:hover { background: var(--circle-btn-bg-hover, var(--stone-beige-200)); }
+.circle-btn:active { transform: scale(0.92); }
+.circle-btn:focus-visible { outline: 2px solid var(--heritage-green-500); outline-offset: 2px; }
+.circle-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+/* Тёмный вариант (зелёный круг с белой иконкой). */
+.circle-btn--accent {
+  --circle-btn-bg: var(--heritage-green-500);
+  --circle-btn-bg-hover: var(--heritage-green-600);
+  --circle-btn-fg: var(--white);
+}
+
+/* ══════════════ Hover карточек ══════════════
+   Как в прототипе: карточка чуть приподнимается и получает тень.
+   Модификатор .car-card--static выключает эффект (напр. для
+   витринной карточки в hero, которая не кликается). */
+.car-card {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+.car-card:not(.car-card--static):hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-brand);
+}
+@media (prefers-reduced-motion: reduce) {
+  .car-card { transition: box-shadow 0.4s ease; }
+  .car-card:not(.car-card--static):hover { transform: none; }
+}
