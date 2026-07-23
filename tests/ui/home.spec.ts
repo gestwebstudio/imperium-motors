@@ -133,7 +133,7 @@ test.describe("Главная — логотипы (блок 2)", () => {
 
   test("шесть марок, включая Audi", async ({ page }) => {
     const brands = await page.evaluate(order);
-    expect(brands).toEqual(["BMW", "Mercedes-Benz", "Lexus", "Porsche", "Rolls-Royce", "Audi"]);
+    expect(brands).toEqual(["BMW", "Mercedes-Benz", "Lexus", "Ferrari", "Rolls-Royce", "Audi"]);
   });
 
   test("видно ровно 5 логотипов, шестой скрыт, первый не под стрелкой", async ({ page }) => {
