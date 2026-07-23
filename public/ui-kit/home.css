@@ -133,7 +133,7 @@ button { font-family: inherit; }
   top: 26px;
   right: 0;
   width: 440px;
-  text-align: left;
+  text-align: right;
   text-transform: uppercase;
   font-family: var(--font-onest);
   font-size: 24px;

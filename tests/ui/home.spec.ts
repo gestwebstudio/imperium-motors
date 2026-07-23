@@ -28,6 +28,41 @@ test.describe("Главная — Hero (блок 1)", () => {
     await expect(page.locator("[data-hero-indicator]")).toHaveAttribute("data-color", "success");
   });
 
+  test("тэглайн прижат к правому краю и отцентрован по правому краю", async ({ page }) => {
+    const m = await page.evaluate(() => {
+      const el = document.querySelector(".hero__tagline") as HTMLElement;
+      const b = el.querySelector("b")!.getBoundingClientRect();
+      const s = el.querySelector("span")!.getBoundingClientRect();
+      return {
+        align: getComputedStyle(el).textAlign,
+        boxRight: Math.round(el.getBoundingClientRect().right),
+        bRight: Math.round(b.right),
+        sRight: Math.round(s.right),
+      };
+    });
+    expect(m.align).toBe("right");
+    // все строки flush к правому краю блока (одинаковый right)
+    expect(Math.abs(m.bRight - m.boxRight)).toBeLessThanOrEqual(1);
+    expect(Math.abs(m.sRight - m.boxRight)).toBeLessThanOrEqual(1);
+  });
+
+  test("логотип марки в карточке — из /home/logos и прижат к левому краю", async ({ page }) => {
+    const m = await page.evaluate(() => {
+      const img = document.querySelector("[data-hero-logo]") as HTMLImageElement;
+      const title = document.querySelector("[data-hero-model]") as HTMLElement;
+      return {
+        src: img.getAttribute("src") || "",
+        loaded: img.complete && img.naturalWidth > 0,
+        imgLeft: Math.round(img.getBoundingClientRect().left),
+        titleLeft: Math.round(title.getBoundingClientRect().left),
+      };
+    });
+    expect(m.src).toMatch(/\/home\/logos\/porsche\.webp$/);
+    expect(m.loaded).toBe(true);
+    // логотип по левому краю, вровень с названием (как в кит-карточке)
+    expect(Math.abs(m.imgLeft - m.titleLeft)).toBeLessThanOrEqual(1);
+  });
+
   test("ровно 4 характеристики и 2 полоски слайдера (2 машины)", async ({ page }) => {
     await expect(page.locator(".hero-stat")).toHaveCount(4);
     await expect(page.locator(".hero__slider .slider")).toHaveCount(2);
