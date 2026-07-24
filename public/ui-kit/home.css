@@ -111,15 +111,16 @@ button { font-family: inherit; }
 .hero__watermark {
   position: absolute;
   top: 18.75rem;
-  left: 50%;
-  transform: translateX(-38%);
+  right: 6.25rem;              /* 100px от правого края на 1920 (в rem — масштабируется) */
   margin: 0;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 6rem;
+  font-size: 5.5rem;           /* Hero-Accent 88/100 */
+  line-height: 6.25rem;
   letter-spacing: 0.01em;
   white-space: nowrap;
-  color: rgba(137, 135, 133, 0.16);
+  color: var(--stone-beige-100); /* #F3F0EE */
+  opacity: 0.53;                 /* прозрачность 53% как в макете */
   pointer-events: none;
   user-select: none;
 }
