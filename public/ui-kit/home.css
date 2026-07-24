@@ -126,10 +126,9 @@ button { font-family: inherit; }
 }
 .hero__car {
   position: absolute;
-  top: 15.625rem;
-  right: -2.5rem;
-  width: 85rem;
-  max-width: 72%;
+  top: 26.625rem;            /* 426px = низ шапки (96) + 330 до верха фото на 1920 */
+  right: 7.5rem;             /* 120px от края макета */
+  width: 70rem;              /* натуральный размер фото 1120px */
   height: auto;
   pointer-events: none;
   filter: drop-shadow(0 2.5rem 3.75rem rgba(27, 30, 29, 0.18));
