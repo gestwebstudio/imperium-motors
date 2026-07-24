@@ -534,11 +534,13 @@
   ];
   var WAITING = [
     { logo:"/home/logos/lexus.png", brand:"Lexus", model:"GX Executive", status:"Ожидаем поступления", color:"warning",
-      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/gx.png", price:"15 490 000 ₽", cta:"book" },
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/mask.webp", price:"15 490 000 ₽", cta:"book" },
     { logo:"/home/logos/bmw.png", brand:"BMW", model:"X5 M60i Sport Pro", status:"Ожидаем поступления", color:"warning",
-      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/x5.png", price:"20 390 000 ₽", cta:"book" },
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/mask.webp", price:"20 390 000 ₽", cta:"book" },
     { logo:"/home/logos/mercedes.png", brand:"Mercedes-Benz", model:"V-Класс Exclusive", status:"Ожидаем поступления", color:"warning",
-      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/vclass.png", price:"14 490 000 ₽", cta:"book" }
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/mask.webp", price:"14 490 000 ₽", cta:"book" },
+    { logo:"/home/logos/bmw.png", brand:"BMW", model:"X3 xDrive20i", status:"Ожидаем поступления", color:"warning",
+      tags:["2026","Бензин","Полный привод","АКПП-8"], photo:"/home/catalog/mask.webp", price:"8 990 000 ₽", cta:"book" }
   ];
 
   function iconAction(kind) {
@@ -593,23 +595,64 @@
     b.setAttribute("aria-pressed", on ? "false" : "true");
   });
 
-  /* Прокрутка рядов карточек стрелками (сдвиг на ширину карточки) */
+  /* Бесконечная прокрутка рядов карточек стрелками (как в ленте логотипов):
+     ушедшую карточку переставляем в конец/начало, трек возвращаем в 0. */
   document.querySelectorAll(".car-row").forEach(function (row) {
     var track = row.querySelector(".car-row__track");
-    var vp = row.querySelector(".car-row__viewport");
     if (!track) return;
+    var animating = false;
+
     function step() {
       var first = track.firstElementChild;
       if (!first) return 0;
       var gap = parseFloat(getComputedStyle(track).gap) || 24;
       return first.getBoundingClientRect().width + gap;
     }
-    row.querySelector("[data-carrow-next]").addEventListener("click", function () {
-      vp.scrollBy({ left: step(), behavior: "smooth" });
-    });
-    row.querySelector("[data-carrow-prev]").addEventListener("click", function () {
-      vp.scrollBy({ left: -step(), behavior: "smooth" });
-    });
+
+    // Завершаем по transitionend ИЛИ по fallback-таймеру (в фоновой вкладке
+    // transitionend может не прийти — иначе карусель залипнет).
+    function afterAnim(commit) {
+      var done = false;
+      function finish() {
+        if (done) return; done = true;
+        track.removeEventListener("transitionend", finish);
+        commit(); animating = false;
+      }
+      track.addEventListener("transitionend", finish);
+      setTimeout(finish, 620);
+    }
+
+    function next() {
+      if (animating) return; animating = true;
+      var dx = step();
+      track.style.transition = "transform 0.5s cubic-bezier(0.22,1,0.36,1)";
+      track.style.transform = "translateX(-" + dx + "px)";
+      afterAnim(function () {
+        track.style.transition = "none";
+        track.style.transform = "translateX(0)";
+        track.appendChild(track.firstElementChild);
+      });
+    }
+
+    function prev() {
+      if (animating) return; animating = true;
+      track.insertBefore(track.lastElementChild, track.firstElementChild);
+      var dx = step();
+      track.style.transition = "none";
+      track.style.transform = "translateX(-" + dx + "px)";
+      void track.offsetWidth;
+      track.style.transition = "transform 0.5s cubic-bezier(0.22,1,0.36,1)";
+      track.style.transform = "translateX(0)";
+      afterAnim(function () {
+        track.style.transition = "none";
+        track.style.transform = "translateX(0)";
+      });
+    }
+
+    var nb = row.querySelector("[data-carrow-next]");
+    var pb = row.querySelector("[data-carrow-prev]");
+    if (nb) nb.addEventListener("click", next);
+    if (pb) pb.addEventListener("click", prev);
   });
 })();
 </script>
