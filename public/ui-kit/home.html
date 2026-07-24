@@ -46,13 +46,14 @@
     <div class="site-header__actions">
       <button class="circle-btn site-header__call" aria-label="Позвонить"><svg aria-hidden="true"><use href="#icon-phone"></use></svg></button>
       <a class="cta-button" href="#"><span class="cta-button__label">Каталог</span><span class="cta-button__icon"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span></a>
+      <button class="circle-btn site-burger" type="button" aria-label="Меню" aria-expanded="false"><span class="site-burger__lines" aria-hidden="true"></span></button>
     </div>
   </header>
 
   <!-- ═══════════ Hero ═══════════ -->
   <section class="hero" id="hero" aria-roledescription="карусель">
     <p class="hero__watermark" data-hero-watermark>PORSCHE 911 TURBO S</p>
-    <img class="hero__car" data-hero-car src="/home/cars/1big.webp" alt="">
+    <img class="hero__car" data-hero-car src="/home/cars/1bignew.webp" alt="">
 
     <div class="hero__inner">
       <div class="hero__tagline">
@@ -98,10 +99,10 @@
 
       <!-- Характеристики -->
       <div class="hero__stats" data-hero-stats>
-        <div class="hero-stat"><p class="hero-stat__value">5,8 с</p><p class="hero-stat__label">Разгон 0–100 км/ч</p></div>
+        <div class="hero-stat"><p class="hero-stat__value">3,8 л</p><p class="hero-stat__label">Объём двигателя</p></div>
         <div class="hero-stat"><p class="hero-stat__value">375 л.с.</p><p class="hero-stat__label">Мощность двигателя</p></div>
-        <div class="hero-stat"><p class="hero-stat__value">209 км/ч</p><p class="hero-stat__label">Максимальная скорость</p></div>
-        <div class="hero-stat"><p class="hero-stat__value">800 Н·м</p><p class="hero-stat__label">Крутящий момент</p></div>
+        <div class="hero-stat"><p class="hero-stat__value">5,8 с</p><p class="hero-stat__label">Разгон 0–100 км/ч</p></div>
+        <div class="hero-stat"><p class="hero-stat__value">330 км/ч</p><p class="hero-stat__label">Максимальная скорость</p></div>
       </div>
     </div>
 
@@ -221,7 +222,7 @@
   <!-- ═══════════ Блок 7 — Индивидуальный подход (стейтмент + фичи) ═══════════ -->
   <section class="craft" aria-label="Индивидуальный подход">
     <div class="craft__canvas">
-      <h2 class="craft__statement"><span>От доработки серийных моделей до поиска редких экземпляров —</span> <b>воплощаем индивидуальный подход в каждой детали</b></h2>
+      <h2 class="craft__statement"><span>От доработки серийных моделей<br>до поиска редких экземпляров —</span><br><b>воплощаем индивидуальный<br>подход в каждой детали</b></h2>
       <img class="craft__watermark" src="/home/imperium-logo.svg" alt="" aria-hidden="true">
 
       <article class="feat-card feat-card--atelier">
@@ -255,17 +256,17 @@
 
   <!-- ═══════════ Блок 8 — Отзыв ═══════════ -->
   <section class="review" aria-label="Отзыв">
-    <div class="review__media"><img src="/home/misc/testimonial.png" alt="Клиент Imperium Motors"></div>
+    <div class="review__media"><img data-review-photo src="/home/misc/testimonial.png" alt="Клиент Imperium Motors"></div>
     <div class="review__body">
       <h2 class="review__title"><span>Выбор,</span><b>которым делятся</b></h2>
       <div class="review__author">
-        <p class="review__name">Михаил</p>
-        <p class="review__car">BMW 7 Series</p>
+        <p class="review__name" data-review-name>Михаил</p>
+        <p class="review__car" data-review-car>BMW 7 Series</p>
       </div>
-      <p class="review__quote">«Искал автомобиль без компромиссов по комплектации и состоянию. Команда быстро поняла задачу, предложила несколько точных вариантов и полностью взяла на себя сопровождение сделки. В результате я получил именно тот автомобиль, который хотел.»</p>
+      <p class="review__quote" data-review-quote>«Искал автомобиль без компромиссов по комплектации и состоянию. Команда быстро поняла задачу, предложила несколько точных вариантов и полностью взяла на себя сопровождение сделки. В результате я получил именно тот автомобиль, который хотел.»</p>
       <div class="review__nav">
-        <button class="circle-btn" aria-label="Предыдущий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
-        <button class="circle-btn circle-btn--next" aria-label="Следующий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+        <button class="circle-btn" data-review-prev aria-label="Предыдущий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+        <button class="circle-btn circle-btn--next" data-review-next aria-label="Следующий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
       </div>
     </div>
   </section>
@@ -276,18 +277,18 @@
     <p class="visit__sub">Выберите удобное время, и мы подготовим автомобили к вашему приезду. Ответим на вопросы, проведём тест-драйв и обсудим детали сделки в комфортной обстановке.</p>
     <div class="visit__grid">
       <div class="visit__col">
-        <div class="visit__photo visit__photo--tall"><img src="/home/gallery/g1.png" alt="Салон Imperium Motors"></div>
+        <div class="visit__photo visit__photo--tall"><img src="/home/gallery/g1.webp" alt="Салон Imperium Motors"></div>
       </div>
       <div class="visit__col">
-        <div class="visit__photo visit__photo--half"><img src="/home/gallery/g2.png" alt="Экспозиция салона"></div>
-        <div class="visit__photo visit__photo--half"><img src="/home/gallery/g3.png" alt="Автомобиль в салоне"></div>
+        <div class="visit__photo visit__photo--half"><img src="/home/gallery/g2.webp" alt="Экспозиция салона"></div>
+        <div class="visit__photo visit__photo--half"><img src="/home/gallery/g3.webp" alt="Автомобиль в салоне"></div>
       </div>
       <div class="contact-card">
         <div class="contact-row"><p class="contact-row__label">Телефон</p><p class="contact-row__value">+7 499 704-14-44</p></div>
         <div class="contact-row"><p class="contact-row__label">Адрес</p><p class="contact-row__value">Москва, Кутузовский проспект 48</p><p class="contact-row__note">(Паркинг P1 ТЦ «Времена года»)</p></div>
         <div class="contact-row"><p class="contact-row__label">Часы работы</p><p class="contact-row__value">11:00 – 21:00</p><p class="contact-row__note">(ежедневно)</p></div>
-        <a class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text" href="#"><span class="btn__label">Построить маршрут</span></a>
-        <div class="contact-card__map"><img src="/home/misc/map.png" alt="Карта проезда"></div>
+        <a class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text" href="https://yandex.ru/maps/213/moscow/?ll=37.487361%2C55.731719&mode=routes&rtext=~55.731895%2C37.488312&rtt=auto&ruri=~ymapsbm1%3A%2F%2Forg%3Foid%3D28670517535&z=16" target="_blank" rel="noopener noreferrer"><span class="btn__label">Построить маршрут</span></a>
+        <div class="contact-card__map"><iframe src="https://yandex.ru/map-widget/v1/?ll=37.487361%2C55.731719&mode=routes&rtext=~55.731895%2C37.488312&rtt=auto&ruri=~ymapsbm1%3A%2F%2Forg%3Foid%3D28670517535&z=16" title="Карта проезда — Imperium Motors" allowfullscreen loading="lazy"></iframe></div>
       </div>
     </div>
   </section>
@@ -374,18 +375,18 @@
       model: "Porsche 911 turbo S",
       status: "В наличии", color: "success",
       tags: ["2026", "Бензин", "Полный привод", "Автомат"],
-      photo: "/home/cars/1small.webp", big: "/home/cars/1big.webp",
+      photo: "/home/cars/1small.webp", big: "/home/cars/1bignew.webp",
       price: "17 290 000 ₽", watermark: "PORSCHE 911 TURBO S",
-      stats: [["5,8 с", "Разгон 0–100 км/ч"], ["375 л.с.", "Мощность двигателя"], ["209 км/ч", "Максимальная скорость"], ["800 Н·м", "Крутящий момент"]]
+      stats: [["3,8 л", "Объём двигателя"], ["375 л.с.", "Мощность двигателя"], ["5,8 с", "Разгон 0–100 км/ч"], ["330 км/ч", "Максимальная скорость"]]
     },
     {
       logo: "/home/logos/porsche.webp", brand: "Porsche",
       model: "Porsche 911 turbo S",
       status: "Под заказ", color: "warning",
       tags: ["2025", "Бензин", "Полный привод", "Автомат"],
-      photo: "/home/cars/2small.webp", big: "/home/cars/2big.webp",
+      photo: "/home/cars/2smallnew.webp", big: "/home/cars/2bignew.webp",
       price: "18 450 000 ₽", watermark: "PORSCHE 911 TURBO S",
-      stats: [["2,7 с", "Разгон 0–100 км/ч"], ["650 л.с.", "Мощность двигателя"], ["330 км/ч", "Максимальная скорость"], ["800 Н·м", "Крутящий момент"]]
+      stats: [["4,0 л", "Объём двигателя"], ["640 л.с.", "Мощность двигателя"], ["2,9 с", "Разгон 0–100 км/ч"], ["340 км/ч", "Максимальная скорость"]]
     }
   ];
   var DURATION = 4000; // мс на слайд — как в кит-слайдере
@@ -529,15 +530,19 @@
     { logo:"/home/logos/mercedes.png", brand:"Mercedes-Benz", model:"CLE AMG 53 4matic+", status:"В наличии", color:"success",
       tags:["2026","Бензин","Полный привод","АКПП-9"], photo:"/home/catalog/cle.png", price:"13 990 000 ₽", cta:"more" },
     { logo:"/home/logos/landrover.png", brand:"Land Rover", model:"Range Rover SV", status:"В наличии", color:"success",
-      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/rangerover.png", price:"35 690 000 ₽", cta:"more" }
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/rangerover.png", price:"35 690 000 ₽", cta:"more" },
+    { logo:"/home/logos/lexus.png", brand:"Lexus", model:"GX Executive", status:"В наличии", color:"success",
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/gx.webp", price:"15 490 000 ₽", cta:"more" }
   ];
   var WAITING = [
     { logo:"/home/logos/lexus.png", brand:"Lexus", model:"GX Executive", status:"Ожидаем поступления", color:"warning",
-      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/gx.png", price:"15 490 000 ₽", cta:"book" },
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/mask.webp", price:"15 490 000 ₽", cta:"book" },
     { logo:"/home/logos/bmw.png", brand:"BMW", model:"X5 M60i Sport Pro", status:"Ожидаем поступления", color:"warning",
-      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/x5.png", price:"20 390 000 ₽", cta:"book" },
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/mask.webp", price:"20 390 000 ₽", cta:"book" },
     { logo:"/home/logos/mercedes.png", brand:"Mercedes-Benz", model:"V-Класс Exclusive", status:"Ожидаем поступления", color:"warning",
-      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/vclass.png", price:"14 490 000 ₽", cta:"book" }
+      tags:["2026","Бензин","Полный привод","АКПП"], photo:"/home/catalog/mask.webp", price:"14 490 000 ₽", cta:"book" },
+    { logo:"/home/logos/bmw.png", brand:"BMW", model:"X3 xDrive20i", status:"Ожидаем поступления", color:"warning",
+      tags:["2026","Бензин","Полный привод","АКПП-8"], photo:"/home/catalog/mask.webp", price:"8 990 000 ₽", cta:"book" }
   ];
 
   function iconAction(kind) {
@@ -592,24 +597,105 @@
     b.setAttribute("aria-pressed", on ? "false" : "true");
   });
 
-  /* Прокрутка рядов карточек стрелками (сдвиг на ширину карточки) */
+  /* Бесконечная прокрутка рядов карточек стрелками (как в ленте логотипов):
+     ушедшую карточку переставляем в конец/начало, трек возвращаем в 0. */
   document.querySelectorAll(".car-row").forEach(function (row) {
     var track = row.querySelector(".car-row__track");
-    var vp = row.querySelector(".car-row__viewport");
     if (!track) return;
+    var animating = false;
+
     function step() {
       var first = track.firstElementChild;
       if (!first) return 0;
       var gap = parseFloat(getComputedStyle(track).gap) || 24;
       return first.getBoundingClientRect().width + gap;
     }
-    row.querySelector("[data-carrow-next]").addEventListener("click", function () {
-      vp.scrollBy({ left: step(), behavior: "smooth" });
-    });
-    row.querySelector("[data-carrow-prev]").addEventListener("click", function () {
-      vp.scrollBy({ left: -step(), behavior: "smooth" });
-    });
+
+    // Завершаем по transitionend ИЛИ по fallback-таймеру (в фоновой вкладке
+    // transitionend может не прийти — иначе карусель залипнет).
+    function afterAnim(commit) {
+      var done = false;
+      function finish() {
+        if (done) return; done = true;
+        track.removeEventListener("transitionend", finish);
+        commit(); animating = false;
+      }
+      track.addEventListener("transitionend", finish);
+      setTimeout(finish, 620);
+    }
+
+    function next() {
+      if (animating) return; animating = true;
+      var dx = step();
+      track.style.transition = "transform 0.5s cubic-bezier(0.22,1,0.36,1)";
+      track.style.transform = "translateX(-" + dx + "px)";
+      afterAnim(function () {
+        track.style.transition = "none";
+        track.style.transform = "translateX(0)";
+        track.appendChild(track.firstElementChild);
+      });
+    }
+
+    function prev() {
+      if (animating) return; animating = true;
+      track.insertBefore(track.lastElementChild, track.firstElementChild);
+      var dx = step();
+      track.style.transition = "none";
+      track.style.transform = "translateX(-" + dx + "px)";
+      void track.offsetWidth;
+      track.style.transition = "transform 0.5s cubic-bezier(0.22,1,0.36,1)";
+      track.style.transform = "translateX(0)";
+      afterAnim(function () {
+        track.style.transition = "none";
+        track.style.transform = "translateX(0)";
+      });
+    }
+
+    var nb = row.querySelector("[data-carrow-next]");
+    var pb = row.querySelector("[data-carrow-prev]");
+    if (nb) nb.addEventListener("click", next);
+    if (pb) pb.addEventListener("click", prev);
   });
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+  var section = document.querySelector(".review");
+  if (!section) return;
+  var photo = section.querySelector("[data-review-photo]");
+  var nameEl = section.querySelector("[data-review-name]");
+  var carEl = section.querySelector("[data-review-car]");
+  var quoteEl = section.querySelector("[data-review-quote]");
+
+  var REVIEWS = [
+    {
+      photo: "/home/misc/testimonial.png", name: "Михаил", car: "BMW 7 Series",
+      quote: "«Искал автомобиль без компромиссов по комплектации и состоянию. Команда быстро поняла задачу, предложила несколько точных вариантов и полностью взяла на себя сопровождение сделки. В результате я получил именно тот автомобиль, который хотел.»"
+    },
+    {
+      photo: "/home/reviews/review2.webp", name: "Анна", car: "Mercedes-Benz GLE",
+      quote: "«Хотела редкую комплектацию и боялась долгого ожидания. Мне подобрали автомобиль в наличии, оформили всё за пару дней и держали в курсе на каждом этапе. Сервис, к которому хочется возвращаться.»"
+    }
+  ];
+  var idx = 0;
+
+  function render(i) {
+    idx = (i + REVIEWS.length) % REVIEWS.length;
+    var r = REVIEWS[idx];
+    nameEl.textContent = r.name;
+    carEl.textContent = r.car;
+    quoteEl.textContent = r.quote;
+    // плавная смена фото (грузим заранее, чтобы не мигало пустотой)
+    var pre = new Image();
+    photo.style.opacity = "0";
+    pre.onload = function () { photo.src = r.photo; photo.alt = r.name; photo.style.opacity = "1"; };
+    pre.src = r.photo;
+  }
+
+  section.querySelector("[data-review-prev]").addEventListener("click", function () { render(idx - 1); });
+  section.querySelector("[data-review-next]").addEventListener("click", function () { render(idx + 1); });
 })();
 </script>
 

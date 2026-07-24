@@ -1,4 +1,7 @@
-@import "tailwindcss";
+/* HeroUI v3 — единая точка стилей: сам импортирует Tailwind v4 + tw-animate-css
+   и подключает свои слои (base / components / theme / utilities). Отдельный
+   @import "tailwindcss" не нужен — иначе Tailwind подключится дважды. */
+@import "@heroui/react/styles";
 
 /* ─────────────────────────────────────────────
    Шрифты (self-hosted, variable). Заголовки —

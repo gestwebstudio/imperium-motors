@@ -137,141 +137,141 @@
 
   /* ── Display (Wix Madefor Display) ── */
   --text-display-hero-line-family: var(--font-display);
-  --text-display-hero-line-size: 88px;
-  --text-display-hero-line-line-height: 100px;
+  --text-display-hero-line-size: 5.5rem;
+  --text-display-hero-line-line-height: 6.25rem;
   --text-display-hero-line-weight: 400;
 
   --text-display-hero-accent-family: var(--font-display);
-  --text-display-hero-accent-size: 88px;
-  --text-display-hero-accent-line-height: 100px;
+  --text-display-hero-accent-size: 5.5rem;
+  --text-display-hero-accent-line-height: 6.25rem;
   --text-display-hero-accent-weight: 800;
 
   --text-display-product-family: var(--font-display);
-  --text-display-product-size: 88px;
+  --text-display-product-size: 5.5rem;
   --text-display-product-line-height: normal;
   --text-display-product-weight: 800;
 
   /* ── Heading (Wix Madefor Display) ── */
   --text-heading-statement-family: var(--font-display);
-  --text-heading-statement-size: 66px;
-  --text-heading-statement-line-height: 70px;
+  --text-heading-statement-size: 4.125rem;
+  --text-heading-statement-line-height: 4.375rem;
   --text-heading-statement-weight: 700;
-  --text-heading-statement-letter-spacing: -1px;
+  --text-heading-statement-letter-spacing: -0.0625rem;
 
   --text-heading-statement-light-family: var(--font-display);
-  --text-heading-statement-light-size: 50px;
-  --text-heading-statement-light-line-height: 70px;
+  --text-heading-statement-light-size: 3.125rem;
+  --text-heading-statement-light-line-height: 4.375rem;
   --text-heading-statement-light-weight: 400;
-  --text-heading-statement-light-letter-spacing: -1px;
+  --text-heading-statement-light-letter-spacing: -0.0625rem;
 
   --text-heading-section-family: var(--font-display);
-  --text-heading-section-size: 48px;
+  --text-heading-section-size: 3rem;
   --text-heading-section-line-height: normal;
   --text-heading-section-weight: 600;
 
   --text-heading-section-light-family: var(--font-display);
-  --text-heading-section-light-size: 48px;
-  --text-heading-section-light-line-height: 56px;
+  --text-heading-section-light-size: 3rem;
+  --text-heading-section-light-line-height: 3.5rem;
   --text-heading-section-light-weight: 400;
 
   --text-heading-section-accent-family: var(--font-display);
-  --text-heading-section-accent-size: 48px;
-  --text-heading-section-accent-line-height: 56px;
+  --text-heading-section-accent-size: 3rem;
+  --text-heading-section-accent-line-height: 3.5rem;
   --text-heading-section-accent-weight: 600;
 
   --text-heading-category-family: var(--font-display);
-  --text-heading-category-size: 40px;
+  --text-heading-category-size: 2.5rem;
   --text-heading-category-line-height: normal;
   --text-heading-category-weight: 600;
 
   --text-heading-card-family: var(--font-display);
-  --text-heading-card-size: 36px;
+  --text-heading-card-size: 2.25rem;
   --text-heading-card-line-height: normal;
   --text-heading-card-weight: 600;
 
   /* ── Title / Numeric (Wix Madefor Display) ── */
   --text-title-model-family: var(--font-display);
-  --text-title-model-size: 30px;
-  --text-title-model-line-height: 32px;
+  --text-title-model-size: 1.875rem;
+  --text-title-model-line-height: 2rem;
   --text-title-model-weight: 400;
 
   --text-numeric-value-family: var(--font-display);
-  --text-numeric-value-size: 40px;
-  --text-numeric-value-line-height: 46px;
+  --text-numeric-value-size: 2.5rem;
+  --text-numeric-value-line-height: 2.875rem;
   --text-numeric-value-weight: 800;
 
   /* ── Onest ── */
   --text-quote-review-family: var(--font-onest);
-  --text-quote-review-size: 36px;
-  --text-quote-review-line-height: 42px;
+  --text-quote-review-size: 2.25rem;
+  --text-quote-review-line-height: 2.625rem;
   --text-quote-review-weight: 400;
 
   --text-banner-base-family: var(--font-onest);
-  --text-banner-base-size: 32px;
-  --text-banner-base-line-height: 44px;
+  --text-banner-base-size: 2rem;
+  --text-banner-base-line-height: 2.75rem;
   --text-banner-base-weight: 500;
 
   --text-banner-accent-family: var(--font-onest);
-  --text-banner-accent-size: 32px;
-  --text-banner-accent-line-height: 44px;
+  --text-banner-accent-size: 2rem;
+  --text-banner-accent-line-height: 2.75rem;
   --text-banner-accent-weight: 900;
 
   --text-contact-primary-family: var(--font-onest);
-  --text-contact-primary-size: 30px;
-  --text-contact-primary-line-height: 40px;
+  --text-contact-primary-size: 1.875rem;
+  --text-contact-primary-line-height: 2.5rem;
   --text-contact-primary-weight: 600;
 
   --text-label-stat-family: var(--font-onest);
-  --text-label-stat-size: 24px;
-  --text-label-stat-line-height: 30px;
+  --text-label-stat-size: 1.5rem;
+  --text-label-stat-line-height: 1.875rem;
   --text-label-stat-weight: 400;
 
   --text-contact-secondary-family: var(--font-onest);
-  --text-contact-secondary-size: 24px;
-  --text-contact-secondary-line-height: 30px;
+  --text-contact-secondary-size: 1.5rem;
+  --text-contact-secondary-line-height: 1.875rem;
   --text-contact-secondary-weight: 600;
 
   --text-nav-item-family: var(--font-onest);
-  --text-nav-item-size: 20px;
-  --text-nav-item-line-height: 28px;
+  --text-nav-item-size: 1.25rem;
+  --text-nav-item-line-height: 1.75rem;
   --text-nav-item-weight: 500;
 
   --text-footer-column-family: var(--font-onest);
-  --text-footer-column-size: 20px;
-  --text-footer-column-line-height: 28px;
+  --text-footer-column-size: 1.25rem;
+  --text-footer-column-line-height: 1.75rem;
   --text-footer-column-weight: 400;
 
   --text-body-family: var(--font-onest); /* Body/Paragraph */
-  --text-body-size: 18px;
-  --text-body-line-height: 24px;
+  --text-body-size: 1.125rem;
+  --text-body-line-height: 1.5rem;
   --text-body-weight: 400;
 
   --text-body-strong-family: var(--font-onest); /* Body/Paragraph-Strong */
-  --text-body-strong-size: 18px;
-  --text-body-strong-line-height: 24px;
+  --text-body-strong-size: 1.125rem;
+  --text-body-strong-line-height: 1.5rem;
   --text-body-strong-weight: 600;
 
   --text-action-family: var(--font-onest); /* Body/Action */
-  --text-action-size: 18px;
-  --text-action-line-height: 22px;
+  --text-action-size: 1.125rem;
+  --text-action-line-height: 1.375rem;
   --text-action-weight: 400;
 
   --text-caption-family: var(--font-onest); /* Caption/Status */
-  --text-caption-size: 16px;
-  --text-caption-line-height: 20px;
+  --text-caption-size: 1rem;
+  --text-caption-line-height: 1.25rem;
   --text-caption-weight: 400;
 
   --text-caption-badge-family: var(--font-onest); /* Caption/Badge */
-  --text-caption-badge-size: 10px;
-  --text-caption-badge-line-height: 10px;
+  --text-caption-badge-size: 0.625rem;
+  --text-caption-badge-line-height: 0.625rem;
   --text-caption-badge-weight: 500;
 
   /* ── Размеры текста кнопок (из компонента Button; не отдельные
         Text Styles, но нужны buttons.css — оставлены как есть) ── */
-  --text-btn-s-size: 13px;
-  --text-btn-s-line-height: 18px;
-  --text-btn-m-size: 16px;
-  --text-btn-m-line-height: 20px;
-  --text-btn-l-size: 18px;
-  --text-btn-l-line-height: 24px;
+  --text-btn-s-size: 0.8125rem;
+  --text-btn-s-line-height: 1.125rem;
+  --text-btn-m-size: 1rem;
+  --text-btn-m-line-height: 1.25rem;
+  --text-btn-l-size: 1.125rem;
+  --text-btn-l-line-height: 1.5rem;
 }
