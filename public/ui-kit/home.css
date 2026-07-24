@@ -159,18 +159,19 @@ button { font-family: inherit; }
 }
 .hero__title {
   margin: 4.25rem 0 0;
-  font-family: var(--font-display);
-  font-size: 5.5rem;
-  line-height: 6.25rem;
+  font-family: var(--text-display-hero-line-family);
+  font-size: var(--text-display-hero-line-size);
+  line-height: var(--text-display-hero-line-line-height);
   color: var(--carbon-black-500);
   text-transform: uppercase;
 }
-/* Заголовок — три строки: 1-я обычная, 2-я и 3-я жирные.
+/* Заголовок — три строки: 1-я обычная (Display/Hero-Line, 400),
+   2-я и 3-я жирные (Display/Hero-Accent, 800). Стили — из кита.
    Каждая строка block, иначе <b> встают в одну строку. */
 .hero__title span,
 .hero__title b { display: block; }
-.hero__title b { font-weight: 800; }
-.hero__title span { font-weight: 400; }
+.hero__title span { font-weight: var(--text-display-hero-line-weight); }
+.hero__title b { font-weight: var(--text-display-hero-accent-weight); }
 .hero__tagline {
   position: absolute;
   top: 1.625rem;
