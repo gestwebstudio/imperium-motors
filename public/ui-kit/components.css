@@ -17,7 +17,7 @@
   /* Effect-стили из Figma. Живут здесь, а не в tokens.css:
      там держим только цвета и шрифты. */
   --shadow-popover: 0.25rem 0.25rem 0.625rem rgba(106, 98, 89, 0.1);      /* Tooltip */
-  --shadow-card-brand: 0.375rem 0.25rem 3.1375rem rgba(205, 197, 190, 0.5); /* Brand Logo Card hover */
+  --shadow-card-brand: 0 0.875rem 2rem rgba(205, 197, 190, 0.55); /* hover карточек — симметричная, вниз */
 }
 
 /* ══════════════ Icon ══════════════

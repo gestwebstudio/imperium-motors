@@ -340,7 +340,7 @@ button { font-family: inherit; }
 .car-row { display: flex; align-items: center; gap: 0.625rem; }
 .car-row__nav { --circle-btn-size: 2.75rem; flex-shrink: 0; }
 .car-row__nav--next svg { transform: scaleX(-1) translateZ(0); }
-.car-row__viewport { --cols: 3; flex: 1; min-width: 0; overflow: hidden; padding: 1rem 0; margin: -1rem 0; }
+.car-row__viewport { --cols: 3; flex: 1; min-width: 0; overflow: hidden; padding: 2.5rem 1.25rem; margin: -2.5rem 0; }
 .car-row__track { display: flex; gap: 1.5rem; will-change: transform; }
 /* Ширина карточки = ровно 1/cols окна (минус гэпы); при cols < числа карточек
    появляется прокрутка стрелками. --cols меняется на брейкпоинтах. */
