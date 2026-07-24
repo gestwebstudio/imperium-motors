@@ -256,17 +256,17 @@
 
   <!-- ═══════════ Блок 8 — Отзыв ═══════════ -->
   <section class="review" aria-label="Отзыв">
-    <div class="review__media"><img src="/home/misc/testimonial.png" alt="Клиент Imperium Motors"></div>
+    <div class="review__media"><img data-review-photo src="/home/misc/testimonial.png" alt="Клиент Imperium Motors"></div>
     <div class="review__body">
       <h2 class="review__title"><span>Выбор,</span><b>которым делятся</b></h2>
       <div class="review__author">
-        <p class="review__name">Михаил</p>
-        <p class="review__car">BMW 7 Series</p>
+        <p class="review__name" data-review-name>Михаил</p>
+        <p class="review__car" data-review-car>BMW 7 Series</p>
       </div>
-      <p class="review__quote">«Искал автомобиль без компромиссов по комплектации и состоянию. Команда быстро поняла задачу, предложила несколько точных вариантов и полностью взяла на себя сопровождение сделки. В результате я получил именно тот автомобиль, который хотел.»</p>
+      <p class="review__quote" data-review-quote>«Искал автомобиль без компромиссов по комплектации и состоянию. Команда быстро поняла задачу, предложила несколько точных вариантов и полностью взяла на себя сопровождение сделки. В результате я получил именно тот автомобиль, который хотел.»</p>
       <div class="review__nav">
-        <button class="circle-btn" aria-label="Предыдущий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
-        <button class="circle-btn circle-btn--next" aria-label="Следующий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+        <button class="circle-btn" data-review-prev aria-label="Предыдущий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+        <button class="circle-btn circle-btn--next" data-review-next aria-label="Следующий"><svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
       </div>
     </div>
   </section>
@@ -656,6 +656,46 @@
     if (nb) nb.addEventListener("click", next);
     if (pb) pb.addEventListener("click", prev);
   });
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+  var section = document.querySelector(".review");
+  if (!section) return;
+  var photo = section.querySelector("[data-review-photo]");
+  var nameEl = section.querySelector("[data-review-name]");
+  var carEl = section.querySelector("[data-review-car]");
+  var quoteEl = section.querySelector("[data-review-quote]");
+
+  var REVIEWS = [
+    {
+      photo: "/home/misc/testimonial.png", name: "Михаил", car: "BMW 7 Series",
+      quote: "«Искал автомобиль без компромиссов по комплектации и состоянию. Команда быстро поняла задачу, предложила несколько точных вариантов и полностью взяла на себя сопровождение сделки. В результате я получил именно тот автомобиль, который хотел.»"
+    },
+    {
+      photo: "/home/reviews/review2.webp", name: "Анна", car: "Mercedes-Benz GLE",
+      quote: "«Хотела редкую комплектацию и боялась долгого ожидания. Мне подобрали автомобиль в наличии, оформили всё за пару дней и держали в курсе на каждом этапе. Сервис, к которому хочется возвращаться.»"
+    }
+  ];
+  var idx = 0;
+
+  function render(i) {
+    idx = (i + REVIEWS.length) % REVIEWS.length;
+    var r = REVIEWS[idx];
+    nameEl.textContent = r.name;
+    carEl.textContent = r.car;
+    quoteEl.textContent = r.quote;
+    // плавная смена фото (грузим заранее, чтобы не мигало пустотой)
+    var pre = new Image();
+    photo.style.opacity = "0";
+    pre.onload = function () { photo.src = r.photo; photo.alt = r.name; photo.style.opacity = "1"; };
+    pre.src = r.photo;
+  }
+
+  section.querySelector("[data-review-prev]").addEventListener("click", function () { render(idx - 1); });
+  section.querySelector("[data-review-next]").addEventListener("click", function () { render(idx + 1); });
 })();
 </script>
 
