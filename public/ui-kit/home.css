@@ -110,7 +110,7 @@ button { font-family: inherit; }
 }
 .hero__watermark {
   position: absolute;
-  top: 18.75rem;
+  top: 22.6875rem;            /* 363px = низ шапки (96) + 267px до водяного знака на 1920 */
   right: 6.25rem;              /* 100px от правого края на 1920 (в rem — масштабируется) */
   margin: 0;
   font-family: var(--font-display);
