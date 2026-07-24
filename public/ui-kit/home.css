@@ -495,7 +495,24 @@ button { font-family: inherit; }
   pointer-events: none;
   user-select: none;
 }
-.feat-card { position: absolute; display: flex; flex-direction: column; }
+.feat-card { position: absolute; display: flex; flex-direction: column; isolation: isolate; }
+/* Ховер: под карточкой плавно проявляется белая плашка с тенью (padding/radius
+   как в макете — 30/40px). Подложка на ::before не влияет на раскладку коллажа,
+   поэтому нет прыжка и перекрытий; по умолчанию карточка без фона. */
+.feat-card::before {
+  content: "";
+  position: absolute;
+  inset: -1.875rem;
+  border-radius: 2.5rem;
+  background: #fff;
+  box-shadow: 0 1.875rem 3.75rem rgba(27, 30, 29, 0.12);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+.feat-card:hover::before { opacity: 1; }
+.feat-card:hover { z-index: 5; }
 .feat-card--atelier { left: 64.1875rem; top: 0; width: 48.3125rem; }
 .feat-card--podbor { left: 0; top: 33.4375rem; width: 41.25rem; }
 .feat-card--design { left: 45.3125rem; top: 43rem; width: 67.1875rem; }
@@ -681,7 +698,7 @@ button { font-family: inherit; }
   .craft__statement { position: static; width: 100%; margin: 0 0 2.5rem; }
   .craft__watermark { display: none; }
   .craft__canvas .feat-card {
-    position: static; left: auto; top: auto; width: 100%;
+    position: relative; left: auto; top: auto; width: 100%;
     margin-bottom: 2.5rem;
   }
   .craft__canvas .feat-card:last-child { margin-bottom: 0; }
@@ -735,6 +752,9 @@ button { font-family: inherit; }
   .section, .craft, .review, .visit { padding-left: 1.5rem; padding-right: 1.5rem; }
   .promo { padding-left: 1.5rem; padding-right: 1.5rem; }
   .brands { padding-left: 1rem; padding-right: 1rem; }
+
+  /* Меньше выступ ховер-подложки — иначе выходит за узкий экран */
+  .feat-card::before { inset: -0.75rem; }
 
   /* Шапка: телефон слева · логотип по центру · бургер справа; остальное убрано */
   .site-header { padding: 0 0.75rem; }
