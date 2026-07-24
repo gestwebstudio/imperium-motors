@@ -42,8 +42,8 @@ button { font-family: inherit; }
   gap: 1.5rem;
   height: 4.875rem;
   padding: 0 1rem 0 2.5rem;
-  border-radius: 5.625rem;
-  background: rgba(255, 255, 255, 0.5);
+  border-radius: 3.125rem;            /* 50px */
+  background: rgba(228, 223, 219, 0.3); /* E4DFDB, 30% — как в макете */
   backdrop-filter: blur(0.75rem);
   -webkit-backdrop-filter: blur(0.75rem);
 }
