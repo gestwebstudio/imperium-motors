@@ -620,11 +620,14 @@
      раз и просто сдвигаются вместе с картой. */
   will-change: transform;
 }
-/* Цена в карточке — в одну строку, размер от ширины карточки (cqi):
-   на широкой ≈2.5rem как в макете, на узкой уменьшается, но не мельче ~1.25rem. */
+/* Цена в карточке — в одну строку, размер от ширины карточки (cqi).
+   По макету (141-1958) цену карточки уменьшили до 32px (было 40px) —
+   отдельно от Numeric/Value (цифры характеристик в hero остались 40px).
+   На широкой ≈2rem (32px), на узкой уменьшается, но не мельче ~1.25rem. */
 .car-card .price-block__value {
   white-space: nowrap;
-  font-size: clamp(1.25rem, 8.4cqi, 2.5rem);
+  font-size: clamp(1.25rem, 8.4cqi, 2rem);
+  line-height: 1.25; /* 40px при 32px, как в макете */
 }
 .car-card:not(.car-card--static):hover {
   transform: translateY(-0.375rem);

@@ -190,10 +190,12 @@
   --text-heading-card-weight: 600;
 
   /* ── Title / Numeric (Wix Madefor Display) ── */
+  /* Title/Model обновлён по макету (141-1958): было 30/32/400 (Regular),
+     стало 24/30/600 (SemiBold) — заголовок карточки авто уменьшили. */
   --text-title-model-family: var(--font-display);
-  --text-title-model-size: 1.875rem;
-  --text-title-model-line-height: 2rem;
-  --text-title-model-weight: 400;
+  --text-title-model-size: 1.5rem;
+  --text-title-model-line-height: 1.875rem;
+  --text-title-model-weight: 600;
 
   --text-numeric-value-family: var(--font-display);
   --text-numeric-value-size: 2.5rem;
