@@ -202,6 +202,15 @@
   --text-numeric-value-line-height: 2.875rem;
   --text-numeric-value-weight: 800;
 
+  /* Price/Value — цена в карточке авто. По макету (141-1958) меньше, чем
+     Numeric/Value: 28/36 ExtraBold (характеристики hero остались 40/46).
+     В карточке размер ещё и резиновый (clamp по ширине), поэтому это
+     максимум/опорное значение. */
+  --text-price-value-family: var(--font-display);
+  --text-price-value-size: 1.75rem;        /* 28px */
+  --text-price-value-line-height: 2.25rem; /* 36px */
+  --text-price-value-weight: 800;
+
   /* ── Onest ── */
   --text-quote-review-family: var(--font-onest);
   --text-quote-review-size: 2.25rem;

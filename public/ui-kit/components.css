@@ -621,13 +621,13 @@
   will-change: transform;
 }
 /* Цена в карточке — в одну строку, размер от ширины карточки (cqi).
-   По макету (141-1958) цена карточки = 28px / line-height 36 (ExtraBold) —
-   отдельно от Numeric/Value (цифры характеристик в hero остались 40px).
-   На широкой ≈1.75rem (28px), на узкой уменьшается, но не мельче ~1.25rem. */
+   Опорное значение — токен Price/Value (28/36 по макету 141-1958),
+   отдельный от Numeric/Value (цифры характеристик hero — 40/46).
+   На широкой = --text-price-value-size, на узкой уменьшается до ~1.25rem. */
 .car-card .price-block__value {
   white-space: nowrap;
-  font-size: clamp(1.25rem, 8.4cqi, 1.75rem);
-  line-height: 1.286; /* 36px при 28px, как в макете */
+  font-size: clamp(1.25rem, 8.4cqi, var(--text-price-value-size));
+  line-height: var(--text-price-value-line-height);
 }
 .car-card:not(.car-card--static):hover {
   transform: translateY(-0.375rem);
