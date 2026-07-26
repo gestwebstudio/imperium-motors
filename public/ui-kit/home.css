@@ -132,10 +132,10 @@ button { font-family: inherit; }
   top: 22.6875rem;            /* 363px = низ шапки (96) + 267px до водяного знака на 1920 */
   right: 6.25rem;              /* 100px от правого края на 1920 (в rem — масштабируется) */
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 5.5rem;           /* Hero-Accent 88/100 */
-  line-height: 6.25rem;
+  font-family: var(--text-display-hero-accent-family);
+  font-weight: var(--text-display-hero-accent-weight);
+  font-size: var(--text-display-hero-accent-size);
+  line-height: var(--text-display-hero-accent-line-height);
   letter-spacing: 0.01em;
   white-space: nowrap;
   color: var(--stone-beige-100); /* #F3F0EE */
@@ -179,12 +179,12 @@ button { font-family: inherit; }
   width: 27.5rem;
   text-align: right;
   text-transform: uppercase;
-  font-family: var(--font-onest);
-  font-size: 1.5rem;
-  line-height: 2rem;
+  font-family: var(--text-banner-base-family);
+  font-size: var(--text-banner-base-size);
+  line-height: var(--text-banner-base-line-height);
 }
-.hero__tagline b { display: block; font-weight: 900; color: var(--carbon-black-500); }
-.hero__tagline span { color: var(--warm-taupe-400); font-weight: 500; }
+.hero__tagline b { display: block; font-weight: var(--text-banner-accent-weight); color: var(--carbon-black-500); }
+.hero__tagline span { color: var(--warm-taupe-400); font-weight: var(--text-banner-base-weight); }
 
 /* Нижняя зона hero: карточка авто слева + характеристики */
 .hero__bottom {
@@ -330,9 +330,9 @@ button { font-family: inherit; }
 }
 .section__title {
   margin: 0;
-  font-family: var(--font-display);
+  font-family: var(--text-heading-section-family);
   font-size: var(--text-heading-section-size);
-  line-height: 1.05;
+  line-height: var(--text-heading-section-line-height);
   font-weight: var(--text-heading-section-weight);
   color: var(--carbon-black-500);
 }
@@ -362,21 +362,21 @@ button { font-family: inherit; }
 }
 .formats__heading {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 4.125rem;
-  line-height: 4.25rem;
-  letter-spacing: -0.0625rem;
+  font-family: var(--text-heading-statement-family);
+  font-size: var(--text-heading-statement-size);
+  line-height: var(--text-heading-statement-line-height);
+  letter-spacing: var(--text-heading-statement-letter-spacing);
   text-transform: uppercase;
   color: var(--carbon-black-500);
 }
-.formats__heading span { display: block; font-weight: 400; }
-.formats__heading b { display: block; font-weight: 800; }
+.formats__heading span { display: block; font-weight: var(--text-heading-statement-light-weight); }
+.formats__heading b { display: block; font-weight: var(--text-heading-statement-weight); }
 .formats__aside { max-width: 26.25rem; padding-top: 0.375rem; text-align: right; }
 .formats__aside p {
   margin: 0 0 1.125rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
   color: var(--warm-taupe-500);
 }
 .formats__aside .btn { }
@@ -427,17 +427,17 @@ button { font-family: inherit; }
 .cat-card__body { padding: 2rem 2.125rem; }
 .cat-card__title {
   margin: 0 0 0.625rem;
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  line-height: 1;
-  font-weight: 600;
+  font-family: var(--text-heading-category-family);
+  font-size: var(--text-heading-category-size);
+  line-height: var(--text-heading-category-line-height);
+  font-weight: var(--text-heading-category-weight);
 }
 .cat-card__text {
   margin: 0;
   max-width: 18.75rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
   color: rgba(255, 255, 255, 0.82);
 }
 .cat-card__arrow {
@@ -465,18 +465,18 @@ button { font-family: inherit; }
 }
 .promo-card__title {
   margin: 0 0 0.625rem;
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  line-height: 1;
-  font-weight: 600;
+  font-family: var(--text-heading-category-family);
+  font-size: var(--text-heading-category-size);
+  line-height: var(--text-heading-category-line-height);
+  font-weight: var(--text-heading-category-weight);
   color: var(--carbon-black-500);
 }
 .promo-card__text {
   margin: 0;
   max-width: 38.75rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
   color: var(--warm-taupe-500);
 }
 .promo-card__arrow {
@@ -499,14 +499,14 @@ button { font-family: inherit; }
   top: 6.5rem;
   width: 64.1875rem;
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 3.125rem;
-  line-height: 3.5rem;
-  letter-spacing: -0.0625rem;
+  font-family: var(--text-heading-statement-light-family);
+  font-size: var(--text-heading-statement-light-size);
+  line-height: var(--text-heading-statement-light-line-height);
+  letter-spacing: var(--text-heading-statement-light-letter-spacing);
   color: var(--carbon-black-500);
 }
-.craft__statement span { font-weight: 400; }
-.craft__statement b { font-weight: 800; }
+.craft__statement span { font-weight: var(--text-heading-statement-light-weight); }
+.craft__statement b { font-weight: var(--text-heading-statement-weight); }
 .craft__watermark {
   position: absolute;
   left: 0;
@@ -554,10 +554,10 @@ button { font-family: inherit; }
 }
 .feat-card__title {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 2.25rem;
-  line-height: 1;
-  font-weight: 600;
+  font-family: var(--text-heading-card-family);
+  font-size: var(--text-heading-card-size);
+  line-height: var(--text-heading-card-line-height);
+  font-weight: var(--text-heading-card-weight);
   color: var(--carbon-black-500);
 }
 .feat-card__arrow {
@@ -571,9 +571,9 @@ button { font-family: inherit; }
 .feat-card__text {
   margin: 0;
   max-width: 40rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
   color: var(--warm-taupe-500);
 }
 
@@ -592,13 +592,14 @@ button { font-family: inherit; }
 .review__title span { display: block; font-weight: 400; }
 .review__title b { display: block; font-weight: 800; }
 .review__author { margin: 2.5rem 0 1.25rem; }
-.review__name { margin: 0; font-family: var(--font-onest); font-weight: 600; font-size: 1.25rem; color: var(--carbon-black-500); }
-.review__car { margin: 0.125rem 0 0; font-family: var(--font-onest); font-size: 1rem; color: var(--warm-taupe-400); }
+.review__name { margin: 0; font-family: var(--text-footer-column-family); font-weight: 600; font-size: var(--text-footer-column-size); color: var(--carbon-black-500); }
+.review__car { margin: 0.125rem 0 0; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--warm-taupe-400); }
 .review__quote {
   margin: 0 0 2rem;
-  font-family: var(--font-onest);
-  font-size: 2.25rem;
-  line-height: 2.625rem;
+  font-family: var(--text-quote-review-family);
+  font-size: var(--text-quote-review-size);
+  line-height: var(--text-quote-review-line-height);
+  font-weight: var(--text-quote-review-weight);
   color: var(--carbon-black-500);
   max-width: 54.6875rem;
 }
@@ -610,9 +611,9 @@ button { font-family: inherit; }
 .visit { padding: 5rem 3.75rem; }
 .visit__title {
   margin: 0 0 1rem;
-  font-family: var(--font-display);
-  font-size: 4.125rem;
-  line-height: 4.375rem;
+  font-family: var(--text-heading-statement-family);
+  font-size: var(--text-heading-statement-size);
+  line-height: var(--text-heading-statement-line-height);
   text-transform: uppercase;
   color: var(--carbon-black-500);
 }
@@ -621,9 +622,9 @@ button { font-family: inherit; }
 .visit__sub {
   margin: 0 0 2.5rem;
   max-width: 48.75rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
   color: var(--warm-taupe-500);
 }
 .visit__grid { display: grid; grid-template-columns: 31rem 28.375rem 1fr; gap: 1.5rem; }
@@ -640,9 +641,9 @@ button { font-family: inherit; }
   flex-direction: column;
   gap: 1.375rem;
 }
-.contact-row__label { margin: 0 0 0.375rem; font-family: var(--font-onest); font-size: 1rem; color: var(--warm-taupe-400); }
-.contact-row__value { margin: 0; font-family: var(--font-display); font-size: 1.875rem; line-height: 1.1; font-weight: 600; color: var(--carbon-black-500); }
-.contact-row__note { margin: 0.25rem 0 0; font-family: var(--font-onest); font-size: 1rem; color: var(--warm-taupe-400); }
+.contact-row__label { margin: 0 0 0.375rem; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--warm-taupe-400); }
+.contact-row__value { margin: 0; font-family: var(--text-contact-primary-family); font-size: var(--text-contact-primary-size); line-height: 1.1; font-weight: var(--text-contact-primary-weight); color: var(--carbon-black-500); }
+.contact-row__note { margin: 0.25rem 0 0; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--warm-taupe-400); }
 .contact-card .btn { align-self: flex-start; }
 .contact-card__map { margin-top: auto; border-radius: 1.125rem; overflow: hidden; }
 .contact-card__map img,
@@ -658,11 +659,11 @@ button { font-family: inherit; }
   overflow: hidden;
 }
 .site-footer__top { display: grid; grid-template-columns: repeat(4, auto) 1fr auto; gap: 2.5rem; align-items: start; }
-.footer-col__title { margin: 0 0 1.25rem; font-family: var(--font-onest); font-weight: 600; font-size: 1.25rem; color: var(--stone-beige-400); }
+.footer-col__title { margin: 0 0 1.25rem; font-family: var(--text-footer-column-family); font-weight: 600; font-size: var(--text-footer-column-size); color: var(--stone-beige-400); }
 .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
-.footer-col a { font-family: var(--font-onest); font-size: 1rem; color: var(--stone-beige-200); text-decoration: none; transition: color 0.2s ease; }
+.footer-col a { font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--stone-beige-200); text-decoration: none; transition: color 0.2s ease; }
 .footer-col a:hover { color: var(--white); }
-.footer-contact__phone { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-onest); font-weight: 600; font-size: 1.25rem; color: var(--white); }
+.footer-contact__phone { display: flex; align-items: center; gap: 0.5rem; font-family: var(--text-footer-column-family); font-weight: 600; font-size: var(--text-footer-column-size); color: var(--white); }
 .footer-contact__phone svg { width: 1.125rem; height: 1.125rem; color: var(--stone-beige-400); }
 .footer-social { display: flex; gap: 0.875rem; margin-top: 1.125rem; }
 .footer-social a {
@@ -673,11 +674,11 @@ button { font-family: inherit; }
 }
 .footer-social a:hover { background: rgba(255, 255, 255, 0.18); }
 .footer-social svg { width: 1.25rem; height: 1.25rem; }
-.footer-legal { text-align: right; font-family: var(--font-onest); font-size: 1rem; color: var(--stone-beige-400); line-height: 1.5rem; }
+.footer-legal { text-align: right; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--stone-beige-400); line-height: 1.5rem; }
 .footer-legal a { color: var(--stone-beige-400); text-decoration: none; }
 .footer-legal a:hover { color: var(--white); }
 .site-footer__brand { margin-top: 3.5rem; }
-.site-footer__tagline { margin: 0 0 0.5rem; font-family: var(--font-onest); font-size: 1rem; color: var(--stone-beige-500); }
+.site-footer__tagline { margin: 0 0 0.5rem; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--stone-beige-500); }
 .site-footer__logo { width: 100%; height: auto; filter: brightness(0) invert(1); opacity: 0.92; }
 
 /* Плавающий виджет избранного/сравнения (правый край hero) */
@@ -701,7 +702,7 @@ button { font-family: inherit; }
   position: absolute; top: 0.125rem; right: 0.125rem;
   min-width: 0.9375rem; height: 0.9375rem; padding: 0 0.1875rem;
   border-radius: 0.5rem; background: var(--heritage-green-500); color: #fff;
-  font-family: var(--font-onest); font-size: 0.625rem; line-height: 0.9375rem; text-align: center;
+  font-family: var(--text-caption-badge-family); font-size: var(--text-caption-badge-size); line-height: 0.9375rem; text-align: center;
 }
 
 /* ═══════════════════════════════════════════════════════════
