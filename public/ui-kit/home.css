@@ -100,7 +100,71 @@ button { font-family: inherit; }
   align-items: center;
   gap: 1rem;
 }
-.site-header__call { --circle-btn-size: 2.875rem; }
+/* Телефон в шапке (node 102-18644): круг 46px со значком трубки,
+   по ховеру разворачивается влево в пилюлю с номером. Значок закреплён
+   справа, поэтому номер «выезжает» слева, не сдвигая соседние кнопки:
+   .phone-btn держит место 46px в потоке, а .phone-btn__pill растёт
+   абсолютно от правого края. */
+.phone-btn {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 2.875rem;   /* 46px — место в потоке шапки */
+  height: 2.875rem;
+  text-decoration: none;
+}
+.phone-btn__pill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  box-sizing: border-box;
+  width: 2.875rem;             /* круг */
+  height: 2.875rem;
+  padding: 0 0.75rem;
+  border-radius: 5.625rem;     /* 90px */
+  background: var(--warm-taupe-100);
+  color: var(--heritage-green-500);
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              padding 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              gap 0.42s ease;
+}
+.phone-btn:hover .phone-btn__pill,
+.phone-btn:focus-visible .phone-btn__pill {
+  width: 14.625rem;           /* 234px из макета */
+  padding: 0 1.375rem;        /* 22px */
+  gap: 0.75rem;               /* 12px */
+}
+.phone-btn__number {
+  font-family: var(--font-onest);
+  font-size: 1.125rem;         /* 18px */
+  line-height: 1.5rem;         /* 24px */
+  font-weight: 600;            /* SemiBold */
+  color: var(--heritage-green-500);
+  /* Скрыт до наведения: иначе край номера проглядывает из-под круга. */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.phone-btn:hover .phone-btn__number,
+.phone-btn:focus-visible .phone-btn__number {
+  opacity: 1;
+  transition: opacity 0.3s ease 0.1s;
+}
+.phone-btn__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--heritage-green-500);
+}
+.phone-btn__icon svg {
+  width: 1.375rem;             /* 22px */
+  height: 1.375rem;
+  display: block;
+}
 
 /* Бургер — только в мобилке (по умолчанию скрыт). Три полоски на ::before/::after. */
 .site-burger { display: none; --circle-btn-size: 2.875rem; }
@@ -132,10 +196,10 @@ button { font-family: inherit; }
   top: 22.6875rem;            /* 363px = низ шапки (96) + 267px до водяного знака на 1920 */
   right: 6.25rem;              /* 100px от правого края на 1920 (в rem — масштабируется) */
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 5.5rem;           /* Hero-Accent 88/100 */
-  line-height: 6.25rem;
+  font-family: var(--text-display-hero-accent-family);
+  font-weight: var(--text-display-hero-accent-weight);
+  font-size: var(--text-display-hero-accent-size);
+  line-height: var(--text-display-hero-accent-line-height);
   letter-spacing: 0.01em;
   white-space: nowrap;
   color: var(--stone-beige-100); /* #F3F0EE */
@@ -179,12 +243,12 @@ button { font-family: inherit; }
   width: 27.5rem;
   text-align: right;
   text-transform: uppercase;
-  font-family: var(--font-onest);
-  font-size: 1.5rem;
-  line-height: 2rem;
+  font-family: var(--text-banner-base-family);
+  font-size: var(--text-banner-base-size);
+  line-height: var(--text-banner-base-line-height);
 }
-.hero__tagline b { display: block; font-weight: 900; color: var(--carbon-black-500); }
-.hero__tagline span { color: var(--warm-taupe-400); font-weight: 500; }
+.hero__tagline b { display: block; font-weight: var(--text-banner-accent-weight); color: var(--carbon-black-500); }
+.hero__tagline span { color: var(--warm-taupe-400); font-weight: var(--text-banner-base-weight); }
 
 /* Нижняя зона hero: карточка авто слева + характеристики */
 .hero__bottom {
@@ -275,36 +339,56 @@ button { font-family: inherit; }
    появляется при прокрутке. Вертикальный запас — чтобы hover-
    увеличение карточки не обрезалось overflow:hidden. */
 .brands {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 3.75rem 2.5rem;
+  position: relative;
+  padding: 3.75rem;   /* боковые поля 60px как у секций (макет) */
 }
 .brands__viewport {
   --visible: 5;              /* сколько логотипов видно; меняется на брейкпоинтах */
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  /* запас под hover-тень: 40px по вертикали (видны скруглённые углы) и 20px
-     по горизонтали (меньше зазора 24px — 6-я карточка не выглядывает) */
-  padding: 2.5rem 1.25rem;
-  margin: -2.5rem 0;
+  /* Карточки на всю ширину блока (макет 141-1958): карточка = 1/visible.
+     overflow-x: clip прячет уезжающую карточку по горизонтали (в отличие от
+     hidden не форсирует скролл по второй оси), а overflow-y: visible даёт
+     hover-тени свободно выходить вверх/вниз — она больше не режется снизу.
+     Вертикальный запас берётся из padding самого блока .brands (3.75rem).
+     overflow-clip-margin = зазор 1.5rem: даёт горизонтальный запас тени
+     крайним карточкам, при этом соседняя карточка остаётся ровно за границей
+     клипа и не выглядывает. */
+  overflow-x: clip;
+  overflow-y: visible;
+  overflow-clip-margin: 1.5rem;
 }
 .brands__track {
   display: flex;
   gap: 1.5rem;
   will-change: transform;
 }
-/* Ширина карточки = ровно 1/visible окна (минус гэпы) → в окне ровно --visible штук */
+/* Ширина карточки = ровно 1/visible ширины блока (минус гэпы) */
 .brands__track .brand-card {
   flex: 0 0 calc((100% - (var(--visible) - 1) * 1.5rem) / var(--visible));
   width: calc((100% - (var(--visible) - 1) * 1.5rem) / var(--visible));
 }
+/* Стрелки — поверх крайних карточек, у левого и правого края блока.
+   Появляются по ховеру на весь блок (в макете скрыты по умолчанию). */
 .brands__nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-block: auto;   /* центрируем по вертикали БЕЗ transform: иначе
+                           .circle-btn:active { transform: scale } перебивает
+                           translateY(-50%) и кнопка прыгает вниз при клике */
+  z-index: 3;
   --circle-btn-size: 2.75rem;
-  flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, background-color 0.2s ease, transform 0.12s ease;
 }
+.brands__nav--prev { left: 3.75rem; }
+.brands__nav--next { right: 3.75rem; }
 .brands__nav--next svg { transform: scaleX(-1) translateZ(0); }
+.brands:hover .brands__nav,
+.brands:focus-within .brands__nav {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 /* Фон стрелок-навигации каруселей (блоки 2, 3, 5, 8) — Stone Beige 200,
    на hover чуть темнее (300), чтобы сохранить отклик наведения. */
@@ -330,26 +414,54 @@ button { font-family: inherit; }
 }
 .section__title {
   margin: 0;
-  font-family: var(--font-display);
+  font-family: var(--text-heading-section-family);
   font-size: var(--text-heading-section-size);
-  line-height: 1.05;
+  line-height: var(--text-heading-section-line-height);
   font-weight: var(--text-heading-section-weight);
   color: var(--carbon-black-500);
 }
 .section__head .badge { align-self: flex-start; }
 .section__head-spacer { flex: 1; }
 
-/* Ряд карточек авто со стрелками (используется дважды) */
-.car-row { display: flex; align-items: center; gap: 0.625rem; }
-.car-row__nav { --circle-btn-size: 2.75rem; flex-shrink: 0; }
-.car-row__nav--next svg { transform: scaleX(-1) translateZ(0); }
-.car-row__viewport { --cols: 3; flex: 1; min-width: 0; overflow: hidden; padding: 2.5rem 1.25rem; margin: -2.5rem 0; }
+/* Ряд карточек авто со стрелками (используется дважды).
+   Карточки на всю ширину блока (макет 141-1958): 4 карточки по 432px
+   (ширина car-card из кита) с зазором 24px заполняют ширину. Стрелки —
+   абсолютом поверх крайних карточек, появляются по ховеру на блок. */
+.car-row { position: relative; }
+.car-row__viewport {
+  --cols: 4;
+  /* см. .brands__viewport: clip по X прячет уезжающие карточки, visible по Y
+     даёт hover-тени выходить вниз, не обрезаясь; clip-margin — запас тени
+     по бокам без выглядывания соседней карточки. */
+  overflow-x: clip;
+  overflow-y: visible;
+  overflow-clip-margin: 1.5rem;
+}
 .car-row__track { display: flex; gap: 1.5rem; will-change: transform; }
-/* Ширина карточки = ровно 1/cols окна (минус гэпы); при cols < числа карточек
-   появляется прокрутка стрелками. --cols меняется на брейкпоинтах. */
+/* Ширина карточки = ровно 1/cols ширины блока (минус гэпы); при cols < числа
+   карточек появляется прокрутка стрелками. --cols меняется на брейкпоинтах. */
 .car-row__track .car-card {
   flex: 0 0 calc((100% - (var(--cols) - 1) * 1.5rem) / var(--cols));
   max-width: none;
+}
+.car-row__nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin-block: auto;   /* центрируем без transform (см. .brands__nav) */
+  z-index: 3;
+  --circle-btn-size: 2.75rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, background-color 0.2s ease, transform 0.12s ease;
+}
+.car-row__nav--prev { left: 0; }
+.car-row__nav--next { right: 0; }
+.car-row__nav--next svg { transform: scaleX(-1) translateZ(0); }
+.car-row:hover .car-row__nav,
+.car-row:focus-within .car-row__nav {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ═══════════════ Блок «Найдите свой формат» — бенто категорий ═══════════════ */
@@ -362,21 +474,21 @@ button { font-family: inherit; }
 }
 .formats__heading {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 4.125rem;
-  line-height: 4.25rem;
-  letter-spacing: -0.0625rem;
+  font-family: var(--text-heading-statement-family);
+  font-size: var(--text-heading-statement-size);
+  line-height: var(--text-heading-statement-line-height);
+  letter-spacing: var(--text-heading-statement-letter-spacing);
   text-transform: uppercase;
   color: var(--carbon-black-500);
 }
-.formats__heading span { display: block; font-weight: 400; }
-.formats__heading b { display: block; font-weight: 800; }
+.formats__heading span { display: block; font-weight: var(--text-heading-statement-light-weight); }
+.formats__heading b { display: block; font-weight: var(--text-heading-statement-weight); }
 .formats__aside { max-width: 26.25rem; padding-top: 0.375rem; text-align: right; }
 .formats__aside p {
   margin: 0 0 1.125rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
   color: var(--warm-taupe-500);
 }
 .formats__aside .btn { }
@@ -427,17 +539,17 @@ button { font-family: inherit; }
 .cat-card__body { padding: 2rem 2.125rem; }
 .cat-card__title {
   margin: 0 0 0.625rem;
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  line-height: 1;
-  font-weight: 600;
+  font-family: var(--text-heading-category-family);
+  font-size: var(--text-heading-category-size);
+  line-height: var(--text-heading-category-line-height);
+  font-weight: var(--text-heading-category-weight);
 }
 .cat-card__text {
   margin: 0;
   max-width: 18.75rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
   color: rgba(255, 255, 255, 0.82);
 }
 .cat-card__arrow {
@@ -454,6 +566,9 @@ button { font-family: inherit; }
 
 /* ═══════════════ Баннеры Трейд-ин / Лизинг ═══════════════ */
 .promo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 0 3.75rem 2.5rem; }
+/* Карточка трейд-ин/лизинг (node 58-1968 / 58-1916).
+   По ховеру: фон светлый→heritage-green, заголовок и текст светлеют,
+   круглая стрелка морфится в белую пилюлю с подписью. */
 .promo-card {
   position: relative;
   display: flex;
@@ -461,34 +576,94 @@ button { font-family: inherit; }
   min-height: 10.4375rem;
   padding: 2.5rem 3rem;
   border-radius: 1.875rem;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(228, 223, 219, 0.4); /* stone-beige-200 @ 40% (default из макета) */
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+.promo-card:hover {
+  background: var(--heritage-green-500);
+  box-shadow: var(--shadow-fin);
 }
 .promo-card__title {
   margin: 0 0 0.625rem;
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  line-height: 1;
-  font-weight: 600;
-  color: var(--carbon-black-500);
+  /* Heading/Card — 36px/600 (макет 141-25687), а не Category (40px) */
+  font-family: var(--text-heading-card-family);
+  font-size: var(--text-heading-card-size);
+  line-height: var(--text-heading-card-line-height);
+  font-weight: var(--text-heading-card-weight);
+  color: var(--heritage-green-500);   /* #294434 — дефолт из макета */
+  transition: color 0.4s ease;
 }
 .promo-card__text {
   margin: 0;
   max-width: 38.75rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
-  color: var(--warm-taupe-500);
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
+  color: #61584e;      /* дефолт текста из макета */
+  opacity: 0.7;        /* макет: непрозрачность 70% */
+  transition: color 0.4s ease;
 }
-.promo-card__arrow {
+.promo-card:hover .promo-card__title { color: var(--white); }
+.promo-card:hover .promo-card__text { color: var(--stone-beige-200); }
+
+/* Морфящаяся кнопка: круг со стрелкой → пилюля с подписью.
+   Правый край закреплён (right), поэтому пилюля растёт влево,
+   не толкая заголовок. Ширина фиксированная — подпись статична. */
+.promo-card__cta {
   position: absolute;
   top: 2.5rem;
   right: 2.5rem;
-  --circle-btn-size: 2.75rem;
-  --circle-btn-bg: transparent;
-  --circle-btn-bg-hover: rgba(24, 30, 29, 0.06);
-  box-shadow: inset 0 0 0 0.0625rem var(--warm-taupe-300);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  box-sizing: border-box;
+  width: 2.875rem;             /* 46px — круг */
+  height: 2.875rem;
+  /* padding-right 1rem при icon 14px и justify:flex-end центрирует стрелку
+     в круге: правый край иконки = 46−16=30, центр = 23 = половина круга */
+  padding: 0 1rem;
+  border-radius: 1.9375rem;    /* 31px */
+  background: transparent;
+  color: var(--heritage-green-500);
+  box-shadow: inset 0 0 0 0.0625rem var(--heritage-green-500);
+  overflow: hidden;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              padding 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              gap 0.42s ease, background-color 0.35s ease, box-shadow 0.35s ease;
 }
-.promo-card__arrow svg { width: 1rem; height: 1rem; }
+.promo-card:hover .promo-card__cta,
+.promo-card__cta:focus-visible {
+  width: 15.5rem;              /* пилюля: подпись + стрелка */
+  padding: 0 1.125rem;        /* 18px из макета */
+  gap: 0.625rem;              /* 10px */
+  background: var(--white);
+  box-shadow: inset 0 0 0 0.0625rem var(--heritage-green-500);
+}
+.promo-card__cta-label {
+  font-family: var(--font-onest);
+  font-size: 1.125rem;         /* 18px */
+  line-height: 1.375rem;       /* 22px */
+  font-weight: 400;
+  color: var(--heritage-green-500);
+  /* Скрыт до наведения: иначе край подписи проглядывает из-под круга. */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.promo-card:hover .promo-card__cta-label,
+.promo-card__cta:focus-visible .promo-card__cta-label {
+  opacity: 1;
+  transition: opacity 0.3s ease 0.1s;
+}
+.promo-card__cta-icon {
+  flex-shrink: 0;
+  width: 0.875rem;   /* 14px — как в дефолте карточки (макет) */
+  height: 0.875rem;
+  display: block;
+}
 
 /* ═══════════════ «Индивидуальный подход» — стейтмент + фичи ═══════════════ */
 .craft { position: relative; padding: 5rem 3.75rem; }
@@ -499,14 +674,14 @@ button { font-family: inherit; }
   top: 6.5rem;
   width: 64.1875rem;
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 3.125rem;
-  line-height: 3.5rem;
-  letter-spacing: -0.0625rem;
+  font-family: var(--text-heading-statement-light-family);
+  font-size: var(--text-heading-statement-light-size);
+  line-height: var(--text-heading-statement-light-line-height);
+  letter-spacing: var(--text-heading-statement-light-letter-spacing);
   color: var(--carbon-black-500);
 }
-.craft__statement span { font-weight: 400; }
-.craft__statement b { font-weight: 800; }
+.craft__statement span { font-weight: var(--text-heading-statement-light-weight); }
+.craft__statement b { font-weight: var(--text-heading-statement-weight); }
 .craft__watermark {
   position: absolute;
   left: 0;
@@ -554,10 +729,10 @@ button { font-family: inherit; }
 }
 .feat-card__title {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 2.25rem;
-  line-height: 1;
-  font-weight: 600;
+  font-family: var(--text-heading-card-family);
+  font-size: var(--text-heading-card-size);
+  line-height: var(--text-heading-card-line-height);
+  font-weight: var(--text-heading-card-weight);
   color: var(--carbon-black-500);
 }
 .feat-card__arrow {
@@ -571,9 +746,9 @@ button { font-family: inherit; }
 .feat-card__text {
   margin: 0;
   max-width: 40rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
   color: var(--warm-taupe-500);
 }
 
@@ -583,7 +758,7 @@ button { font-family: inherit; }
 .review__media img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s ease; }
 .review__body { display: flex; flex-direction: column; }
 .review__title {
-  margin: 0 0 auto;
+  margin: 0;
   font-family: var(--font-display);
   font-size: 3.5rem;
   line-height: 3.5rem;
@@ -591,14 +766,18 @@ button { font-family: inherit; }
 }
 .review__title span { display: block; font-weight: 400; }
 .review__title b { display: block; font-weight: 800; }
-.review__author { margin: 2.5rem 0 1.25rem; }
-.review__name { margin: 0; font-family: var(--font-onest); font-weight: 600; font-size: 1.25rem; color: var(--carbon-black-500); }
-.review__car { margin: 0.125rem 0 0; font-family: var(--font-onest); font-size: 1rem; color: var(--warm-taupe-400); }
+/* Имя, модель и цитата — по центру блока по высоте (макет 141-25733):
+   auto-margin сверху у автора и снизу у цитаты делит свободное место
+   поровну, оставляя заголовок сверху, а стрелки — снизу. */
+.review__author { margin: auto 0 1.25rem; }
+.review__name { margin: 0; font-family: var(--text-footer-column-family); font-weight: 600; font-size: var(--text-footer-column-size); color: var(--carbon-black-500); }
+.review__car { margin: 0.125rem 0 0; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--warm-taupe-400); }
 .review__quote {
-  margin: 0 0 2rem;
-  font-family: var(--font-onest);
-  font-size: 2.25rem;
-  line-height: 2.625rem;
+  margin: 0 0 auto;
+  font-family: var(--text-quote-review-family);
+  font-size: var(--text-quote-review-size);
+  line-height: var(--text-quote-review-line-height);
+  font-weight: var(--text-quote-review-weight);
   color: var(--carbon-black-500);
   max-width: 54.6875rem;
 }
@@ -610,9 +789,9 @@ button { font-family: inherit; }
 .visit { padding: 5rem 3.75rem; }
 .visit__title {
   margin: 0 0 1rem;
-  font-family: var(--font-display);
-  font-size: 4.125rem;
-  line-height: 4.375rem;
+  font-family: var(--text-heading-statement-family);
+  font-size: var(--text-heading-statement-size);
+  line-height: var(--text-heading-statement-line-height);
   text-transform: uppercase;
   color: var(--carbon-black-500);
 }
@@ -621,12 +800,25 @@ button { font-family: inherit; }
 .visit__sub {
   margin: 0 0 2.5rem;
   max-width: 48.75rem;
-  font-family: var(--font-onest);
-  font-size: 1.125rem;
-  line-height: 1.5rem;
+  font-family: var(--text-body-family);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line-height);
   color: var(--warm-taupe-500);
 }
-.visit__grid { display: grid; grid-template-columns: 31rem 28.375rem 1fr; gap: 1.5rem; }
+/* Слева — заголовок, подзаголовок и коллаж фото; справа — карточка
+   контактов на всю высоту блока (макет 141-25747). */
+.visit__main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 45.875rem;  /* карточка 734px */
+  gap: 3.75rem;
+  align-items: stretch;
+}
+.visit__left { display: flex; flex-direction: column; }
+.visit__gallery {
+  display: grid;
+  grid-template-columns: 31rem minmax(0, 1fr);
+  gap: 1.5rem;
+}
 .visit__col { display: flex; flex-direction: column; gap: 1.5rem; }
 .visit__photo { border-radius: 1.5rem; overflow: hidden; }
 .visit__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -640,13 +832,14 @@ button { font-family: inherit; }
   flex-direction: column;
   gap: 1.375rem;
 }
-.contact-row__label { margin: 0 0 0.375rem; font-family: var(--font-onest); font-size: 1rem; color: var(--warm-taupe-400); }
-.contact-row__value { margin: 0; font-family: var(--font-display); font-size: 1.875rem; line-height: 1.1; font-weight: 600; color: var(--carbon-black-500); }
-.contact-row__note { margin: 0.25rem 0 0; font-family: var(--font-onest); font-size: 1rem; color: var(--warm-taupe-400); }
+.contact-row__label { margin: 0 0 0.375rem; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--warm-taupe-400); }
+.contact-row__value { margin: 0; font-family: var(--text-contact-primary-family); font-size: var(--text-contact-primary-size); line-height: 1.1; font-weight: var(--text-contact-primary-weight); color: var(--carbon-black-500); }
+.contact-row__note { margin: 0.25rem 0 0; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--warm-taupe-400); }
 .contact-card .btn { align-self: flex-start; }
-.contact-card__map { margin-top: auto; border-radius: 1.125rem; overflow: hidden; }
+/* Карта заполняет низ карточки (карточка тянется на всю высоту блока). */
+.contact-card__map { flex: 1; min-height: 16.25rem; border-radius: 1.125rem; overflow: hidden; }
 .contact-card__map img,
-.contact-card__map iframe { width: 100%; height: 16.25rem; border: 0; object-fit: cover; display: block; }
+.contact-card__map iframe { width: 100%; height: 100%; border: 0; object-fit: cover; display: block; }
 
 /* ═══════════════ Футер ═══════════════ */
 .site-footer {
@@ -658,11 +851,11 @@ button { font-family: inherit; }
   overflow: hidden;
 }
 .site-footer__top { display: grid; grid-template-columns: repeat(4, auto) 1fr auto; gap: 2.5rem; align-items: start; }
-.footer-col__title { margin: 0 0 1.25rem; font-family: var(--font-onest); font-weight: 600; font-size: 1.25rem; color: var(--stone-beige-400); }
+.footer-col__title { margin: 0 0 1.25rem; font-family: var(--text-footer-column-family); font-weight: 600; font-size: var(--text-footer-column-size); color: var(--stone-beige-400); }
 .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
-.footer-col a { font-family: var(--font-onest); font-size: 1rem; color: var(--stone-beige-200); text-decoration: none; transition: color 0.2s ease; }
+.footer-col a { font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--stone-beige-200); text-decoration: none; transition: color 0.2s ease; }
 .footer-col a:hover { color: var(--white); }
-.footer-contact__phone { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-onest); font-weight: 600; font-size: 1.25rem; color: var(--white); }
+.footer-contact__phone { display: flex; align-items: center; gap: 0.5rem; font-family: var(--text-footer-column-family); font-weight: 600; font-size: var(--text-footer-column-size); color: var(--white); }
 .footer-contact__phone svg { width: 1.125rem; height: 1.125rem; color: var(--stone-beige-400); }
 .footer-social { display: flex; gap: 0.875rem; margin-top: 1.125rem; }
 .footer-social a {
@@ -673,11 +866,11 @@ button { font-family: inherit; }
 }
 .footer-social a:hover { background: rgba(255, 255, 255, 0.18); }
 .footer-social svg { width: 1.25rem; height: 1.25rem; }
-.footer-legal { text-align: right; font-family: var(--font-onest); font-size: 1rem; color: var(--stone-beige-400); line-height: 1.5rem; }
+.footer-legal { text-align: right; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--stone-beige-400); line-height: 1.5rem; }
 .footer-legal a { color: var(--stone-beige-400); text-decoration: none; }
 .footer-legal a:hover { color: var(--white); }
 .site-footer__brand { margin-top: 3.5rem; }
-.site-footer__tagline { margin: 0 0 0.5rem; font-family: var(--font-onest); font-size: 1rem; color: var(--stone-beige-500); }
+.site-footer__tagline { margin: 0 0 0.5rem; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--stone-beige-500); }
 .site-footer__logo { width: 100%; height: auto; filter: brightness(0) invert(1); opacity: 0.92; }
 
 /* Плавающий виджет избранного/сравнения (правый край hero) */
@@ -701,7 +894,7 @@ button { font-family: inherit; }
   position: absolute; top: 0.125rem; right: 0.125rem;
   min-width: 0.9375rem; height: 0.9375rem; padding: 0 0.1875rem;
   border-radius: 0.5rem; background: var(--heritage-green-500); color: #fff;
-  font-family: var(--font-onest); font-size: 0.625rem; line-height: 0.9375rem; text-align: center;
+  font-family: var(--text-caption-badge-family); font-size: var(--text-caption-badge-size); line-height: 0.9375rem; text-align: center;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -715,6 +908,7 @@ button { font-family: inherit; }
    в столбик (она рассчитана на десктоп-ширину и иначе выходит за край) ── */
 @media (max-width: 1199.98px) {
   .brands__viewport { --visible: 4; }
+  .car-row__viewport { --cols: 3; }            /* авто 4 → 3 */
 
   .craft__canvas { width: 100%; height: auto; }
   .craft__statement { position: static; width: 100%; margin: 0 0 2.5rem; }
@@ -743,9 +937,9 @@ button { font-family: inherit; }
   .review { grid-template-columns: 1fr; }
   .review__media { height: 26rem; }
 
-  /* Контакты: две колонки фото, карточка контактов на всю ширину снизу */
-  .visit__grid { grid-template-columns: 1fr 1fr; }
-  .contact-card { grid-column: 1 / -1; }
+  /* Контакты: карточка уходит под коллаж фото на всю ширину */
+  .visit__main { grid-template-columns: 1fr; }
+  .contact-card__map { min-height: 22rem; }
 
   /* Футер: 6 колонок → 3 */
   .site-footer__top { grid-template-columns: repeat(3, 1fr); }
@@ -761,7 +955,7 @@ button { font-family: inherit; }
   .cat-grid .cat-card { min-height: 20rem; }
 
   .promo { grid-template-columns: 1fr; }       /* трейд-ин/лизинг в столбик */
-  .visit__grid { grid-template-columns: 1fr; } /* контакты в столбик */
+  .visit__gallery { grid-template-columns: 1fr; } /* фото в столбик */
 
   /* Заголовок бенто: убрать «в разбежку» */
   .formats__top { flex-direction: column; }
