@@ -284,7 +284,7 @@
 
   /* ── Размеры текста кнопок (из компонента Button; не отдельные
         Text Styles, но нужны buttons.css — оставлены как есть) ── */
-  --text-btn-s-size: 0.8125rem;
+  --text-btn-s-size: 0.875rem;      /* 14px — Text/14 Regular (макет 1-3361) */
   --text-btn-s-line-height: 1.125rem;
   --text-btn-m-size: 1rem;
   --text-btn-m-line-height: 1.25rem;
