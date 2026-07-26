@@ -146,6 +146,14 @@ button { font-family: inherit; }
   line-height: 1.5rem;         /* 24px */
   font-weight: 600;            /* SemiBold */
   color: var(--heritage-green-500);
+  /* Скрыт до наведения: иначе край номера проглядывает из-под круга. */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.phone-btn:hover .phone-btn__number,
+.phone-btn:focus-visible .phone-btn__number {
+  opacity: 1;
+  transition: opacity 0.3s ease 0.1s;
 }
 .phone-btn__icon {
   display: inline-flex;
@@ -358,13 +366,16 @@ button { font-family: inherit; }
    Появляются по ховеру на весь блок (в макете скрыты по умолчанию). */
 .brands__nav {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
+  margin-block: auto;   /* центрируем по вертикали БЕЗ transform: иначе
+                           .circle-btn:active { transform: scale } перебивает
+                           translateY(-50%) и кнопка прыгает вниз при клике */
   z-index: 3;
   --circle-btn-size: 2.75rem;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease, background-color 0.2s ease;
+  transition: opacity 0.25s ease, background-color 0.2s ease, transform 0.12s ease;
 }
 .brands__nav--prev { left: 3.75rem; }
 .brands__nav--next { right: 3.75rem; }
@@ -429,13 +440,14 @@ button { font-family: inherit; }
 }
 .car-row__nav {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
+  margin-block: auto;   /* центрируем без transform (см. .brands__nav) */
   z-index: 3;
   --circle-btn-size: 2.75rem;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s ease, background-color 0.2s ease;
+  transition: opacity 0.25s ease, background-color 0.2s ease, transform 0.12s ease;
 }
 .car-row__nav--prev { left: 0; }
 .car-row__nav--next { right: 0; }
@@ -627,6 +639,14 @@ button { font-family: inherit; }
   line-height: 1.375rem;       /* 22px */
   font-weight: 400;
   color: var(--heritage-green-500);
+  /* Скрыт до наведения: иначе край подписи проглядывает из-под круга. */
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.promo-card:hover .promo-card__cta-label,
+.promo-card__cta:focus-visible .promo-card__cta-label {
+  opacity: 1;
+  transition: opacity 0.3s ease 0.1s;
 }
 .promo-card__cta-icon {
   flex-shrink: 0;
@@ -728,7 +748,7 @@ button { font-family: inherit; }
 .review__media img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s ease; }
 .review__body { display: flex; flex-direction: column; }
 .review__title {
-  margin: 0 0 auto;
+  margin: 0;
   font-family: var(--font-display);
   font-size: 3.5rem;
   line-height: 3.5rem;
@@ -736,11 +756,14 @@ button { font-family: inherit; }
 }
 .review__title span { display: block; font-weight: 400; }
 .review__title b { display: block; font-weight: 800; }
-.review__author { margin: 2.5rem 0 1.25rem; }
+/* Имя, модель и цитата — по центру блока по высоте (макет 141-25733):
+   auto-margin сверху у автора и снизу у цитаты делит свободное место
+   поровну, оставляя заголовок сверху, а стрелки — снизу. */
+.review__author { margin: auto 0 1.25rem; }
 .review__name { margin: 0; font-family: var(--text-footer-column-family); font-weight: 600; font-size: var(--text-footer-column-size); color: var(--carbon-black-500); }
 .review__car { margin: 0.125rem 0 0; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--warm-taupe-400); }
 .review__quote {
-  margin: 0 0 2rem;
+  margin: 0 0 auto;
   font-family: var(--text-quote-review-family);
   font-size: var(--text-quote-review-size);
   line-height: var(--text-quote-review-line-height);
@@ -772,7 +795,20 @@ button { font-family: inherit; }
   line-height: var(--text-body-line-height);
   color: var(--warm-taupe-500);
 }
-.visit__grid { display: grid; grid-template-columns: 31rem 28.375rem 1fr; gap: 1.5rem; }
+/* Слева — заголовок, подзаголовок и коллаж фото; справа — карточка
+   контактов на всю высоту блока (макет 141-25747). */
+.visit__main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 45.875rem;  /* карточка 734px */
+  gap: 3.75rem;
+  align-items: stretch;
+}
+.visit__left { display: flex; flex-direction: column; }
+.visit__gallery {
+  display: grid;
+  grid-template-columns: 31rem minmax(0, 1fr);
+  gap: 1.5rem;
+}
 .visit__col { display: flex; flex-direction: column; gap: 1.5rem; }
 .visit__photo { border-radius: 1.5rem; overflow: hidden; }
 .visit__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -790,9 +826,10 @@ button { font-family: inherit; }
 .contact-row__value { margin: 0; font-family: var(--text-contact-primary-family); font-size: var(--text-contact-primary-size); line-height: 1.1; font-weight: var(--text-contact-primary-weight); color: var(--carbon-black-500); }
 .contact-row__note { margin: 0.25rem 0 0; font-family: var(--text-caption-family); font-size: var(--text-caption-size); color: var(--warm-taupe-400); }
 .contact-card .btn { align-self: flex-start; }
-.contact-card__map { margin-top: auto; border-radius: 1.125rem; overflow: hidden; }
+/* Карта заполняет низ карточки (карточка тянется на всю высоту блока). */
+.contact-card__map { flex: 1; min-height: 16.25rem; border-radius: 1.125rem; overflow: hidden; }
 .contact-card__map img,
-.contact-card__map iframe { width: 100%; height: 16.25rem; border: 0; object-fit: cover; display: block; }
+.contact-card__map iframe { width: 100%; height: 100%; border: 0; object-fit: cover; display: block; }
 
 /* ═══════════════ Футер ═══════════════ */
 .site-footer {
@@ -890,9 +927,9 @@ button { font-family: inherit; }
   .review { grid-template-columns: 1fr; }
   .review__media { height: 26rem; }
 
-  /* Контакты: две колонки фото, карточка контактов на всю ширину снизу */
-  .visit__grid { grid-template-columns: 1fr 1fr; }
-  .contact-card { grid-column: 1 / -1; }
+  /* Контакты: карточка уходит под коллаж фото на всю ширину */
+  .visit__main { grid-template-columns: 1fr; }
+  .contact-card__map { min-height: 22rem; }
 
   /* Футер: 6 колонок → 3 */
   .site-footer__top { grid-template-columns: repeat(3, 1fr); }
@@ -908,7 +945,7 @@ button { font-family: inherit; }
   .cat-grid .cat-card { min-height: 20rem; }
 
   .promo { grid-template-columns: 1fr; }       /* трейд-ин/лизинг в столбик */
-  .visit__grid { grid-template-columns: 1fr; } /* контакты в столбик */
+  .visit__gallery { grid-template-columns: 1fr; } /* фото в столбик */
 
   /* Заголовок бенто: убрать «в разбежку» */
   .formats__top { flex-direction: column; }
