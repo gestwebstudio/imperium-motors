@@ -44,7 +44,12 @@
     </nav>
     <img class="site-logo" src="/home/imperium-logo.svg" alt="Imperium Motors" width="336" height="32">
     <div class="site-header__actions">
-      <button class="circle-btn site-header__call" aria-label="Позвонить"><svg aria-hidden="true"><use href="#icon-phone"></use></svg></button>
+      <a class="phone-btn" href="tel:+74997041444" aria-label="Позвонить: +7 499 704-14-44">
+        <span class="phone-btn__pill">
+          <span class="phone-btn__number" aria-hidden="true">+7 499 704-14-44</span>
+          <span class="phone-btn__icon"><svg aria-hidden="true"><use href="#icon-phone"></use></svg></span>
+        </span>
+      </a>
       <a class="cta-button" href="#"><span class="cta-button__label">Каталог</span><span class="cta-button__icon"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></span></a>
       <button class="circle-btn site-burger" type="button" aria-label="Меню" aria-expanded="false"><span class="site-burger__lines" aria-hidden="true"></span></button>
     </div>
@@ -208,14 +213,20 @@
         <h3 class="promo-card__title">Трейд-ин</h3>
         <p class="promo-card__text">Сдайте свой автомобиль в хорошие руки. Честная оценка, быстрое оформление, зачёт в счёт нового авто</p>
       </div>
-      <a class="circle-btn promo-card__arrow" href="#" aria-label="Подробнее"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></a>
+      <a class="promo-card__cta" href="#" aria-label="Трейд-ин — оценить автомобиль">
+        <span class="promo-card__cta-label">Оценить автомобиль</span>
+        <svg class="promo-card__cta-icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg>
+      </a>
     </div>
     <div class="promo-card">
       <div>
         <h3 class="promo-card__title">Лизинг</h3>
         <p class="promo-card__text">Программы для бизнеса с оптимизацией налогов и комфортным графиком платежей — без заморозки капитала и с выкупом автомобиля на ваших условиях</p>
       </div>
-      <a class="circle-btn promo-card__arrow" href="#" aria-label="Подробнее"><svg aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg></a>
+      <a class="promo-card__cta" href="#" aria-label="Лизинг — рассчитать условия">
+        <span class="promo-card__cta-label">Рассчитать условия</span>
+        <svg class="promo-card__cta-icon" aria-hidden="true"><use href="#icon-arrow-diagonal"></use></svg>
+      </a>
     </div>
   </div>
 

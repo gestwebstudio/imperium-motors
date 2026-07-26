@@ -100,7 +100,63 @@ button { font-family: inherit; }
   align-items: center;
   gap: 1rem;
 }
-.site-header__call { --circle-btn-size: 2.875rem; }
+/* Телефон в шапке (node 102-18644): круг 46px со значком трубки,
+   по ховеру разворачивается влево в пилюлю с номером. Значок закреплён
+   справа, поэтому номер «выезжает» слева, не сдвигая соседние кнопки:
+   .phone-btn держит место 46px в потоке, а .phone-btn__pill растёт
+   абсолютно от правого края. */
+.phone-btn {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 2.875rem;   /* 46px — место в потоке шапки */
+  height: 2.875rem;
+  text-decoration: none;
+}
+.phone-btn__pill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  box-sizing: border-box;
+  width: 2.875rem;             /* круг */
+  height: 2.875rem;
+  padding: 0 0.75rem;
+  border-radius: 5.625rem;     /* 90px */
+  background: var(--warm-taupe-100);
+  color: var(--heritage-green-500);
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              padding 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              gap 0.42s ease;
+}
+.phone-btn:hover .phone-btn__pill,
+.phone-btn:focus-visible .phone-btn__pill {
+  width: 14.625rem;           /* 234px из макета */
+  padding: 0 1.375rem;        /* 22px */
+  gap: 0.75rem;               /* 12px */
+}
+.phone-btn__number {
+  font-family: var(--font-onest);
+  font-size: 1.125rem;         /* 18px */
+  line-height: 1.5rem;         /* 24px */
+  font-weight: 600;            /* SemiBold */
+  color: var(--heritage-green-500);
+}
+.phone-btn__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--heritage-green-500);
+}
+.phone-btn__icon svg {
+  width: 1.375rem;             /* 22px */
+  height: 1.375rem;
+  display: block;
+}
 
 /* Бургер — только в мобилке (по умолчанию скрыт). Три полоски на ::before/::after. */
 .site-burger { display: none; --circle-btn-size: 2.875rem; }
@@ -454,6 +510,9 @@ button { font-family: inherit; }
 
 /* ═══════════════ Баннеры Трейд-ин / Лизинг ═══════════════ */
 .promo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding: 0 3.75rem 2.5rem; }
+/* Карточка трейд-ин/лизинг (node 58-1968 / 58-1916).
+   По ховеру: фон светлый→heritage-green, заголовок и текст светлеют,
+   круглая стрелка морфится в белую пилюлю с подписью. */
 .promo-card {
   position: relative;
   display: flex;
@@ -461,7 +520,12 @@ button { font-family: inherit; }
   min-height: 10.4375rem;
   padding: 2.5rem 3rem;
   border-radius: 1.875rem;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(228, 223, 219, 0.4); /* stone-beige-200 @ 40% (default из макета) */
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+.promo-card:hover {
+  background: var(--heritage-green-500);
+  box-shadow: var(--shadow-fin);
 }
 .promo-card__title {
   margin: 0 0 0.625rem;
@@ -470,6 +534,7 @@ button { font-family: inherit; }
   line-height: var(--text-heading-category-line-height);
   font-weight: var(--text-heading-category-weight);
   color: var(--carbon-black-500);
+  transition: color 0.4s ease;
 }
 .promo-card__text {
   margin: 0;
@@ -478,17 +543,59 @@ button { font-family: inherit; }
   font-size: var(--text-body-size);
   line-height: var(--text-body-line-height);
   color: var(--warm-taupe-500);
+  transition: color 0.4s ease;
 }
-.promo-card__arrow {
+.promo-card:hover .promo-card__title { color: var(--white); }
+.promo-card:hover .promo-card__text { color: var(--stone-beige-200); }
+
+/* Морфящаяся кнопка: круг со стрелкой → пилюля с подписью.
+   Правый край закреплён (right), поэтому пилюля растёт влево,
+   не толкая заголовок. Ширина фиксированная — подпись статична. */
+.promo-card__cta {
   position: absolute;
   top: 2.5rem;
   right: 2.5rem;
-  --circle-btn-size: 2.75rem;
-  --circle-btn-bg: transparent;
-  --circle-btn-bg-hover: rgba(24, 30, 29, 0.06);
-  box-shadow: inset 0 0 0 0.0625rem var(--warm-taupe-300);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  box-sizing: border-box;
+  width: 2.875rem;             /* 46px — круг */
+  height: 2.875rem;
+  padding: 0 0.75rem;
+  border-radius: 1.9375rem;    /* 31px */
+  background: transparent;
+  color: var(--heritage-green-500);
+  box-shadow: inset 0 0 0 0.0625rem var(--heritage-green-500);
+  overflow: hidden;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              padding 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              gap 0.42s ease, background-color 0.35s ease, box-shadow 0.35s ease;
 }
-.promo-card__arrow svg { width: 1rem; height: 1rem; }
+.promo-card:hover .promo-card__cta,
+.promo-card__cta:focus-visible {
+  width: 15.5rem;              /* пилюля: подпись + стрелка */
+  padding: 0 1.125rem;        /* 18px из макета */
+  gap: 0.625rem;              /* 10px */
+  background: var(--white);
+  box-shadow: inset 0 0 0 0.0625rem var(--heritage-green-500);
+}
+.promo-card__cta-label {
+  font-family: var(--font-onest);
+  font-size: 1.125rem;         /* 18px */
+  line-height: 1.375rem;       /* 22px */
+  font-weight: 400;
+  color: var(--heritage-green-500);
+}
+.promo-card__cta-icon {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  display: block;
+}
 
 /* ═══════════════ «Индивидуальный подход» — стейтмент + фичи ═══════════════ */
 .craft { position: relative; padding: 5rem 3.75rem; }
