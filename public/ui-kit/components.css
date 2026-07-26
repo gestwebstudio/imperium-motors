@@ -55,6 +55,30 @@
 .tag.is-hover {
   background: rgba(143, 133, 121, 0.4);
 }
+/* Type=Filter (макет 201-11054) — удаляемый тег-фильтр: светлее и меньше
+   тега-характеристики, текст Text/14 warm-taupe-500, с крестиком 10px. */
+.tag[data-type="filter"] {
+  gap: 0.375rem;                       /* 6px между подписью и крестиком */
+  padding: 0.25rem 0.5rem;             /* py4 px8 */
+  background: rgba(144, 138, 134, 0.15);
+  color: var(--warm-taupe-500);
+  font-size: var(--text-caption-note-size);        /* 14/18 */
+  line-height: var(--text-caption-note-line-height);
+}
+.tag[data-type="filter"]:hover,
+.tag[data-type="filter"].is-hover {
+  background: rgba(144, 138, 134, 0.28);
+}
+.tag__close {
+  flex-shrink: 0;
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+.tag__close svg { display: block; width: 0.625rem; height: 0.625rem; }
 
 /* ══════════════ Badge ══════════════
    Color = Info | Error | Warning | Success
