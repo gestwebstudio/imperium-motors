@@ -8,15 +8,16 @@ export const PRICE_MAX = 50_000_000;
 export const POWER_MIN = 100;
 export const POWER_MAX = 900;
 
-// Наборы характеристик для фильтров-аккордеона (рандомные по ТЗ).
+// Наборы характеристик для фильтров-аккордеона (порядок и состав — как в макете
+// 578-2427: Бренд, Модель, Цвет, Кузов, Коробка, Привод, Тип топлива).
 export const FILTER_GROUPS: { id: string; title: string; options: string[] }[] = [
-  { id: "brand", title: "Марка", options: ["BMW", "Mercedes-Benz", "Land Rover", "Lexus", "Porsche", "Audi"] },
-  { id: "body", title: "Кузов", options: ["Седан", "Кроссовер", "Внедорожник", "Купе", "Минивэн", "Кабриолет"] },
-  { id: "fuel", title: "Топливо", options: ["Бензин", "Дизель", "Гибрид", "Электро"] },
-  { id: "drive", title: "Привод", options: ["Полный", "Задний", "Передний"] },
-  { id: "transmission", title: "Коробка", options: ["Автомат", "Робот", "Механика"] },
-  { id: "year", title: "Год выпуска", options: ["2026", "2025", "2024", "2023"] },
+  { id: "brand", title: "Бренд", options: ["BMW", "Mercedes-Benz", "Land Rover", "Lexus", "Porsche", "Audi"] },
+  { id: "model", title: "Модель", options: ["X3", "X5", "CLE", "GX", "Range Rover", "911 Turbo S", "7 Series"] },
   { id: "color", title: "Цвет", options: ["Чёрный", "Белый", "Серый", "Синий", "Зелёный", "Красный"] },
+  { id: "body", title: "Кузов", options: ["Седан", "Кроссовер", "Внедорожник", "Купе", "Минивэн", "Кабриолет"] },
+  { id: "transmission", title: "Коробка", options: ["Автомат", "Робот", "Механика"] },
+  { id: "drive", title: "Привод", options: ["Полный", "Задний", "Передний"] },
+  { id: "fuel", title: "Тип топлива", options: ["Бензин", "Дизель", "Гибрид", "Электро"] },
 ];
 
 const CARS: Omit<CarCardData, "id">[] = [
