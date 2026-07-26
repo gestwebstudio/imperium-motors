@@ -1,0 +1,13 @@
+/* Переопределения тем HeroUI под макет каталога.
+   HeroUI-слайдер красит fill и бегунок акцентом (--accent, синий).
+   Задаём акцент = heritage-green-400, а бегунок делаем белым (как в макете). */
+.range-slider {
+  --accent: #4e7b60;
+}
+.range-slider .slider__thumb {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.range-slider .slider__track {
+  background-color: #f2eeea; /* warm-taupe-100 */
+}

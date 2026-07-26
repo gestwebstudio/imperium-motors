@@ -64,7 +64,7 @@
 
 /* ── Размеры (Content=Text / Text+Icon) ── */
 .btn[data-size="s"] {
-  padding: 0.3125rem 0.875rem; /* высота 28px по макету (5px + line-height 18px) */
+  padding: 0.3125rem 0.75rem; /* 5px/12px по макету (высота 28px = 5 + lh 18) */
   font-size: var(--text-btn-s-size);
   line-height: var(--text-btn-s-line-height);
   gap: 0.375rem;

@@ -1,77 +1,198 @@
-import { prisma } from "@/lib/prisma";
-import CarCard from "@/components/CarCard";
-import Reveal from "@/components/Reveal";
+"use client";
 
-export const dynamic = "force-dynamic"; // всегда свежий каталог из БД
+import "./catalog.css";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Breadcrumbs, BreadcrumbsItem } from "@heroui/react";
+import { type CarCardData } from "@/components/CarCard";
+import CatalogCarCard from "./CatalogCarCard";
+import SortSelect, { type SortKey } from "./SortSelect";
+import FilterPanel, { type Chip } from "./FilterPanel";
+import type { Range } from "./RangeFilter";
+import {
+  makePage,
+  TOTAL_COUNT,
+  FILTER_GROUPS,
+  PRICE_MIN,
+  PRICE_MAX,
+  POWER_MIN,
+  POWER_MAX,
+} from "./mock";
 
-// Русское склонение существительного после числа.
-function plural(n: number, one: string, few: string, many: string) {
-  const m10 = n % 10;
-  const m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return one;
-  if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
-  return many;
+const PER_PAGE = 9;
+const MAX_PAGES = 6;
+
+function sortCars(list: CarCardData[], sort: SortKey): CarCardData[] {
+  if (sort === "price_asc") return [...list].sort((a, b) => a.price - b.price);
+  if (sort === "price_desc") return [...list].sort((a, b) => b.price - a.price);
+  return list;
 }
 
-export default async function CatalogPage() {
-  const cars = await prisma.car.findMany({
-    where: { status: { not: "sold" } },
-    orderBy: { updatedAt: "desc" },
-    include: { photos: { orderBy: { sort: "asc" } } },
-  });
+const powerNum = (car: CarCardData) =>
+  parseInt(String(car.power ?? "").replace(/\D/g, ""), 10) || 0;
 
-  const inStock = cars.filter((c) => c.status === "in_stock").length;
+// Поля color/body в моке нет — по ним не фильтруем (чип всё равно показывается).
+function matches(
+  car: CarCardData,
+  sel: Record<string, string[]>,
+  price: Range,
+  power: Range
+): boolean {
+  if (sel.brand?.length && !sel.brand.includes(car.brand)) return false;
+  if (sel.model?.length && !sel.model.some((m) => car.model.includes(m))) return false;
+  if (sel.transmission?.length && car.transmission && !sel.transmission.includes(car.transmission)) return false;
+  if (sel.drive?.length && car.drive && !sel.drive.includes(car.drive)) return false;
+  if (sel.fuel?.length && car.fuel && !sel.fuel.includes(car.fuel)) return false;
+  if (car.price < price[0] || car.price > price[1]) return false;
+  const pw = powerNum(car);
+  if (pw < power[0] || pw > power[1]) return false;
+  return true;
+}
+
+const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, " ");
+
+export default function CatalogPage() {
+  const [cars, setCars] = useState<CarCardData[]>(() => makePage(0, PER_PAGE));
+  const [page, setPage] = useState(0);
+  const [sort, setSort] = useState<SortKey>("popular");
+  const [selected, setSelected] = useState<Record<string, string[]>>({});
+  const [price, setPrice] = useState<Range>([PRICE_MIN, PRICE_MAX]);
+  const [power, setPower] = useState<Range>([POWER_MIN, POWER_MAX]);
+
+  const pageRef = useRef(0);
+  const busyRef = useRef(false);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  const loadMore = useCallback(() => {
+    if (busyRef.current) return;
+    const next = pageRef.current + 1;
+    if (next >= MAX_PAGES) return;
+    busyRef.current = true;
+    pageRef.current = next;
+    setCars((cur) => [...cur, ...makePage(next, PER_PAGE)]);
+    setPage(next);
+    requestAnimationFrame(() => {
+      busyRef.current = false;
+    });
+  }, []);
+
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) loadMore();
+      },
+      { rootMargin: "600px 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [loadMore]);
+
+  const hasMore = page < MAX_PAGES - 1;
+
+  const displayCars = useMemo(
+    () => sortCars(cars.filter((c) => matches(c, selected, price, power)), sort),
+    [cars, selected, price, power, sort]
+  );
+
+  // Чипы выбранных фильтров: по одному на группу + цена/мощность при сужении.
+  const chips: Chip[] = useMemo(() => {
+    const out: Chip[] = [];
+    for (const g of FILTER_GROUPS) {
+      const vals = selected[g.id];
+      if (vals?.length) out.push({ key: g.id, label: vals.join(", ") });
+    }
+    if (price[0] > PRICE_MIN || price[1] < PRICE_MAX)
+      out.push({ key: "price", label: `${fmt(price[0])}–${fmt(price[1])} ₽` });
+    if (power[0] > POWER_MIN || power[1] < POWER_MAX)
+      out.push({ key: "power", label: `${power[0]}–${power[1]} л.с.` });
+    return out;
+  }, [selected, price, power]);
+
+  const onGroupChange = (groupId: string, values: string[]) =>
+    setSelected((s) => ({ ...s, [groupId]: values }));
+
+  const onRemoveChip = (key: string) => {
+    if (key === "price") setPrice([PRICE_MIN, PRICE_MAX]);
+    else if (key === "power") setPower([POWER_MIN, POWER_MAX]);
+    else setSelected((s) => ({ ...s, [key]: [] }));
+  };
+
+  const onReset = () => {
+    setSelected({});
+    setPrice([PRICE_MIN, PRICE_MAX]);
+    setPower([POWER_MIN, POWER_MAX]);
+  };
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-12 lg:py-16">
-      <header className="mb-10 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-[13px] font-medium uppercase tracking-[0.16em] text-green">
-            Каталог
-          </p>
-          <h1 className="font-display mt-2 text-[clamp(2rem,4vw,3rem)] font-bold tracking-[-0.025em] text-carbon">
+    <main className="mx-auto w-full max-w-[1400px] px-6 py-10 lg:py-12">
+      {/* Крошки */}
+      <Breadcrumbs
+        separator={
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M4.5 2.5L8 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        }
+        className="mb-6 flex items-center gap-1 text-[14px] leading-[18px] text-[#8f8579]"
+      >
+        <BreadcrumbsItem href="/" className="text-[#8f8579] transition-colors hover:text-carbon">
+          Главная
+        </BreadcrumbsItem>
+        <BreadcrumbsItem className="text-carbon">Каталог</BreadcrumbsItem>
+      </Breadcrumbs>
+
+      {/* Заголовок + бейдж + сортировка */}
+      <header className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <h1 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.16] text-carbon">
             Автомобили в наличии
           </h1>
+          <span className="inline-flex items-center rounded-full bg-[#dcdfef] px-2.5 py-1.5 text-[18px] leading-[24px] text-[#5262c0]">
+            {TOTAL_COUNT}
+          </span>
         </div>
-        <p className="text-[14px] text-taupe">
-          {`${cars.length} ${plural(
-            cars.length,
-            "автомобиль",
-            "автомобиля",
-            "автомобилей"
-          )}${inStock > 0 ? ` · ${inStock} свободно` : ""} · обновляется из системы учёта`}
-        </p>
+        <SortSelect value={sort} onChange={setSort} />
       </header>
 
-      {cars.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {cars.map((car, i) => (
-            <Reveal key={car.id} delay={(i % 3) * 90} className="h-full">
-              <CarCard car={car} index={i} />
-            </Reveal>
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col items-center rounded-[20px] border border-[var(--hairline)] bg-card px-6 py-20 text-center shadow-[var(--shadow-rest)]">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-porcelain">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M3 13l2-5.5A2 2 0 017 6h10a2 2 0 011.9 1.5L21 13m-18 0v4a1 1 0 001 1h1a1 1 0 001-1v-1h10v1a1 1 0 001 1h1a1 1 0 001-1v-4m-18 0h18M6.5 16h.01M17.5 16h.01"
-                stroke="var(--taupe)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+      {/* Две колонки: фильтры (sticky) + карточки */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[380px_1fr] xl:grid-cols-[420px_1fr]">
+        <FilterPanel
+          groups={FILTER_GROUPS}
+          selected={selected}
+          onGroupChange={onGroupChange}
+          price={price}
+          onPriceChange={setPrice}
+          priceMin={PRICE_MIN}
+          priceMax={PRICE_MAX}
+          power={power}
+          onPowerChange={setPower}
+          powerMin={POWER_MIN}
+          powerMax={POWER_MAX}
+          chips={chips}
+          onRemoveChip={onRemoveChip}
+          onReset={onReset}
+        />
+
+        <div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 2xl:grid-cols-3">
+            {displayCars.map((car) => (
+              <CatalogCarCard key={car.id} car={car} />
+            ))}
           </div>
-          <h2 className="font-display mt-5 text-[20px] font-semibold text-carbon">
-            Каталог наполняется
-          </h2>
-          <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-taupe">
-            Автомобили появятся здесь, как только придут из&nbsp;системы учёта.
-          </p>
+
+          {displayCars.length === 0 && (
+            <p className="py-16 text-center text-[15px] text-[#8f8579]">
+              Ничего не найдено — измените фильтры.
+            </p>
+          )}
+
+          {hasMore && (
+            <div ref={sentinelRef} className="flex justify-center py-10 text-[13px] text-[#8f8579]">
+              Загружаем ещё…
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </main>
   );
 }
