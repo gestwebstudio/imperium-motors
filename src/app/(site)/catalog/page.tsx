@@ -56,19 +56,31 @@ export default function CatalogPage() {
 
   return (
     <main className="mx-auto w-full max-w-[1400px] px-6 py-10 lg:py-12">
-      {/* Крошки — из HeroUI */}
-      <Breadcrumbs separator="›" className="mb-6 text-[14px] text-taupe">
-        <BreadcrumbsItem href="/">Главная</BreadcrumbsItem>
-        <BreadcrumbsItem>Каталог</BreadcrumbsItem>
+      {/* Крошки — HeroUI, стиль с макета (14/18, текущий пункт тёмный) */}
+      <Breadcrumbs
+        separator={
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M4.5 2.5L8 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        }
+        className="mb-6 flex items-center gap-1 text-[14px] leading-[18px] text-[#8f8579]"
+      >
+        <BreadcrumbsItem href="/" className="text-[#8f8579] transition-colors hover:text-carbon">
+          Главная
+        </BreadcrumbsItem>
+        <BreadcrumbsItem className="text-carbon">Каталог</BreadcrumbsItem>
       </Breadcrumbs>
 
-      {/* Заголовок + счётчик + сортировка */}
-      <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div className="flex items-baseline gap-3">
-          <h1 className="font-display text-[clamp(2rem,4vw,3rem)] font-bold tracking-[-0.025em] text-carbon">
+      {/* Заголовок + бейдж-счётчик + сортировка */}
+      <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <h1 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold leading-[1.16] text-carbon">
             Автомобили в наличии
           </h1>
-          <span className="text-[14px] text-taupe">{TOTAL_COUNT}</span>
+          {/* Бейдж info/surface из кита: bg additional-blue-100, текст -500 */}
+          <span className="inline-flex items-center rounded-full bg-[#dcdfef] px-2.5 py-1.5 text-[18px] leading-[24px] text-[#5262c0]">
+            {TOTAL_COUNT}
+          </span>
         </div>
         <SortSelect value={sort} onChange={setSort} />
       </header>
