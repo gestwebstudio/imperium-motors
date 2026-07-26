@@ -125,7 +125,7 @@ export default function CatalogPage() {
   };
 
   return (
-    <main className="mx-auto w-full max-w-[1400px] px-6 py-10 lg:py-12">
+    <main className="mx-auto min-h-screen w-full max-w-[1920px] bg-[var(--page,#f3f0ee)] px-6 py-10 md:px-10 xl:px-[60px] xl:py-12">
       {/* Крошки */}
       <Breadcrumbs
         separator={
@@ -155,7 +155,7 @@ export default function CatalogPage() {
       </header>
 
       {/* Две колонки: фильтры (sticky) + карточки */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[380px_1fr] xl:grid-cols-[420px_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[380px_1fr] xl:grid-cols-[432px_1fr]">
         <FilterPanel
           groups={FILTER_GROUPS}
           selected={selected}
@@ -174,7 +174,7 @@ export default function CatalogPage() {
         />
 
         <div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 2xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {displayCars.map((car) => (
               <CatalogCarCard key={car.id} car={car} />
             ))}
