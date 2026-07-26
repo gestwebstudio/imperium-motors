@@ -78,18 +78,12 @@ export default function RangeFilter({
         minValue={min}
         maxValue={max}
         step={step}
-        className="w-full"
+        className="range-slider w-full"
       >
-        <SliderTrack className="relative h-5 w-full rounded-xl bg-[#f2eeea]">
-          <SliderFill className="absolute inset-y-0 rounded-[20px] bg-[#4e7b60]" />
-          <SliderThumb
-            index={0}
-            className="top-1/2 h-4 w-6 -translate-y-1/2 rounded-lg bg-[#fcfcfc] shadow-[0px_2px_4px_rgba(0,0,0,0.04),0px_1px_2px_rgba(0,0,0,0.06),0px_0px_1px_rgba(0,0,0,0.06)] outline-none"
-          />
-          <SliderThumb
-            index={1}
-            className="top-1/2 h-4 w-6 -translate-y-1/2 rounded-lg bg-[#fcfcfc] shadow-[0px_2px_4px_rgba(0,0,0,0.04),0px_1px_2px_rgba(0,0,0,0.06),0px_0px_1px_rgba(0,0,0,0.06)] outline-none"
-          />
+        <SliderTrack className="relative h-5 w-full overflow-hidden rounded-xl">
+          <SliderFill className="absolute inset-y-0" />
+          <SliderThumb index={0} className="top-1/2 z-10 h-4 w-6 -translate-y-1/2 rounded-lg outline-none" />
+          <SliderThumb index={1} className="top-1/2 z-10 h-4 w-6 -translate-y-1/2 rounded-lg outline-none" />
         </SliderTrack>
       </Slider>
     </div>

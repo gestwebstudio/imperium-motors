@@ -1,5 +1,6 @@
 "use client";
 
+import "./catalog.css";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Breadcrumbs, BreadcrumbsItem } from "@heroui/react";
 import { type CarCardData } from "@/components/CarCard";
