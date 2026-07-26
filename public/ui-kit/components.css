@@ -17,7 +17,7 @@
   /* Effect-стили из Figma. Живут здесь, а не в tokens.css:
      там держим только цвета и шрифты. */
   --shadow-popover: 0.25rem 0.25rem 0.625rem rgba(106, 98, 89, 0.1);      /* Tooltip */
-  --shadow-card-brand: 0 0.875rem 2rem rgba(205, 197, 190, 0.55); /* hover карточек — симметричная, вниз */
+  --shadow-card-brand: 0 0.5rem 3.125rem rgba(205, 197, 190, 0.5); /* Shadow card brand (макет: blur 50.2px, #CDC5BE80); держим симметричной по X, чтобы не резалась в ряду */
 }
 
 /* ══════════════ Icon ══════════════
@@ -385,6 +385,8 @@
   align-items: flex-start;
   gap: var(--car-card-head-gap, 1rem);
 }
+/* Паддинг карточки — 26px по макету (node 571-1785), а не базовые 32px. */
+.car-card { --card-padding: 1.625rem; }
 .car-card[data-status="waiting"] { --car-card-head-gap: 1.25rem; }
 
 .car-card__info {
@@ -448,8 +450,9 @@
                плитка подрастает (в макете 368×207)
    Рост на hover делаю через transform: scale, а не через смену
    размеров: в ряду плиток наведение на одну не должно толкать
-   соседей. Коэффициент 1.12 — усреднение роста из макета
-   (ширина ×1.133, высота ×1.109). Логотипы — из /brand-logos,
+   соседей. Коэффициент 1.04 — по обновлённому макету (node 201-11228):
+   плитка на hover растёт слабо (324.8→333, ×1.025), логотип внутри —
+   чуть сильнее; scale 1.04 усредняет это. Логотипы — из /brand-logos,
    вписаны object-fit: contain, так что подходит любая марка. */
 .brand-card {
   box-sizing: border-box;
@@ -476,7 +479,7 @@
 .brand-card.is-hover {
   background: rgba(255, 255, 255, 0.5);
   box-shadow: var(--shadow-card-brand);
-  transform: scale(1.12);
+  transform: scale(1.04);
   z-index: 1;
 }
 

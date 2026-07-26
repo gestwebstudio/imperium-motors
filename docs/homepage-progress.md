@@ -68,15 +68,24 @@ npm run dev
 
 ## ❗ Что осталось (продолжить отсюда)
 
-### 1. Картинки → webp из папки `images` (НЕ сделано)
-Заказчик: везде должны быть картинки из `images/`, переведённые в **webp**, разложить
-по правильным папкам в `public/`. Сейчас ещё **png** (найти и заменить):
-- `public/home/catalog/*.png` — x3, cle, rangerover, vclass, x5 (исходники `images/cars/*.png`)
-- `public/home/logos/*.png` — bmw, lexus, mercedes, landrover (исходники `images/logo_cards/*.png`)
-- `public/home/misc/testimonial.png` (исходник — `images/reviews/review1.png`?)
-Проверить ВСЕ `<img src>` в `home.html` и `url()` в css — чтобы ни одного png/не-webp
-не осталось. Конвертация: sharp, `.webp({quality:82-85})` (лого — near-lossless).
-После — обновить ссылки в html/JS и удалить старые png.
+### 1. Картинки → webp из папки `images` (СДЕЛАНО)
+Все фото главной пересобраны из `images/` в webp (sharp, photo q85, лого near-lossless),
+разложены по `public/home/{categories,features,catalog,logos,reviews,gallery}/`.
+Ссылки в `home.html` (вкл. inline-JS каруселей) переведены на webp, старые png удалены.
+`testimonial.png` → `/home/reviews/review1.webp`. Проверено замером: 32 картинки
+грузятся, битых нет, ни одного не-webp (кроме svg-логотипа) не осталось.
+Исходники `images/` оставлены вне git (по умолчанию) — при необходимости закоммитить отдельно.
+
+### 1b. Обновление элементов кита по Figma (СДЕЛАНО)
+Синхронизировано с макетом:
+- **Кнопки** (`buttons.css`): исправлены высоты — S 28px (верт. пад. 5px), M 36px (8px),
+  icon-only S/M (28/36). L/CTA уже совпадали. Замер подтверждает 28/36/44.
+- **Card** (`components.css`): паддинг карточки 32→26px (`--card-padding` на `.car-card`,
+  node 571-1785). Демо-кнопки car-card переведены на size m (как в макете).
+- **Логотип-карточка** (`.brand-card`): тень `--shadow-card-brand` ближе к макету
+  (blur ~50px, alpha .5, симметрична по X — чтобы не резалась в ряду); hover-scale
+  1.12→1.04 по обновлённому node 201-11228 (плитка растёт слабо). Габариты/цвета
+  (324.8×186.7, r22, bg stone-beige .4 / hover white .5) уже совпадали.
 
 ### 2. Токены под стили без точного соответствия в ките
 При переводе шрифтов у части элементов **нет точного токена**: заголовок отзыва
