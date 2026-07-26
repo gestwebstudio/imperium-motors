@@ -17,7 +17,7 @@
   /* Effect-стили из Figma. Живут здесь, а не в tokens.css:
      там держим только цвета и шрифты. */
   --shadow-popover: 0.25rem 0.25rem 0.625rem rgba(106, 98, 89, 0.1);      /* Tooltip */
-  --shadow-card-brand: 0 0.5rem 3.125rem rgba(205, 197, 190, 0.5); /* Shadow card brand (макет: blur 50.2px, #CDC5BE80); держим симметричной по X, чтобы не резалась в ряду */
+  --shadow-card-brand: 0.375rem 0.25rem 3.1375rem rgba(205, 197, 190, 0.5); /* Shadow card brand — точно по макету: X 6, Y 4, blur 50.2, #CDC5BE 50% */
   --shadow-fin: 0.375rem 0.25rem 3.1375rem #b4aaa3; /* Shadow Fin (макет: 6/4/50.2, #B4AAA3) — hover карточек трейд-ин/лизинг */
 }
 

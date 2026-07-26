@@ -344,13 +344,17 @@ button { font-family: inherit; }
 }
 .brands__viewport {
   --visible: 5;              /* сколько логотипов видно; меняется на брейкпоинтах */
-  overflow: hidden;
-  /* Карточки на всю ширину блока (макет 141-1958): карточка = 1/visible
-     ширины блока. Боковой padding — запас под hover-тень (20px < зазора 24px,
-     6-я карточка не выглядывает) — гасится отрицательным margin, поэтому
-     на ширину дорожки он не влияет. По вертикали — тот же приём (40px). */
-  padding: 2.5rem 1.25rem;
-  margin: -2.5rem -1.25rem;
+  /* Карточки на всю ширину блока (макет 141-1958): карточка = 1/visible.
+     overflow-x: clip прячет уезжающую карточку по горизонтали (в отличие от
+     hidden не форсирует скролл по второй оси), а overflow-y: visible даёт
+     hover-тени свободно выходить вверх/вниз — она больше не режется снизу.
+     Вертикальный запас берётся из padding самого блока .brands (3.75rem).
+     overflow-clip-margin = зазор 1.5rem: даёт горизонтальный запас тени
+     крайним карточкам, при этом соседняя карточка остаётся ровно за границей
+     клипа и не выглядывает. */
+  overflow-x: clip;
+  overflow-y: visible;
+  overflow-clip-margin: 1.5rem;
 }
 .brands__track {
   display: flex;
@@ -426,10 +430,12 @@ button { font-family: inherit; }
 .car-row { position: relative; }
 .car-row__viewport {
   --cols: 4;
-  overflow: hidden;
-  /* см. .brands__viewport: боковой padding под тень гасится margin */
-  padding: 2.5rem 1.25rem;
-  margin: -2.5rem -1.25rem;
+  /* см. .brands__viewport: clip по X прячет уезжающие карточки, visible по Y
+     даёт hover-тени выходить вниз, не обрезаясь; clip-margin — запас тени
+     по бокам без выглядывания соседней карточки. */
+  overflow-x: clip;
+  overflow-y: visible;
+  overflow-clip-margin: 1.5rem;
 }
 .car-row__track { display: flex; gap: 1.5rem; will-change: transform; }
 /* Ширина карточки = ровно 1/cols ширины блока (минус гэпы); при cols < числа
