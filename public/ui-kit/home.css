@@ -585,11 +585,12 @@ button { font-family: inherit; }
 }
 .promo-card__title {
   margin: 0 0 0.625rem;
-  font-family: var(--text-heading-category-family);
-  font-size: var(--text-heading-category-size);
-  line-height: var(--text-heading-category-line-height);
-  font-weight: var(--text-heading-category-weight);
-  color: var(--carbon-black-500);
+  /* Heading/Card — 36px/600 (макет 141-25687), а не Category (40px) */
+  font-family: var(--text-heading-card-family);
+  font-size: var(--text-heading-card-size);
+  line-height: var(--text-heading-card-line-height);
+  font-weight: var(--text-heading-card-weight);
+  color: var(--heritage-green-500);   /* #294434 — дефолт из макета */
   transition: color 0.4s ease;
 }
 .promo-card__text {
@@ -598,7 +599,8 @@ button { font-family: inherit; }
   font-family: var(--text-body-family);
   font-size: var(--text-body-size);
   line-height: var(--text-body-line-height);
-  color: var(--warm-taupe-500);
+  color: #61584e;      /* дефолт текста из макета */
+  opacity: 0.7;        /* макет: непрозрачность 70% */
   transition: color 0.4s ease;
 }
 .promo-card:hover .promo-card__title { color: var(--white); }
@@ -619,7 +621,9 @@ button { font-family: inherit; }
   box-sizing: border-box;
   width: 2.875rem;             /* 46px — круг */
   height: 2.875rem;
-  padding: 0 0.75rem;
+  /* padding-right 1rem при icon 14px и justify:flex-end центрирует стрелку
+     в круге: правый край иконки = 46−16=30, центр = 23 = половина круга */
+  padding: 0 1rem;
   border-radius: 1.9375rem;    /* 31px */
   background: transparent;
   color: var(--heritage-green-500);
@@ -656,8 +660,8 @@ button { font-family: inherit; }
 }
 .promo-card__cta-icon {
   flex-shrink: 0;
-  width: 1rem;
-  height: 1rem;
+  width: 0.875rem;   /* 14px — как в дефолте карточки (макет) */
+  height: 0.875rem;
   display: block;
 }
 
