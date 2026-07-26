@@ -331,36 +331,49 @@ button { font-family: inherit; }
    появляется при прокрутке. Вертикальный запас — чтобы hover-
    увеличение карточки не обрезалось overflow:hidden. */
 .brands {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 3.75rem 2.5rem;
+  position: relative;
+  padding: 3.75rem;   /* боковые поля 60px как у секций (макет) */
 }
 .brands__viewport {
   --visible: 5;              /* сколько логотипов видно; меняется на брейкпоинтах */
-  flex: 1;
-  min-width: 0;
   overflow: hidden;
-  /* запас под hover-тень: 40px по вертикали (видны скруглённые углы) и 20px
-     по горизонтали (меньше зазора 24px — 6-я карточка не выглядывает) */
+  /* Карточки на всю ширину блока (макет 141-1958): карточка = 1/visible
+     ширины блока. Боковой padding — запас под hover-тень (20px < зазора 24px,
+     6-я карточка не выглядывает) — гасится отрицательным margin, поэтому
+     на ширину дорожки он не влияет. По вертикали — тот же приём (40px). */
   padding: 2.5rem 1.25rem;
-  margin: -2.5rem 0;
+  margin: -2.5rem -1.25rem;
 }
 .brands__track {
   display: flex;
   gap: 1.5rem;
   will-change: transform;
 }
-/* Ширина карточки = ровно 1/visible окна (минус гэпы) → в окне ровно --visible штук */
+/* Ширина карточки = ровно 1/visible ширины блока (минус гэпы) */
 .brands__track .brand-card {
   flex: 0 0 calc((100% - (var(--visible) - 1) * 1.5rem) / var(--visible));
   width: calc((100% - (var(--visible) - 1) * 1.5rem) / var(--visible));
 }
+/* Стрелки — поверх крайних карточек, у левого и правого края блока.
+   Появляются по ховеру на весь блок (в макете скрыты по умолчанию). */
 .brands__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
   --circle-btn-size: 2.75rem;
-  flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, background-color 0.2s ease;
 }
+.brands__nav--prev { left: 3.75rem; }
+.brands__nav--next { right: 3.75rem; }
 .brands__nav--next svg { transform: scaleX(-1) translateZ(0); }
+.brands:hover .brands__nav,
+.brands:focus-within .brands__nav {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 /* Фон стрелок-навигации каруселей (блоки 2, 3, 5, 8) — Stone Beige 200,
    на hover чуть темнее (300), чтобы сохранить отклик наведения. */
@@ -395,17 +408,42 @@ button { font-family: inherit; }
 .section__head .badge { align-self: flex-start; }
 .section__head-spacer { flex: 1; }
 
-/* Ряд карточек авто со стрелками (используется дважды) */
-.car-row { display: flex; align-items: center; gap: 0.625rem; }
-.car-row__nav { --circle-btn-size: 2.75rem; flex-shrink: 0; }
-.car-row__nav--next svg { transform: scaleX(-1) translateZ(0); }
-.car-row__viewport { --cols: 3; flex: 1; min-width: 0; overflow: hidden; padding: 2.5rem 1.25rem; margin: -2.5rem 0; }
+/* Ряд карточек авто со стрелками (используется дважды).
+   Карточки на всю ширину блока (макет 141-1958): 4 карточки по 432px
+   (ширина car-card из кита) с зазором 24px заполняют ширину. Стрелки —
+   абсолютом поверх крайних карточек, появляются по ховеру на блок. */
+.car-row { position: relative; }
+.car-row__viewport {
+  --cols: 4;
+  overflow: hidden;
+  /* см. .brands__viewport: боковой padding под тень гасится margin */
+  padding: 2.5rem 1.25rem;
+  margin: -2.5rem -1.25rem;
+}
 .car-row__track { display: flex; gap: 1.5rem; will-change: transform; }
-/* Ширина карточки = ровно 1/cols окна (минус гэпы); при cols < числа карточек
-   появляется прокрутка стрелками. --cols меняется на брейкпоинтах. */
+/* Ширина карточки = ровно 1/cols ширины блока (минус гэпы); при cols < числа
+   карточек появляется прокрутка стрелками. --cols меняется на брейкпоинтах. */
 .car-row__track .car-card {
   flex: 0 0 calc((100% - (var(--cols) - 1) * 1.5rem) / var(--cols));
   max-width: none;
+}
+.car-row__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  --circle-btn-size: 2.75rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, background-color 0.2s ease;
+}
+.car-row__nav--prev { left: 0; }
+.car-row__nav--next { right: 0; }
+.car-row__nav--next svg { transform: scaleX(-1) translateZ(0); }
+.car-row:hover .car-row__nav,
+.car-row:focus-within .car-row__nav {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ═══════════════ Блок «Найдите свой формат» — бенто категорий ═══════════════ */
@@ -823,6 +861,7 @@ button { font-family: inherit; }
    в столбик (она рассчитана на десктоп-ширину и иначе выходит за край) ── */
 @media (max-width: 1199.98px) {
   .brands__viewport { --visible: 4; }
+  .car-row__viewport { --cols: 3; }            /* авто 4 → 3 */
 
   .craft__canvas { width: 100%; height: auto; }
   .craft__statement { position: static; width: 100%; margin: 0 0 2.5rem; }
