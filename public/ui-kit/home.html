@@ -563,22 +563,22 @@
   function iconAction(kind) {
     var idle = kind === "wishlist" ? "icon-heart-stroke" : "icon-list-add";
     var active = kind === "wishlist" ? "icon-heart-fill" : "icon-list-check";
-    var idleLabel = kind === "wishlist" ? "В избранное" : "К сравнению";
-    var activeLabel = kind === "wishlist" ? "В избранном" : "В сравнении";
+    var idleLabel = kind === "wishlist" ? "Добавить в избранное" : "Добавить в сравнение";
+    var activeLabel = kind === "wishlist" ? "Убрать из избранного" : "Убрать из сравнения";
     return '<button class="icon-action" data-action="' + kind + '" type="button" aria-pressed="false" aria-label="' + idleLabel + '">' +
       '<span class="icon-action__glyph">' +
         '<svg class="icon-action__icon icon-action__icon--idle" aria-hidden="true"><use href="#' + idle + '"></use></svg>' +
         '<svg class="icon-action__icon icon-action__icon--active" aria-hidden="true"><use href="#' + active + '"></use></svg>' +
       '</span>' +
-      '<span class="icon-action__tooltip tooltip tooltip--s" data-when="idle">' + idleLabel + '</span>' +
-      '<span class="icon-action__tooltip tooltip tooltip--s" data-when="active">' + activeLabel + '</span>' +
+      '<span class="icon-action__tooltip tooltip" data-when="idle">' + idleLabel + '</span>' +
+      '<span class="icon-action__tooltip tooltip" data-when="active">' + activeLabel + '</span>' +
     '</button>';
   }
 
   function carCard(c) {
     var btn = c.cta === "book"
-      ? '<button class="btn" data-emphasis="secondary" data-style="outlined" data-size="l" data-content="text"><span class="btn__label">Забронировать</span></button>'
-      : '<button class="btn" data-emphasis="primary" data-style="surface" data-size="l" data-content="text"><span class="btn__label">Подробнее</span></button>';
+      ? '<button class="btn" data-emphasis="secondary" data-style="outlined" data-size="m" data-content="text"><span class="btn__label">Забронировать</span></button>'
+      : '<button class="btn" data-emphasis="primary" data-style="surface" data-size="m" data-content="text"><span class="btn__label">Подробнее</span></button>';
     return '<article class="card car-card">' +
       '<div class="card__actions">' + iconAction("wishlist") + iconAction("comparison") + '</div>' +
       '<div class="card__header"><div class="car-card__head">' +

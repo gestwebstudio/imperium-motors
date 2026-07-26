@@ -190,12 +190,12 @@
   --text-heading-card-weight: 600;
 
   /* ── Title / Numeric (Wix Madefor Display) ── */
-  /* Title/Model обновлён по макету (141-1958): было 30/32/400 (Regular),
-     стало 24/30/600 (SemiBold) — заголовок карточки авто уменьшили. */
-  --text-title-model-family: var(--font-display);
+  /* Title/Model по макету (412-651): Onest Medium 24/30 (было Wix Madefor
+     Display SemiBold) — заголовок модели в карточке авто. */
+  --text-title-model-family: var(--font-onest);
   --text-title-model-size: 1.5rem;
   --text-title-model-line-height: 1.875rem;
-  --text-title-model-weight: 600;
+  --text-title-model-weight: 500;
 
   --text-numeric-value-family: var(--font-display);
   --text-numeric-value-size: 2.5rem;
@@ -276,6 +276,11 @@
   --text-caption-badge-size: 0.625rem;
   --text-caption-badge-line-height: 0.625rem;
   --text-caption-badge-weight: 500;
+
+  --text-caption-note-family: var(--font-onest); /* Text/14 Regular — tooltip L, label цены */
+  --text-caption-note-size: 0.875rem;      /* 14px */
+  --text-caption-note-line-height: 1.125rem; /* 18px */
+  --text-caption-note-weight: 400;
 
   /* ── Размеры текста кнопок (из компонента Button; не отдельные
         Text Styles, но нужны buttons.css — оставлены как есть) ── */
