@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Breadcrumbs, BreadcrumbsItem } from "@heroui/react";
-import CarCard, { type CarCardData } from "@/components/CarCard";
+import { type CarCardData } from "@/components/CarCard";
+import CatalogCarCard from "./CatalogCarCard";
 import { makePage, TOTAL_COUNT } from "./mock";
 import SortSelect, { type SortKey } from "./SortSelect";
 
@@ -87,8 +88,8 @@ export default function CatalogPage() {
 
       {/* Сетка карточек (фильтры — следующим инкрементом) */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-        {displayCars.map((car, i) => (
-          <CarCard key={car.id} car={car} index={i} />
+        {displayCars.map((car) => (
+          <CatalogCarCard key={car.id} car={car} />
         ))}
       </div>
 
