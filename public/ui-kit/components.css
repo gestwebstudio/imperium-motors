@@ -230,8 +230,8 @@
 .icon-action[aria-pressed="true"]  .icon-action__tooltip[data-when="idle"] { display: none; }
 
 /* ══════════════ Price Block ══════════════
-   Подпись Caption/Status в carbon-black-300 + сумма
-   Numeric/Value (Wix Madefor Display ExtraBold 40/46). */
+   Подпись Text/14 в carbon-black-300 + сумма
+   Price/Value (Wix Madefor Display ExtraBold 28/36) — макет 412-480. */
 .price-block {
   display: flex;
   flex-direction: column;
@@ -250,9 +250,9 @@
 .price-block__value {
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--text-numeric-value-size);
-  line-height: var(--text-numeric-value-line-height);
-  font-weight: var(--text-numeric-value-weight);
+  font-size: var(--text-price-value-size);       /* Price/Value 28/36 (макет 412-480) */
+  line-height: var(--text-price-value-line-height);
+  font-weight: var(--text-price-value-weight);
   color: var(--carbon-black-500);
 }
 
