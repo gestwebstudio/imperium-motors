@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
     // оптимизацию, чтобы не вести белый список доменов.
     unoptimized: true,
   },
+  // Главная — статическая кит-версия (public/ui-kit/home.html). Отдаём её на
+  // "/" через rewrite (URL остаётся "/"). Старую React-страницу удалили.
+  async rewrites() {
+    return [{ source: "/", destination: "/ui-kit/home.html" }];
+  },
 };
 
 export default nextConfig;
